@@ -19,7 +19,6 @@ class CreateBookTable extends Migration
             $table->integer('publisher_id');
             $table->integer('edition_id');
             $table->integer('locker_id');
-            $table->integer('locker_id');
             $table->string('origin_book');
             $table->integer('book_number');
             $table->date('buying_year');
@@ -27,6 +26,7 @@ class CreateBookTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

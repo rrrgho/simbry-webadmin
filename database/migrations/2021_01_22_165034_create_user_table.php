@@ -16,10 +16,11 @@ class CreateUserTable extends Migration
         Schema::create('user', function (Blueprint $table) {
             $table->id();
             $table->integer('user_number');
-            $table->integer('class_id');
+            $table->integer('class_id')->nullable();
             $table->integer('user_type_id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

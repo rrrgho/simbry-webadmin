@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\AUTH\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Without Midleware
+Route::get('login', [AuthController::class, 'Login'])->name('login');
+Route::post('login', [AuthController::class, 'Login'])->name('login');
+Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
+
+Route::middleware([AdminMiddleware::class])->group(function(){
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

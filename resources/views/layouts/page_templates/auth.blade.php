@@ -8,9 +8,11 @@
               <div class="col">
                 <div class="card-header" style="background:none !important;">
                   <h5>
-                    @foreach($breadcrumbs as $item)
-                      <a class="@if($item['page'] == $title) text-warning  @else text-dark @endif" href="{{$item['link']}}">{{$item['page']}}</a>  @if($loop->iteration -1 < count($breadcrumbs) - 1) >>  @endif
-                    @endforeach
+                    @if($breadcrumbs)
+                      @foreach($breadcrumbs as $item)
+                        <a class="@if($item['page'] == $title) text-warning  @else text-dark @endif" href="{{$item['link']}}">{{$item['page']}}</a>  @if($loop->iteration -1 < count($breadcrumbs) - 1) >>  @endif
+                      @endforeach
+                    @endif
                   </h5>
                 </div>
               </div>
