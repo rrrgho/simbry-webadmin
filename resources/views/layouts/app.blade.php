@@ -22,7 +22,7 @@
             <form id="logout-form" action="" method="POST" style="display: none;">
                 @csrf
             </form>
-            @include('layouts.page_templates.auth', ['breadcrumbs' => $breadcrumbs ?? false, 'title' =>  $title ?? false, 'activePage' => $activePage ?? false])
+            @include('layouts.page_templates.auth', ['breadcrumbs' => $breadcrumbs ?? false, 'title' =>  $title ?? false, 'subTitle' => $subTitle ?? false, 'activeMainPage' => $activeMainPage ?? false, 'activePage' => $activePage ?? false])
         {{-- @endauth
         @guest()
             @include('layouts.page_templates.guest')

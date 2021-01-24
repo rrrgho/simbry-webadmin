@@ -13,14 +13,14 @@
     <ul class="nav">
 
       {{-- Dashboard --}}
-      <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }} active">
-        <a class="nav-link" href="">
+      <li class="nav-item{{ $activeMainPage == 'dashboard' ? ' active' : '' }}">
+        <a class="nav-link" href="{{route('main')}}">
           <i class="material-icons">dashboard</i>
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
 
-      {{-- Manajemen Buku --}}
+      {{-- Book Management --}}
       <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
           <i class="material-icons">book</i>
@@ -58,6 +58,26 @@
               <a class="nav-link" href="">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal"> {{ __('Rak Buku') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      {{-- Class Management --}}
+      <li class="nav-item {{ ($activeMainPage == 'class-management') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#class-management" aria-expanded="true">
+          <i class="material-icons">book</i>
+          <p>{{ __('Manajemen Kelas') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse {{ ($activeMainPage == 'class-management') ? ' show' : '' }}" id="class-management">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'class-data' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-class-management')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Data Kelas') }} </span>
               </a>
             </li>
           </ul>

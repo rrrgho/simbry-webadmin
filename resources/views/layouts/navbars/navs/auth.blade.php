@@ -2,7 +2,21 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
   <div class="container-fluid">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="#"></a>
+      <div class="col">
+        <h5>
+          @if($breadcrumbs)
+            @foreach($breadcrumbs as $item)
+              <a class="@if($item['page'] == $title) text-warning  @else text-dark @endif" href="{{$item['link']}}">{{$item['page']}}</a>  @if($loop->iteration -1 < count($breadcrumbs) - 1) >>  @endif
+            @endforeach
+          @endif
+        </h5>
+      </div>
+      {{-- <div class="col-md-12">
+        <div class="card-header bg-none" style="border:none !important; background:none !important; border-bottom: solid 1px #ddd !important;">
+          <h3 style="margin-left:-2px !important;">{{$title}}</h3>
+          <p>{{$subTitle}}</p>
+        </div>
+      </div> --}}
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
     <span class="sr-only">Toggle navigation</span>
