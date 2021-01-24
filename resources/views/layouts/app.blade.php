@@ -146,6 +146,31 @@
         <!-- Material Dashboard DEMO methods, don't include it in your project! -->
         <script src="{{ asset('material') }}/demo/demo.js"></script>
         <script src="{{ asset('material') }}/js/settings.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         @stack('js')
+        @yield('script')
+        <script>
+          function confirm_me(message,link){
+            swal({
+              title: "Apakah Kamu Yakin??",
+              text: message,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              })
+              .then((willDelete) => {
+              if (willDelete) {
+                  swal("Poof! Your imaginary file has been deleted!", {
+                  icon: "success",
+                  });
+                  document.location.href = link;
+              }
+              });
+            setTimeout(function(){
+                $('#flash').css({'display':'none'})
+            }, 2000)
+          }
+        </script>
     </body>
 </html>

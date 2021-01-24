@@ -5,6 +5,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AUTH\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\ManagemetBooksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,46 @@ Route::middleware([AdminMiddleware::class])->group(function(){
 
     Route::prefix('class-management')->group(function(){
         Route::get('/', [ClassController::class, 'index'])->name('main-class-management');
+    });
+    Route::prefix('books-management')->group(function(){
+        // Category
+        Route::get('category', [ManagemetBooksController::class, 'category'])->name('main-category-management');
+        Route::post('category', [ManagemetBooksController::class, 'categoryCreate']);
+        Route::get('category-datatable',[ManagemetBooksController::class, 'categoryDatatable'])->name('category-datatable');
+        Route::get('category-delete/{id}', [ManagemetBooksController::class, 'categoryDelete']);
+        Route::get('/{id}/category-edit', [ManagemetBooksController::class, 'categoryEdit'])->name('categoryEdit');
+        Route::post('categoryEditExecute',[ManagemetBooksController::class, 'categoryEditExecute']);
+
+        // author
+        Route::get('author',[ManagemetBooksController::class, 'author'])->name('main-author-management');
+        Route::post('author',[ManagemetBooksController::class, 'authorCreate']);
+        Route::get('author-datatable', [ManagemetBooksController::class, 'authorDatatable'])->name('author-datatable');
+        Route::get('author-delete/{id}', [ManagemetBooksController::class, 'authorDelete']);
+        Route::get('/{id}/author-edit', [ManagemetBooksController::class, 'authorEdit'])->name('authorEdit');
+        Route::post('authorEditExecute', [ManagemetBooksController::class, 'authorEditExecute']);
+        
+        // Publisher
+        Route::get('publisher', [ManagemetBooksController::class, 'publisher'])->name('main-publisher-management');
+        Route::post('publisher', [ManagemetBooksController::class, 'publisherCreate']);
+        Route::get('publisher-datatable',[ManagemetBooksController::class, 'publisherDatatable'])->name('publisher-datatable');
+        Route::get('publisher-delete/{id}', [ManagemetBooksController::class, 'publisherDelete']);
+        Route::get('/{id}/publisher-edit', [ManagemetBooksController::class, 'publisherEdit'])->name('publisherEdit');
+        Route::post('publisherEditExecute', [ManagemetBooksController::class, 'publisherEditExecute']);
+
+        // Edition
+        Route::get('edition', [ManagemetBooksController::class, 'edition'])->name('main-edition-management');
+        Route::post('edition', [ManagemetBooksController::class, 'editionCreate']);
+        Route::get('edition-datatable', [ManagemetBooksController::class, 'editionDatatable'])->name('edition-datatable');
+        Route::get('edition-delete/{id}', [ManagemetBooksController::class, 'editionDelete']);
+        Route::get('/{id}/edition-edit', [ManagemetBooksController::class, 'editionEdit'])->name('editionEdit');
+        Route::post('edtionEditExecute', [ManagemetBooksController::class, 'editionEditExecute']);
+
+        // Locker
+        Route::get('locker', [ManagemetBooksController::class, 'locker'])->name('main-locker-management');
+        Route::post('locker', [ManagemetBooksController::class, 'lockerCreate']);
+        Route::get('locker-datatable', [ManagemetBooksController::class, 'lockerDatatable'])->name('locker-datatable');
+        Route::get('locker-delete/{id}', [ManagemetBooksController::class, 'lockerDelete']);
+        Route::get('/{id}/locker-edit',[ManagemetBooksController::class, 'lockerEdit'])->name('lockerEdit');
+        Route::post('lockerEditExecute', [ManagemetBooksController::class, 'lockerEditExecute']);
     });
 });
