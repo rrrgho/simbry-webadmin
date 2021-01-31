@@ -17,6 +17,8 @@ class ClassController extends Controller
     public function index(){
         return view('class-management.index');
     }
+
+    // Student
     public function studentDatatable(){
         $data = User::where('deleted_at',null)->get();
 
@@ -46,6 +48,11 @@ class ClassController extends Controller
             return response()->json(['error' => false, 'message' => 'Berhasil menambahkan Siswa '.$request->name], 200);
         return response()->json(['error' => true, 'message' => 'Gagal menambahkan kelas'], 200);
     }
+
+
+    // Teacher
+
+    
     
     // Class
     public function addClass(Request $request){
