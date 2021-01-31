@@ -21,12 +21,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.semanticui.min.css">
 
-    {{-- Datepicker --}}
+    {{-- Select 2 --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
 
     <style>
       .dataTables_filter {
         text-align: left !important;
         float: right !important;
+        }
+
+        .select2-container .select2-selection--single {height: 35px !important; line-height:-10px !important;}
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+        .select2-selection__rendered {
+            line-height: 10px !important;
         }
     </style>
     </head>
@@ -164,11 +174,20 @@
         <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
         
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"></script>
+        <script src="{{asset('template-tools/vendors/select2/select2.min.js')}}"></script>
         @stack('js')
+        <script src="{{asset('template-tools/js/select2.js')}}"></script>
         <script>
           setTimeout(() => {
             $('#flash-message').hide();
           }, 2000)
+
+          $(".select2single").select2({
+              allowClear:true,
+              placeholder: 'Option',
+              width: '100%',
+          });
 
 
           // Get Component by Ajax
