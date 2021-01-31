@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-8">                 
-            <table class="ui celled table" id="data-kategori">
+            <table class="ui celled table table-striped" id="data-kategori">
                 <thead>
                     <tr class="text-center">
                         <th width="50">#</th>

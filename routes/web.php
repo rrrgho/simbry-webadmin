@@ -28,6 +28,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
 
     Route::prefix('class-management')->group(function(){
         Route::get('/', [ClassController::class, 'index'])->name('main-class-management');
+        Route::get('student-datatable', [ClassController::class, 'studentDatatable'])->name('student-datatable');
     });
     Route::prefix('books-management')->group(function(){
         // Category
