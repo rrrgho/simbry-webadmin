@@ -57,6 +57,9 @@
 
 @section('script')
     <script>
+        // Props
+        let callEditComponent = false;
+        let editTeacherId;
         // Clear Input
         const clearInput = () => {
             $('.form-control').val('')
@@ -97,7 +100,65 @@
                     })
                 }
             })
-            
+        }
+        // Get Edit Teacher Component
+        const getEditTeacherComponent = (id) => {
+            callEditComponent =  true;
+            editTeacherId = id;
+            $('#add-teacher-box').html('sedang memuat...')
+            $.ajax({
+                url: "{{ route('component-edit-teacher') }}",
+                type: "POST",
+                headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                data: {
+                    id : id,
+                },
+                success:function(response){
+                    $('#add-teacher-box').html(response)
+                    $('#form-edit-teacher').submit(function(event){
+                        event.preventDefault();
+                        var formData = new FormData(this);
+                        $.ajax({
+                            type: 'POST', cache: false, contentType: false, processData: false,
+                            url: "{{ route('edit-teacher') }}",
+                            data: formData,
+                            success: (response) => {
+                                infoSuccess(response.message)
+                                getEditTeacherComponent(editTeacherId);
+                                clearInput();
+                                getTeacherDatatableComponent()
+                            },
+                        })
+                    })
+                }
+            })
+        }
+        // Delete Teacher Data
+        const deleteTeacherData = (id) => {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{route('delete-teacher')}}",
+                        type: "POST",
+                        headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                        data: {
+                            id : id,
+                        },
+                        success:function(response){
+                            infoSuccess(response.message)
+                            getTeacherDatatableComponent()
+                        }
+                    })
+                    
+                }
+                });
         }
         // Add Teacher Button Modal
         $('#btn-add-teacher').click(function(){
@@ -110,13 +171,17 @@
         function teacherDatatable(){
             $(function(){
                 $('#teacher-datatable').DataTable({
-                    ajax: '{{route('teacher-datatable')}}',
+                    ajax: {
+                        url :'{{route('teacher-datatable')}}',
+                    },
                     columns: [
                         { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                         { data: 'name', name: 'name'},
                         { data: 'user_number', name: 'user_number'},
                         { data: 'created_at', name: 'created_at'},
-                        { data: 'action', name: 'action'},
+                        { data: 'action', name: 'action', 'render': function(data){
+                            return data
+                        }},
                     ],
                     language: {
                     searchPlaceholder: 'Search Guru..',

@@ -28,7 +28,7 @@
                     <h1 class="text-success">Data Seluruh Siswa</h1>
                     <p>Tambah, edit atau hapus data siswa.</p>
 
-                    <button class="btn btn-success position-absolute" data-toggle="modal" id="btn-add-student" data-target="#addStudent" style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Siswa</button>
+                    <button class="btn btn-success position-absolute" onclick="getAddStudentComponent()" data-toggle="modal" id="btn-add-student" data-target="#addStudent" style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Siswa</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4" id="student-datatable-box">
@@ -44,7 +44,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Tambah Siswa</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -63,7 +63,12 @@
                                         <input type="text" name="name" placeholder="Nama kelas" class="form-control text-white">
                                     </div>
                                     <div class="col-6 mt-3">
-                                        <input type="text" name="author_id" placeholder="Penanggung jawab" class="form-control text-white">
+                                        <select name="author_id" class="form-control select2-single">
+                                            <option value="" hidden>Penanggung jawab kelas</option>
+                                            @foreach ($teacher as $item)
+                                                <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-12">
                                         <button class="btn btn-light float-right mt-3" id="btn-add-class" type="submit">Tambah Kelas</button>
@@ -78,10 +83,14 @@
         </div>
         </div>
     </div>
+
 @endsection
 
 @section('script')
     <script>
+        // Props
+        let callEditComponent = false;
+        let editStudentId;
         // Clear Input
         const clearInput = () => {
             $('.form-control').val('')
@@ -94,12 +103,18 @@
                 success:function(response){
                     $('#student-datatable-box').html(response)
                     studentDatatable()
+                    function edit(){
+                        alert('aku')
+                    }
+                    // Edit Student Button Modal
+                    
                 }
             })
         }
         getStudentDatatableComponent();
         // Get Add Student Component
         const getAddStudentComponent = () => {
+            callEditComponent = false;
             $('#add-student-box').html('Sedang memuat ...')
             $.ajax({
                 url: '{{route('component-add-student')}}',
@@ -124,10 +139,66 @@
                 }
             })
         }
-        // Add Student Button Modal
-        $('#btn-add-student').click(function(){
-            getAddStudentComponent()
-        })
+        // Get Edit Student Component
+        const getEditStudentComponent = (id) => {
+            callEditComponent = true;
+            editStudentId = id;
+            $('#add-student-box').html('Sedang memuat ...')
+            $.ajax({
+                url: "{{route('component-edit-student')}}",
+                type: "POST",
+                headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                data: {
+                    id : id,
+                },
+                success:function(response){
+                    $('#add-student-box').html(response)
+                    $('#form-edit-student').submit(function(event){
+                        event.preventDefault();
+                        var formData = new FormData(this);
+                        $.ajax({
+                            type: 'POST', cache: false, contentType: false, processData: false,
+                            url: "{{ route('edit-student') }}",
+                            data: formData,
+                            success: (response) => {
+                                infoSuccess(response.message)
+                                $('#btn-add-class').text('Tambah Kelas').attr('disabled', false)
+                                getEditStudentComponent(editStudentId);
+                                clearInput();
+                                getStudentDatatableComponent();
+                            },
+                        })
+                    })
+                }
+            })
+        }
+        // Delete Student Data
+        const deleteStudentData = (id) => {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{route('delete-student')}}",
+                        type: "POST",
+                        headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                        data: {
+                            id : id,
+                        },
+                        success:function(response){
+                            infoSuccess(response.message)
+                            getStudentDatatableComponent()
+                        }
+                    })
+                    
+                }
+                });
+        }
         // Add New Class
         $('#form-add-class').submit(function(event){
             event.preventDefault();
@@ -140,39 +211,44 @@
                 success: (response) => {
                     infoSuccess(response.message)
                     $('#btn-add-class').text('Tambah Kelas').attr('disabled', false)
-                    getAddStudentComponent();
+                    if(callEditComponent == false)
+                        getAddStudentComponent();
+                    else
+                        getEditStudentComponent(editStudentId);
                     clearInput()
                 },
             })
         })
-        function tol(){
-            alert('sa')
-        }
         // Datatable
         function studentDatatable(){
             $(function(){
                 $('#student-datatable').DataTable({
-                    ajax: '{{route('student-datatable')}}',
+                    ajax: {
+                        url :'{{route('student-datatable')}}',
+                    },
                     columns: [
                         { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                         { data: 'name', name: 'name'},
                         { data: 'user_number', name: 'user_number'},
                         { data: 'class_id', name: 'class_id'},
                         { data: 'created_at', name: 'created_at'},
-                        { data: 'action', name: 'action'},
+                        { data: 'action', name: 'action', 'render': function(data){
+                            return data
+                        }},
+                        
                     ],
                     language: {
                     searchPlaceholder: 'Search Buku..',
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
                     destroy: true
-                    },  
+                    },   
                     columnDefs:[
                         {
-                            "targets" : [0,1,2,3,4,5],
+                            "targets" : [0,2,3,4,5],
                             "className": "text-center"
                         },
-                    ],              
+                    ],            
                     
                     dom: 'Bfrtip',  
                     buttons: [
