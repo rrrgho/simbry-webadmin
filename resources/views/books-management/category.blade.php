@@ -11,15 +11,17 @@
 
 @section('title')
     <div class="row">
-        <div class="col-md-12 border-bottom mb-3">
-            <h3>Buku Kategori</h3>
-            <p>Anda dapat menambah, mengedit atau menghapus data Buku Kategori disini !</p>
+        <div class="col-md-12 mb-3">
+            <div class="col border-bottom pl-0 pb-3">
+                <h3>Buku Kategori</h3>
+                <p>Anda dapat menambah, mengedit atau menghapus data Buku Kategori disini !</p>
+            </div>
         </div>
     </div>
 @endsection
 @section('content')
     @if(session('success'))
-        <div class="row pb-4">
+        <div class="row pb-4" id="flash-message">
             <div class="col-12">
                 <div class="alert alert-success outline alert-dismissible fade show" role="alert"><i data-feather="thumbs-up"></i>
                     <p>{{session('success')}}</p>
@@ -32,12 +34,12 @@
         <div class="col-md-12 col-lg-4">
             <div class="card">
                 <form action="{{url('books-management/category')}}" method="POST">@csrf
+                    <div class="card-header bg-light">
+                        <h3>Tambah Kategori Buku</h3>
+                    </div>
                     <div class="card-body">
-                        <h5>Tambah Buku Kategori</h5> <hr>
                         <div class="form-group">
-                            <label for="">Kategori Buku : </label>
-                            <input type="text" name="name"class="form-control">
-                            
+                            <input type="text" name="name"class="form-control" placeholder="Ketik disini ..." required>                            
                         </div>
                         <div class="form-group">
                             <button class="btn btn-info btn-block">Simpan</button>
@@ -47,7 +49,7 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-8">                 
-            <table class="table table-striped data-table" id="data-kategori">
+            <table class="ui celled table" id="data-kategori">
                 <thead>
                     <tr class="text-center">
                         <th width="50">#</th>
