@@ -27,12 +27,20 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'index'])->name('main');
 
     Route::prefix('class-management')->group(function(){
-        Route::get('/', [ClassController::class, 'index'])->name('main-class-management');
+        // Class Data Student
+        Route::get('/student', [ClassController::class, 'index'])->name('main-class-management');
         Route::get('student-datatable', [ClassController::class, 'studentDatatable'])->name('student-datatable');
         Route::get('component-add-student', [ClassController::class, 'componentAddStudent'])->name('component-add-student');
         Route::get('component-student-datatable', [ClassController::class, 'componentStudentDatatable'])->name('component-student-datatable');
         Route::post('add-class', [ClassController::class, 'addClass'])->name('add-class');
         Route::post('add-student', [ClassController::class, 'addStudent'])->name('add-student');
+        // Class Data Teacher
+        Route::get('/teacher', [ClassController::class , 'teacher'])->name('main-teacher-management');
+        Route::get('teacher-datatable',[ClassController::class, 'teacherDatatable'])->name('teacher-datatable');
+        Route::get('component-add-teacher',[ClassController::class, 'componentAddTeacher'])->name('component-add-teacher');
+        Route::get('component-teacher-datatable',[ClassController::class, 'componentTeacherDatatable'])->name('component-teacher-datatable');
+        Route::post('add-teacher', [ClassController::class , 'addTeacher'])->name('add-teacher');
+        Route::get('teacher-delete/{id}', [ClassController::class, 'teacherDelete'])->name('delete-teacher');
     });
     Route::prefix('books-management')->group(function(){
         // Category

@@ -79,6 +79,12 @@
                 <span class="sidebar-normal">{{ __('Data Kelas') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'teacher-data' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-teacher-management')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Data Guru') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

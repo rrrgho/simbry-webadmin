@@ -11,60 +11,63 @@
 
 @section('title')
     <div class="row">
-        <div class="col-md-12 border-bottom mb-3">
-            <h3>Penerbit Buku</h3>
-            <p>Anda dapat menambah, mengedit atau menghapus data Penerbit buku disini !</p>
+        <div class="col-md-12 mb-3">
+            <div class="col border-bottom pl-0 pb-3">
+                <h3>Penerbit Buku</h3>
+                <p>Anda dapat menambah, mengedit atau menghapus data Penerbit buku disini !</p>
+            </div>        
         </div>
     </div>
 @endsection
 @section('content')
 @if(session('success'))
-<div class="row pb-4">
-    <div class="col-12">
-        <div class="alert alert-success outline alert-dismissible fade show" role="alert"><i data-feather="thumbs-up"></i>
-            <p>{{session('success')}}</p>
-            <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        </div>
-    </div>
-</div>
-@endif
-<div class="row">
-<div class="col-md-12 col-lg-4">
-    <div class="card">
-        <form action="{{url('books-management/publisher')}}" method="POST">@csrf
-            <div class="card-body">
-                <h5>Tambah Penerbit Buku</h5> <hr>
-                <div class="form-group">
-                    <label for="">Penerbit Buku : </label>
-                    <input type="text" name="name"class="form-control">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-info btn-block">Simpan</button>
+        <div class="row pb-4" id="flash-message">
+            <div class="col-12">
+                <div class="alert alert-success outline alert-dismissible fade show" role="alert"><i data-feather="thumbs-up"></i>
+                    <p>{{session('success')}}</p>
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
             </div>
-        </form>
+        </div>
+    @endif
+    <div class="row">
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <form action="{{url('books-management/publisher')}}" method="POST">@csrf
+                    <div class="card-header bg-light">
+                        <h3>Tambah Penerbit Buku</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input type="text" name="name"class="form-control" placeholder="Ketik disini ..." required>                            
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info btn-block">Simpan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-8">                 
+            <table class="ui celled table table-striped" id="data-publisher">
+                <thead>
+                    <tr class="text-center">
+                        <th width="50">#</th>
+                        <th>Nama</th>
+                        <th width="100px">Created At</th>
+                        <th width="100px">Action</th>
+                    </tr>
+                </thead>
+            </table>   
+        </div>        
     </div>
-</div>
-<div class="col-md-12 col-lg-8">                 
-    <table class="table table-striped data-table" id="data-publisher">
-        <thead>
-            <tr class="text-center">
-                <th width="50">#</th>
-                <th>Nama</th>
-                <th width="100px">Created At</th>
-                <th width="100px">Action</th>
-            </tr>
-        </thead>
-    </table>   
-</div>        
-</div>
-{{-- Modal publisher --}}
-<div class="modal fade" id="editPublisher" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="modal-content" id="box_edit_publisher">
-</div>
-</div>
-</div>
+    {{-- Modal Peneribit --}}
+    <div class="modal fade" id="editPublisher"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content" id="box_edit_publisher">
+        </div>
+        </div>
+    </div>
 @endsection
 @section('script')
 <script>

@@ -44,7 +44,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Tambah Siswa</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -98,8 +98,6 @@
             })
         }
         getStudentDatatableComponent();
-
-
         // Get Add Student Component
         const getAddStudentComponent = () => {
             $('#add-student-box').html('Sedang memuat ...')
@@ -126,12 +124,10 @@
                 }
             })
         }
-
         // Add Student Button Modal
         $('#btn-add-student').click(function(){
             getAddStudentComponent()
         })
-
         // Add New Class
         $('#form-add-class').submit(function(event){
             event.preventDefault();
@@ -149,11 +145,9 @@
                 },
             })
         })
-
         function tol(){
             alert('sa')
         }
-
         // Datatable
         function studentDatatable(){
             $(function(){
@@ -175,7 +169,7 @@
                     },  
                     columnDefs:[
                         {
-                            "targets" : [0,1,2,3],
+                            "targets" : [0,1,2,3,4,5],
                             "className": "text-center"
                         },
                     ],              
