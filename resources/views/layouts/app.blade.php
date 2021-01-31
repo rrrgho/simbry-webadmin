@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.semanticui.min.css">
 
+    {{-- Datepicker --}}
+
     <style>
       .dataTables_filter {
         text-align: left !important;
@@ -160,13 +162,28 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/dataTables.semanticui.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         @stack('js')
-        @yield('script')
         <script>
           setTimeout(() => {
             $('#flash-message').hide();
           }, 2000)
+
+
+          // Get Component by Ajax
+          function getComponent(component, route){
+            $(component).html('Sedang memuat ...')
+            $.ajax({
+                url: route,
+                success:function(response){
+                    $(component).html(response)
+                }
+            })
+          }
+
+
+
           function confirm_me(message,link){
             swal({
               title: "Apakah Kamu Yakin??",
@@ -187,6 +204,11 @@
                 $('#flash').css({'display':'none'})
             }, 2000)
           }
+
+          function infoSuccess(message){
+            swal("Good job!", message, "success");
+          }
         </script>
+        @yield('script')
     </body>
 </html>

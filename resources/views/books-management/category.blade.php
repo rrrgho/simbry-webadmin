@@ -88,10 +88,10 @@
                 destroy: true
                 },  
                 columnDefs:[
-                    {
-                        "targets" : [0,1,2,3],
-                        "className": "text-center"
-                    },
+                    // {
+                    //     "targets" : [0,1,2,3],
+                    //     "className": "text-center"
+                    // },
                 ],              
                 
                 dom: 'Bfrtip',  

@@ -19,6 +19,7 @@ class CreateUserTable extends Migration
             $table->integer('class_id')->nullable();
             $table->integer('user_type_id');
             $table->string('name');
+            $table->string('password')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

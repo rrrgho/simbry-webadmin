@@ -29,6 +29,10 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('class-management')->group(function(){
         Route::get('/', [ClassController::class, 'index'])->name('main-class-management');
         Route::get('student-datatable', [ClassController::class, 'studentDatatable'])->name('student-datatable');
+        Route::get('component-add-student', [ClassController::class, 'componentAddStudent'])->name('component-add-student');
+        Route::get('component-student-datatable', [ClassController::class, 'componentStudentDatatable'])->name('component-student-datatable');
+        Route::post('add-class', [ClassController::class, 'addClass'])->name('add-class');
+        Route::post('add-student', [ClassController::class, 'addStudent'])->name('add-student');
     });
     Route::prefix('books-management')->group(function(){
         // Category

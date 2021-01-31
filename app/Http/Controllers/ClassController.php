@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// Call Service
+use DataTables;
+use Carbon\Carbon;
+
 // Call Model
 use App\Models\User;
+use App\Models\ClassModel;
 
 class ClassController extends Controller
 {
@@ -31,5 +36,32 @@ class ClassController extends Controller
         })
         ->rawColumns(['action'])
         ->make(true);
+    }
+    public function addStudent(Request $request){
+        $requestData = $request->all();
+        $requestData['user_type_id'] = 1;
+        $requestData['password'] = bcrypt($request->password);
+        $insert = User::create($requestData);
+        if($insert)
+            return response()->json(['error' => false, 'message' => 'Berhasil menambahkan Siswa '.$request->name], 200);
+        return response()->json(['error' => true, 'message' => 'Gagal menambahkan kelas'], 200);
+    }
+    
+    // Class
+    public function addClass(Request $request){
+        $insert = ClassModel::create($request->all());
+        if($insert)
+            return response()->json(['error' => false, 'message' => 'Berhasil menambahkan kelas'], 200);
+        return response()->json(['error' => true, 'message' => 'Gagal menambahkan kelas'], 200);
+
+    }
+    
+    // Component by AJAX
+    public function componentAddStudent(){
+        $class = ClassModel::where('deleted_at',null)->get();
+        return view('class-management.component-add-student', compact('class'));
+    }
+    public function componentStudentDatatable(){
+        return view('class-management.component-student-datatable');
     }
 }
