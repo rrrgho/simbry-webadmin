@@ -21,9 +21,9 @@ class CreateBookTable extends Migration
             $table->integer('locker_id');
             $table->string('origin_book');
             $table->integer('book_number');
-            $table->date('buying_year');
-            $table->date('publish_year');
-            $table->string('call_number');
+            $table->dateTime('buying_year');
+            $table->dateTime('publish_year');
+            $table->string('call_number')->nullable();
             $table->string('name');
             $table->text('description');
             $table->string('cover')->nullable();
