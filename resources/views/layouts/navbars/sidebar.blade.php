@@ -88,6 +88,25 @@
           </ul>
         </div>
       </li>
+      {{-- Add Books --}}
+      <li class="nav-item {{ ($activeMainPage == 'books') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#add-books" aria-expanded="true">
+          <i class="material-icons">book</i>
+          <p>{{ __('Buku') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse {{ ($activeMainPage == 'books') ? ' show' : '' }}" id="add-books">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'books-data' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-books')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Data Buku') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
       
     </ul>
   </div>

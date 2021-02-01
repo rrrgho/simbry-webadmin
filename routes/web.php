@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ManagemetBooksController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BooksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,5 +93,15 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('order')->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
+    });
+    
+    Route::prefix('books')->group(function(){
+        // Add Buku
+        Route::get('books', [BooksController::class, 'books'])->name('main-books');
+        Route::post('books', [BooksController::class, 'books_add']);
+        Route::get('books-datatable', [BooksController::class, 'booksDatatable'])->name('books-datatable');
+        Route::get('books-delete/{id}', [BooksController::class, 'booksDelete']);
+        Route::get('/{id}/books-edit', [BooksController::class, 'booksEdit'])->name('books-edit');
+        Route::post('booksEditExecute', [BooksController::class, 'booksEditExecute']);
     });
 });
