@@ -76,7 +76,7 @@
             <li class="nav-item{{ $activePage == 'class-data' ? ' active' : '' }}">
               <a class="nav-link" href="{{route('main-class-management')}}">
                 <span class="sidebar-mini"> - </span>
-                <span class="sidebar-normal">{{ __('Data Kelas') }} </span>
+                <span class="sidebar-normal">{{ __('Data Siswa') }} </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'teacher-data' ? ' active' : '' }}">

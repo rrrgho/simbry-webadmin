@@ -23,8 +23,10 @@ class CreateBookTable extends Migration
             $table->integer('book_number');
             $table->date('buying_year');
             $table->date('publish_year');
+            $table->string('call_number');
             $table->string('name');
             $table->text('description');
+            $table->string('cover')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -6,6 +6,7 @@ use App\Http\Controllers\AUTH\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ManagemetBooksController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,5 +88,9 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('locker-delete/{id}', [ManagemetBooksController::class, 'lockerDelete']);
         Route::get('/{id}/locker-edit',[ManagemetBooksController::class, 'lockerEdit'])->name('lockerEdit');
         Route::post('lockerEditExecute', [ManagemetBooksController::class, 'lockerEditExecute']);
+    });
+    Route::prefix('order')->group(function(){
+        Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
+        Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
     });
 });

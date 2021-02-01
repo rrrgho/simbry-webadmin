@@ -21,9 +21,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.semanticui.min.css">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     {{-- Select 2 --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
+
 
     <style>
       .dataTables_filter {
@@ -38,95 +41,149 @@
         .select2-selection__rendered {
             line-height: 10px !important;
         }
+
+        /* Box Peminjaman */
+        .box-peminjaman{
+          width: 200px;
+          height: 200px;
+          position: absolute;
+          bottom: 5%;
+          right: 50px;
+          cursor: pointer;
+          text-align: center;
+          font-size: 40px;
+          justify-content: center;
+          line-height: 100px;
+        }
+        .navigator{
+          width: 100px;
+          height: 100px;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          background: #fcc603;
+          border-radius: 100px;
+          cursor: pointer;
+          box-shadow: 0 0 10px green;
+        }
+        .navigator:hover{
+          box-shadow: 0 0 15px #000;
+        }
+        .peminjaman{
+          width: 60px;
+          height: 60px;
+          position: absolute;
+          top: 50px;
+          left:30px;
+          background:#fcc603;
+          border-radius: 100px;
+          cursor: pointer;
+          text-align: center;
+          font-size: 20px;
+          justify-content: center;
+          line-height: 60px;
+          box-shadow: 0 0 10px green;
+        }
+        .pengembalian{
+          width: 60px;
+          height: 60px;
+          position: absolute;
+          top: 10px;
+          left:110px;
+          background:#fcc603;
+          border-radius: 100px;
+          cursor: pointer;
+          text-align: center;
+          font-size: 20px;
+          justify-content: center;
+          line-height: 60px;
+          box-shadow: 0 0 10px green;
+        }
+        .peminjaman:hover, .pengembalian:hover{
+          box-shadow: 0 0 15px #000;
+        }
     </style>
+    @yield('style')
     </head>
     <body class="{{ $class ?? '' }}">
-        {{-- @auth() --}}
-            <form id="logout-form" action="" method="POST" style="display: none;">
-                @csrf
-            </form>
-            @include('layouts.page_templates.auth', ['breadcrumbs' => $breadcrumbs ?? false, 'title' =>  $title ?? false, 'subTitle' => $subTitle ?? false, 'activeMainPage' => $activeMainPage ?? false, 'activePage' => $activePage ?? false])
-        {{-- @endauth
-        @guest()
-            @include('layouts.page_templates.guest')
-        @endguest --}}
-        @if (auth()->check())
-        <div class="fixed-plugin">
-          <div class="dropdown show-dropdown">
-            <a href="#" data-toggle="dropdown">
-              <i class="fa fa-cog fa-2x"> </i>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header-title"> Sidebar Filters</li>
-              <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger active-color">
-                  <div class="badge-colors ml-auto mr-auto">
-                    <span class="badge filter badge-purple " data-color="purple"></span>
-                    <span class="badge filter badge-azure" data-color="azure"></span>
-                    <span class="badge filter badge-green" data-color="green"></span>
-                    <span class="badge filter badge-warning active" data-color="orange"></span>
-                    <span class="badge filter badge-danger" data-color="danger"></span>
-                    <span class="badge filter badge-rose" data-color="rose"></span>
+        @include('layouts.page_templates.auth', ['breadcrumbs' => $breadcrumbs ?? false, 'title' =>  $title ?? false, 'subTitle' => $subTitle ?? false, 'activeMainPage' => $activeMainPage ?? false, 'activePage' => $activePage ?? false])
+
+
+        {{-- Modal Peminjaman --}}
+        <div class="modal fade" id="peminjaman" tabindex="-1" role="dialog" aria-labelledby="peminjamanLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Buat Peminjaman Baru</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <div class="modal-body" id="add-student-box">
+                  <div class="row">
+                    <div class="col-12" >
+                      <div class="alert alert-success d-none text-white" id="user-found">
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <input type="hidden" id="route-check" value="{{route('check-user')}}">
+                      <input type="text" id="user_number_check" class="form-control" placeholder="Nomor atau nama siswa, guru" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    </div>
+                    <div class="col-4">
+                      <button class="btn btn-outline-secondary" type="button" id="btn-check-user">Check Data</button>
+                    </div>
                   </div>
-                  <div class="clearfix"></div>
-                </a>
-              </li>
-              <li class="header-title">Images</li>
-              <li class="active">
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                  <img src="{{ asset('material') }}/img/sidebar-1.jpg" alt="">
-                </a>
-              </li>
-              <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                  <img src="{{ asset('material') }}/img/sidebar-2.jpg" alt="">
-                </a>
-              </li>
-              <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                  <img src="{{ asset('material') }}/img/sidebar-3.jpg" alt="">
-                </a>
-              </li>
-              <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                  <img src="{{ asset('material') }}/img/sidebar-4.jpg" alt="">
-                </a>
-              </li>
-              <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-laravel" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-              </li>
-              <!-- <li class="header-title">Want more components?</li>
-                  <li class="button-container">
-                      <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
-                        Get the pro version
-                      </a>
-                  </li> -->
-              <li class="button-container">
-                <a href="https://material-dashboard-laravel.creative-tim.com/docs/getting-started/laravel-setup.html" target="_blank" class="btn btn-default btn-block">
-                  View Documentation
-                </a>
-              </li>
-              <li class="button-container">
-                <a href="https://www.creative-tim.com/product/material-dashboard-pro-laravel" target="_blank" class="btn btn-danger btn-block btn-round">
-                  Upgrade to PRO
-                </a>
-              </li>
-              <li class="button-container github-star">
-                <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard-laravel" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-              </li>
-              <li class="header-title">Thank you for 95 shares!</li>
-              <li class="button-container text-center">
-                <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-                <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-                <br>
-                <br>
-              </li>
-            </ul>
+                  <form id="form-pinjam-buku">@csrf
+                    <div class="row mt-3">
+                        <input type="hidden" id="route-pinjam" value="{{route('new-order')}}">
+                        <div class="col-12">
+                          <label for="">Pilih Buku</label>
+                          <input type="text" name="book_id" class="form-control">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="label-control">Tanggal Pengembalian</label>
+                            <input type="text" name="end_date" autocomplete="off" class="form-control" id="datepicker" placeholder="21/06/2018"/>
+                        </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-success btn-block" id="btn-pinjam" disabled>Proses</button>
+                        </div>
+                      </div>
+                  </form>
+              </div>
           </div>
-        </div>
-        @endif
+          </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!--   Core JS Files   -->
-        <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
+        {{-- <script src="{{ asset('material') }}/js/core/jquery.min.js"></script> --}}
         <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
         <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>
         <script src="{{ asset('material') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -178,7 +235,15 @@
         <script src="{{asset('template-tools/vendors/select2/select2.min.js')}}"></script>
         @stack('js')
         <script src="{{asset('template-tools/js/select2.js')}}"></script>
+        <script src="{{asset('js/peminjaman.js')}}"></script>
         <script>
+          $( function() {
+            $( "#datepicker" ).datepicker({
+              changeMonth: true,
+              changeYear: true
+            });
+          } );
+          
           setTimeout(() => {
             $('#flash-message').hide();
           }, 2000)
@@ -188,6 +253,25 @@
               placeholder: 'Option',
               width: '100%',
           });
+
+
+          // Navigator
+          let nav = false;
+          $('.navigator').click(function(){
+            if(nav == false){
+              $('.peminjaman, .pengembalian').removeClass('d-none').css({'opacity':0});
+              setTimeout(() => {
+                $('.peminjaman, .pengembalian').css({'opacity':1, 'transition':'1s'});
+              }, 100)
+              nav = true
+            }else{
+              $('.peminjaman, .pengembalian').addClass('d-none').css({'opacity':1});
+              setTimeout(() => {
+                $('.peminjaman, .pengembalian').css({'opacity':0, 'transition':'1s'});
+              }, 100)
+              nav = false
+            }
+          })
 
 
           // Get Component by Ajax
