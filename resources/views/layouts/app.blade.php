@@ -29,12 +29,15 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
+
     {{-- Select 2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <style>
+      span.select2-selection--multiple[aria-expanded=true] {
+    border-color: blue !important;   
+}
         .dataTables_filter {
             text-align: left !important;
             float: right !important;
@@ -218,6 +221,8 @@
 
     {{-- Sweet Alert --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    {{-- Select 2 --}}
     <script src="{{ asset('js/peminjaman.js') }}"></script>
     <script>
         $(function () {
@@ -230,12 +235,6 @@
         setTimeout(() => {
             $('#flash-message').hide();
         }, 2000)
-
-        $(".select2single").select2({
-            allowClear: true,
-            placeholder: 'Option',
-            width: '100%',
-        });
 
 
         // Navigator
