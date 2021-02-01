@@ -25,6 +25,7 @@ class CreateBookTable extends Migration
             $table->date('publish_year');
             $table->string('name');
             $table->text('description');
+            $table->string('cover')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
