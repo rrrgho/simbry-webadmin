@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\AUTH\AuthController;
+use App\Http\Controllers\AUTH\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ManagemetBooksController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\HistoryController;
 use App\Models\History;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +25,13 @@ use App\Models\History;
 |
 */
 
-// Without Midleware
+// Without Midleware Admin
 Route::get('login', [AuthController::class, 'Login'])->name('login');
 Route::post('login', [AuthController::class, 'Login'])->name('login');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
-
+// Route Midleware Admin
 Route::middleware([AdminMiddleware::class])->group(function(){
-    Route::get('/', [DashboardController::class, 'index'])->name('main');
+    Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
 
     Route::prefix('class-management')->group(function(){
         // Class Data Student
@@ -113,4 +116,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('history-datatable', [HistoryController::class, 'historyDatatable'])->name('history-datatable');
         Route::get('filter', [HistoryController::class, 'filter'])->name('filter');
     });
+});
+// Route Midleware User
+Route::middleware([UserMiddleware::class])->group(function(){
+    Route::get('/user', [DashboardController::class, 'index'])->name('main-user')->middleware('user');
 });

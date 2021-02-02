@@ -102,7 +102,7 @@ form{
             <p>Selamat datang di e-library {{env('APP_NAME')}}</p>
 					</div>
 					<div class="row">
-						<form id="login-form" class="form-group">@csrf
+						<form action="{{ route('login') }}" class="form-group" method="POST">@csrf
 							<div class="row">
 								<input type="text" name="username" id="username" class="form__input" placeholder="Username">
 							</div>
@@ -126,23 +126,6 @@ form{
   <script src="{{asset('out-template/jquery.js')}}"></script>
 </body>
 <script>
-  $(document).ready(function(){
-    $('#login-form').submit(function (e){
-        e.preventDefault()
-        $('#btn-login').text('Menghubungkan ...').prop('disabled', true)
-        var formData = new FormData(this)
-        $.ajax({
-            type: 'POST', cache: false, contentType: false, processData: false,
-            url: '{{route('login')}}',
-            data: formData,
-            success:function(response){
-              if(response.error != true){
-                document.location.href = '{{url('/')}}'
-                $('#btn-login').text('Masuk').prop('disabled', false)
-              }
-            }
-        })
-    })
-  })
+  
 </script>
 </html>

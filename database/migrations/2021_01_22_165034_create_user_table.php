@@ -17,7 +17,7 @@ class CreateUserTable extends Migration
             $table->id();
             $table->integer('user_number');
             $table->integer('class_id')->nullable();
-            $table->integer('user_type_id'); // 1 . Siswa   2. Guru
+            $table->boolean('user_type_id')->nullable(); // 1 . Siswa   2. Guru
             $table->string('name');
             $table->string('password')->nullable();
             $table->timestamps();
