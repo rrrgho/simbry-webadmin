@@ -18,8 +18,8 @@ class CreateBookOrderTable extends Migration
             $table->integer('user_id');
             $table->integer('book_id');
             $table->string('status');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

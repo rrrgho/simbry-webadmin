@@ -8,6 +8,8 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ManagemetBooksController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\HistoryController;
+use App\Models\History;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,5 +105,12 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('books-delete/{id}', [BooksController::class, 'booksDelete']);
         Route::get('/{id}/books-edit', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('booksEditExecute', [BooksController::class, 'booksEditExecute']);
+    });
+    // Order History
+    Route::prefix('history')->group(function(){
+        // 
+        Route::get('/', [HistoryController::class, 'orders'])->name('main-orders');
+        Route::get('history-datatable', [HistoryController::class, 'historyDatatable'])->name('history-datatable');
+        Route::get('filter', [HistoryController::class, 'filter'])->name('filter');
     });
 });
