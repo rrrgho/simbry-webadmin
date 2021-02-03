@@ -16,14 +16,18 @@ class CreateBookTable extends Migration
         Schema::create('book', function (Blueprint $table) {
             $table->id();
             $table->integer('creator_id');
+            $table->integer('category_id');
             $table->integer('publisher_id');
             $table->integer('edition_id');
             $table->integer('locker_id');
             $table->string('origin_book');
             $table->integer('book_number');
-            $table->dateTime('buying_year');
-            $table->dateTime('publish_year');
-            $table->string('call_number')->nullable();
+            $table->integer('queue_of_examplar');
+            $table->string('examplar');
+            $table->string('code_of_book');
+            $table->date('buying_year');
+            $table->date('publish_year');
+            $table->string('call_number');
             $table->string('name');
             $table->text('description');
             $table->string('cover')->nullable();

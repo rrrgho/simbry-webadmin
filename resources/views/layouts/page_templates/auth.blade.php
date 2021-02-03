@@ -2,7 +2,7 @@
   @include('layouts.navbars.sidebar', ['breadcrumbs' => $breadcrumbs])
   <div class="main-panel pl-3 pr-3 " style="min-height:calc(100vh) !important;">
     @include('layouts.navbars.navs.auth')
-    <div class="col" id="wrapper" style="margin-top:100px; position: relative;">
+    <div class="col" id="wrapper" style="margin-top:100px; margin-bottom:100px; position: relative;">
       @yield('title')
         @yield('content')
 
