@@ -54,7 +54,7 @@
                                                     <td>{{$data['examplar']}}</td>
                                                     <td>
                                                         <button class="btn btn-success mr-2 p-1" id="delete"><i class="fa fa-minus"></i></button>
-                                                        <span id="amount" amount="{{$data['copy_amount']}}">{{$data['copy_amount']}}</span>
+                                                        <span id="amount"></span>
                                                         <button class="btn btn-success ml-2 p-1" id="duplicate"><i class="fa fa-plus"></i></button>
                                                     </td>
                                                 </tr>
@@ -76,6 +76,8 @@
 @endsection
 @section('script') 
     <script>
+        let amount = "{{$data['copy_amount']}}";
+        $('#amount').text('aa')
         $('#delete').click(function(){
             var formData = new FormData();
             formData.append('examplar', "{{$data['examplar']}}")
@@ -96,7 +98,7 @@
                             success:function(response){
                                 if(response.error != true){
                                     infoSuccess(response.message)
-                                    $('#amount').text(Number($('#amount').attr('amount'))-1)
+                                    $('#amount').text(amount)-1)
                                 }
                             }
                         });
@@ -124,7 +126,7 @@
                             success:function(response){
                                 if(response.error != true){
                                     infoSuccess(response.message)
-                                    $('#amount').text(Number($('#amount').attr('amount'))+1)
+                                    $('#amount').text(Number(amount)+1)
                                 }
                             }
                         });
