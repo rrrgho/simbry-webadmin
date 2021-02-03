@@ -64,7 +64,7 @@ class BooksController extends Controller
                 'examplar' => $examplar,
                 'code_of_book' => $examplar_number,
                 'call_number' => $examplar.'-'.$queue,
-                'description' => "no",
+                'description' => $request->description ?? null,
                 'cover' => $pathCover ?? null,
             ]);
         }     
@@ -105,5 +105,30 @@ class BooksController extends Controller
         $data = Books::where('examplar', $request->examplar)->orderBy('book_number','DESC')->first();
         $data->delete();
         return response()->json(['error' => false, 'message' => 'Berhasil menghapus data' ], 200);
+    }
+    public function booksDuplicate(Request $request){
+        $exist = Books::all();
+        $queue = count($exist) == 0 ? 1 : count($exist) + 1;
+        $data = Books::where('examplar', $request->examplar)->orderBy('book_number','DESC')->first();
+        $copy = count(Books::where('examplar',$request->examplar)->get()) == 0 ? 1 : count(Books::where('examplar',$request->examplar)->get()) + 1;
+        $examplar_number =$data->examplar.'/'.$data->origin_book.'/'.Carbon::now('Asia/Jakarta')->year.'/C'.$copy.'of'.$copy;
+        Books::create([
+            'name' => $data->name,
+            'creator_id' => $data->creator_id,
+            'publisher_id' => $data->publisher_id,
+            'edition_id' => $data->edition_id,
+            'locker_id' => $data->locker_id,
+            'origin_book' => $data->origin_book,
+            'book_number' => $queue,
+            'buying_year' => Carbon::parse($data->buying_year)->format('Y-m-d H:m:s'),
+            'publish_year' => Carbon::parse($data->publish_year)->format('Y-m-d H:m:s'),
+            'queue_of_examplar' => $data->queue_of_examplar,
+            'examplar' => $data->examplar,
+            'code_of_book' => $examplar_number,
+            'call_number' => $data->examplar.'-'.$queue,
+            'description' => $data->description,
+            'cover' => $data->cover ?? null,
+        ]);
+        return response()->json(['error' => false, 'message' => 'Berhasil menduplikasi data !'], 200);
     }
 }

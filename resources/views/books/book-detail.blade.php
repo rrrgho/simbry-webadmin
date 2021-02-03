@@ -55,7 +55,7 @@
                                                     <td>
                                                         <button class="btn btn-success mr-2 p-1" id="delete"><i class="fa fa-minus"></i></button>
                                                         <span id="amount" amount="{{$data['copy_amount']}}">{{$data['copy_amount']}}</span>
-                                                        <button class="btn btn-success ml-2 p-1"><i class="fa fa-plus"></i></button>
+                                                        <button class="btn btn-success ml-2 p-1" id="duplicate"><i class="fa fa-plus"></i></button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -79,18 +79,57 @@
         $('#delete').click(function(){
             var formData = new FormData();
             formData.append('examplar', "{{$data['examplar']}}")
-            $.ajax({
-                url: "{{route('delete-book')}}",
-                type: 'POST', cache: false, contentType: false, processData: false,
-                headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
-                data: formData,
-                success:function(response){
-                    if(response.error != true){
-                        infoSuccess(response.message)
-                        $('#amount').text(Number($('#amount').attr('amount'))-1)
+            swal({
+                title: "Are you sure?",
+                text: "Data buku yang dihapus tidak dapat dikembalikan",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "{{route('delete-book')}}",
+                            type: 'POST', cache: false, contentType: false, processData: false,
+                            headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                            data: formData,
+                            success:function(response){
+                                if(response.error != true){
+                                    infoSuccess(response.message)
+                                    $('#amount').text(Number($('#amount').attr('amount'))-1)
+                                }
+                            }
+                        });
                     }
-                }
-            })
+                });
+        });
+
+        $('#duplicate').click(function(){
+            var formData = new FormData();
+            formData.append('examplar', "{{$data['examplar']}}")
+            swal({
+                title: "Are you sure?",
+                text: "Apakah anda yakin untuk menambah jumlah buku ini ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "{{route('duplicate-book')}}",
+                            type: 'POST', cache: false, contentType: false, processData: false,
+                            headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                            data: formData,
+                            success:function(response){
+                                if(response.error != true){
+                                    infoSuccess(response.message)
+                                    $('#amount').text(Number($('#amount').attr('amount'))+1)
+                                }
+                            }
+                        });
+                    }
+                });
         })
     </script>
 @endsection
