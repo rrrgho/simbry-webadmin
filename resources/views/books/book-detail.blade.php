@@ -4,7 +4,7 @@
 [ 'page' => 'Detail ' . $data['name'], 'link' => route('book-detail', [$data['examplar']])],
 ],
 'class' => 'off-canvas-sidebar',
-'activeMainPage' => 'books',
+'activeMainPage' => 'books-management',
 'activePage' => 'books-data',
 'title' => __('Data Buku'),
 'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')

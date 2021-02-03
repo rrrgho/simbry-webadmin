@@ -59,6 +59,12 @@
                 <span class="sidebar-normal"> {{ __('Rak Buku') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'books-data' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-books')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Data Buku') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>
@@ -89,7 +95,7 @@
         </div>
       </li>
       {{-- Add Books --}}
-      <li class="nav-item {{ ($activeMainPage == 'books') ? ' active' : '' }}">
+      {{-- <li class="nav-item {{ ($activeMainPage == 'books') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#add-books" aria-expanded="true">
           <i class="material-icons">book</i>
           <p>{{ __('Buku') }}
@@ -97,16 +103,10 @@
           </p>
         </a>
         <div class="collapse {{ ($activeMainPage == 'books') ? ' show' : '' }}" id="add-books">
-          <ul class="nav">
-            <li class="nav-item{{ $activePage == 'books-data' ? ' active' : '' }}">
-              <a class="nav-link" href="{{route('main-books')}}">
-                <span class="sidebar-mini"> - </span>
-                <span class="sidebar-normal">{{ __('Data Buku') }} </span>
-              </a>
-            </li>
+          
           </ul>
         </div>
-      </li>
+      </li> --}}
       {{-- History --}}
       <li class="nav-item {{ ($activeMainPage == 'history-orders') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#history" aria-expanded="true">

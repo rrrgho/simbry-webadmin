@@ -96,13 +96,6 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('locker-delete/{id}', [ManagemetBooksController::class, 'lockerDelete']);
         Route::get('/{id}/locker-edit',[ManagemetBooksController::class, 'lockerEdit'])->name('lockerEdit');
         Route::post('lockerEditExecute', [ManagemetBooksController::class, 'lockerEditExecute']);
-    });
-    Route::prefix('order')->group(function(){
-        Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
-        Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
-    });
-    
-    Route::prefix('books')->group(function(){
         // Add Buku
         Route::get('books', [BooksController::class, 'books'])->name('main-books');
         Route::post('books', [BooksController::class, 'books_add']);
@@ -114,6 +107,12 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('/{id}/books-edit', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('booksEditExecute', [BooksController::class, 'booksEditExecute']);
     });
+    Route::prefix('order')->group(function(){
+        Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
+        Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
+    });
+    
+
     // Order History
     Route::prefix('history')->group(function(){
         // 
