@@ -118,7 +118,7 @@
                             </div>                          
                             <div class="col-6 mt-3">
                                 <label>Pilih Kategori : </label><br>
-                                <select required class="form-control" style="width: 100%" name="creator_id">
+                                <select required class="form-control" style="width: 100%" name="category_id">
                                     <option value="" hidden>Pilih Kategori</option>
                                     @foreach($category as $item)
                                         <option value="{{ $item['id'] }}">
