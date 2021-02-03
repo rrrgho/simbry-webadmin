@@ -13,6 +13,7 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\HistoryController;
 use App\Models\History;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::get('login', [AuthController::class, 'Login'])->name('login');
 Route::post('login', [AuthController::class, 'Login'])->name('login');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
 // Route Midleware Admin
+
 Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
 
