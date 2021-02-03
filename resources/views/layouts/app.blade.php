@@ -35,17 +35,17 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <style>
-      span.select2-selection--multiple[aria-expanded=true] {
-    border-color: blue !important;   
-}
         .dataTables_filter {
             text-align: left !important;
             float: right !important;
         }
+        .js-example-basic-single{
+          display: none !important;
+        }
 
         .select2-container .select2-selection--single {
             height: 35px !important;
-            line-height: -10px !important;
+            line-height: 10px !important;
         }
 
         .select2-selection__arrow {
@@ -60,14 +60,15 @@
         .box-peminjaman {
             width: 200px;
             height: 200px;
-            position: absolute;
+            position: fixed;
             bottom: 5%;
-            right: 50px;
+            left: 0;
             cursor: pointer;
             text-align: center;
             font-size: 40px;
             justify-content: center;
             line-height: 100px;
+            z-index: 10;
         }
 
         .navigator {
@@ -225,12 +226,6 @@
     {{-- Select 2 --}}
     <script src="{{ asset('js/peminjaman.js') }}"></script>
     <script>
-        $(function () {
-            $("#datepicker").datepicker({
-                changeMonth: true,
-                changeYear: true
-            });
-        });
 
         setTimeout(() => {
             $('#flash-message').hide();
@@ -305,6 +300,24 @@
         function infoSuccess(message) {
             swal("Good job!", message, "success");
         }
+
+
+        // Image Preview
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                $('#image-preview').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#imgInp").change(function() {
+        readURL(this);
+        });
 
     </script>
     @yield('script')
