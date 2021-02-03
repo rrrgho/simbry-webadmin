@@ -52,6 +52,7 @@ class BooksController extends Controller
             $examplar_number =$examplar.'/'.$request->origin_book.'/'.Carbon::now('Asia/Jakarta')->year.'/C'.$copy.'of'.$copy;
             Books::create([
                 'name' => $request->name,
+                'category_id' => $request->category_id,
                 'creator_id' => $request->creator_id,
                 'publisher_id' => $request->publisher_id,
                 'edition_id' => $request->edition_id,
