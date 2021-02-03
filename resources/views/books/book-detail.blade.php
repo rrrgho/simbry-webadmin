@@ -76,8 +76,8 @@
 @endsection
 @section('script') 
     <script>
-        let amount = "{{$data['copy_amount']}}";
-        $('#amount').text('aa')
+        let amount = "{{$data['copy_amount']}}"
+        $('#amount').text(Number(amount))
         $('#delete').click(function(){
             var formData = new FormData();
             formData.append('examplar', "{{$data['examplar']}}")
@@ -98,7 +98,8 @@
                             success:function(response){
                                 if(response.error != true){
                                     infoSuccess(response.message)
-                                    $('#amount').text(amount)-1)
+                                    $('#amount').text(Number(amount) - 1)
+                                    amount = Number(amount)-1
                                 }
                             }
                         });
@@ -127,6 +128,7 @@
                                 if(response.error != true){
                                     infoSuccess(response.message)
                                     $('#amount').text(Number(amount)+1)
+                                    amount = Number(amount)+1
                                 }
                             }
                         });
