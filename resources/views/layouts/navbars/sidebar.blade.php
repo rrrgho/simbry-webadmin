@@ -107,6 +107,25 @@
           </ul>
         </div>
       </li>
+      {{-- History --}}
+      <li class="nav-item {{ ($activeMainPage == 'history-orders') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#history" aria-expanded="true">
+          <i class="material-icons">history</i>
+          <p>{{ __('History') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse {{ ($activeMainPage == 'history-orders') ? ' show' : '' }}" id="history">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'orders' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-orders')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Riwayat Peminjaman') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
       
     </ul>
   </div>
