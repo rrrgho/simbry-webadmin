@@ -1,14 +1,4 @@
-@extends('layouts.app', [
-'breadcrumbs' => [
-[ 'page' => 'Data Buku', 'link' => route('main-books')],
-[ 'page' => 'Detail ' . $data['name'], 'link' => route('book-detail', [$data['examplar']])],
-],
-'class' => 'off-canvas-sidebar',
-'activeMainPage' => 'books-management',
-'activePage' => 'books-data',
-'title' => __('Data Buku'),
-'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
-])
+@extends('layouts-user.index')
 
 @section('title')
 <div class="row">
@@ -36,41 +26,26 @@
                     <div class="col-md-12 col-lg-8">
                             <div class="card">
                                 <div class="card-header bg-light">
-                                    <span style="font-size: 25px">{{$data['name']}}</span> <br><br>
+                                    <span class="mt-2" style="font-size: 25px">Judul Buku : </h3><span style="font-size: 25px">{{$data['name']}}</span> <br><br>
                                 </div>
                                 <div class="card-body">
-                                    <span style="opacity: 0.7; margin-top:10px;">{{$data['description'] ?? 'Tidak ada deskripsi'}}</span>
-                                        <div class="row mt-4">
-                                            <div class="col-6">
-                                                <table class="table table-striped">
-                                                    <thead class="bg-light">
-                                                        <tr class="text-center">
-                                                            <th>Kode Examplar</th>
-                                                            <th>Jumlah Copy</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="text-center">
-                                                            <td>{{$data['examplar']}}</td>
-                                                            <td>
-                                                                <button class="btn btn-success mr-2 p-1" id="delete"><i class="fa fa-minus"></i></button>
-                                                                <span id="amount"></span>
-                                                                <button class="btn btn-success ml-2 p-1" id="duplicate"><i class="fa fa-plus"></i></button>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn btn-primary mr-2 p-1" id="edit"><i class="fa fa-edit"></i></button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                    <span style="opacity: 0.7; margin-top:10px;">Deskripsi :</span> <span style="opacity: 0.7; margin-top:10px;">{{$data['description'] ?? 'Tidak ada deskripsi'}}</span>
+                                     <h4>Status Buku</h4>
+                                     <p style="font-size: 14px;">
+                                        Kategori : {{$item['category_name']}} <br>
+                                        Salinan Buku : {{$copy['copy_amount']}} <br>
+                                        Tersedia Buku : {{ $redy['redy'] }}
+                                    </p>
                                 </div>
                             </div>
-                        
+                            <div class="visible-print text-center mt-4">
+                                {!! QrCode::size(150)->generate('https://www.youtube.com/channel/UC1jEJ2FjhuJzV3-hEt9WM2Q'); !!}
+                                <p>Scan me to return to the original page.</p>
+                            </div>
                     </div>
                 </div>
+                <a href="{{ url('user') }}" class="btn btn-primary mt-3">Kembali</a>
+                
             </div>
         </div>
     </div>
@@ -80,7 +55,7 @@
 
 @endsection
 @section('script') 
-    <script>
+    {{-- <script>
         let amount = "{{$data['copy_amount']}}"
         $('#amount').text(Number(amount))
         $('#delete').click(function(){
@@ -140,5 +115,5 @@
                     }
                 });
         })
-    </script>
+    </script> --}}
 @endsection

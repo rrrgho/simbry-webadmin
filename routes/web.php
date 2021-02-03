@@ -15,6 +15,7 @@ use App\Http\Controllers\HistoryController;
 use App\Models\History;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Generator;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,4 +127,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
 Route::middleware([UserMiddleware::class])->group(function(){
     Route::get('/user', [BooksStudentController::class, 'index'])->name('main-user')->middleware('user');
     Route::post('/user', [BooksStudentController::class, 'index'])->name('main-user');
+    Route::get('user/books-detail/{examplar}', [BooksController::class, 'booksDetailUser'])->name('book-detail-user');
+    
+
 });

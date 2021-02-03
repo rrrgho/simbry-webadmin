@@ -206,12 +206,16 @@
         </div>
     </div>
 </div>
+{{-- Modal Edit Buku --}}
 
 
 
 @endsection
 @section('script')
 <script>
+    let callEditComponent = false;
+    let editBooksId;
+    // Add
     $('#form-add-buku').submit(function(event){
         event.preventDefault();
         var formData = new FormData(this);
@@ -233,6 +237,7 @@
         })
     })
 
+    
 
     // Datatable
     $(function(){

@@ -22,7 +22,7 @@
                     <div class="col-6">
                         <div class="single-features mt-40">
                             <div class="features-title-icon d-flex justify-content-between">
-                                <h4 style="font-size: 18px;"><a href="#">{{$item['name']}}</a></h4>
+                                <h4 style="font-size: 18px;"><a href="{{ url ('user/books-detail',$item['examplar']) }}">{{$item['name']}}</a></h4>
                             </div>
                             <div class="features-content mt-3">
                                 <p style="font-size: 14px;">
