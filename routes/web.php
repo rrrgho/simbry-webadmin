@@ -5,6 +5,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\AUTH\AuthController;
 use App\Http\Controllers\AUTH\UserController;
+use App\Http\Controllers\STUDENT\BooksStudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ManagemetBooksController;
@@ -122,5 +123,6 @@ Route::middleware([AdminMiddleware::class])->group(function(){
 });
 // Route Midleware User
 Route::middleware([UserMiddleware::class])->group(function(){
-    Route::get('/user', [DashboardController::class, 'index'])->name('main-user')->middleware('user');
+    Route::get('/user', [BooksStudentController::class, 'index'])->name('main-user')->middleware('user');
+    Route::post('/user', [BooksStudentController::class, 'index'])->name('main-user');
 });

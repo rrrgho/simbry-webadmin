@@ -31,6 +31,7 @@ class CreateBookTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('cover')->nullable();
+            $table->boolean('ready')->default(true); // Buat false jika sedang dipinjam
             $table->timestamps();
             $table->softDeletes();
         });
