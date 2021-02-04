@@ -65,7 +65,7 @@
     
     <!--====== NAVBAR TWO PART START ======-->
 
-    {{-- <section class="navbar-area">
+    <section class="navbar-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -92,7 +92,7 @@
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
 
     <!--====== NAVBAR TWO PART ENDS ======-->
     

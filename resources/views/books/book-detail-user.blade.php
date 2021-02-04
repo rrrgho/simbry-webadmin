@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="visible-print text-center mt-4">
-                                {!! QrCode::size(150)->generate('https://www.youtube.com/channel/UC1jEJ2FjhuJzV3-hEt9WM2Q'); !!}
+                                {!! QrCode::size(150)->generate(Request::url('user/books-detail',$data['examplar'])); !!}
                                 <p>Scan me to return to the original page.</p>
                             </div>
                     </div>

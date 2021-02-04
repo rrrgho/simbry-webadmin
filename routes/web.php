@@ -16,7 +16,7 @@ use App\Models\History;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Generator;
-
+use App\Http\Controllers\KritikSaranController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -122,6 +122,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('history-datatable', [HistoryController::class, 'historyDatatable'])->name('history-datatable');
         Route::get('filter', [HistoryController::class, 'filter'])->name('filter');
     });
+    Route::get('/kritik',[KritikSaranController::class, 'kritik_saran'])->name('main-kritik-saran');
+    Route::get('kritik-datatable',[KritikSaranController::class, 'kritik_datatable'])->name('kritik-saran-datatable');
 });
 // Route Midleware User
 Route::middleware([UserMiddleware::class])->group(function(){
