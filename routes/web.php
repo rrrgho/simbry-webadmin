@@ -14,6 +14,8 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\HistoryController;
 use App\Models\History;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Generator;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,7 @@ Route::get('login', [AuthController::class, 'Login'])->name('login');
 Route::post('login', [AuthController::class, 'Login'])->name('login');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
 // Route Midleware Admin
+
 Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
 
@@ -95,13 +98,6 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('locker-delete/{id}', [ManagemetBooksController::class, 'lockerDelete']);
         Route::get('/{id}/locker-edit',[ManagemetBooksController::class, 'lockerEdit'])->name('lockerEdit');
         Route::post('lockerEditExecute', [ManagemetBooksController::class, 'lockerEditExecute']);
-    });
-    Route::prefix('order')->group(function(){
-        Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
-        Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
-    });
-    
-    Route::prefix('books')->group(function(){
         // Add Buku
         Route::get('books', [BooksController::class, 'books'])->name('main-books');
         Route::post('books', [BooksController::class, 'books_add']);
@@ -113,6 +109,12 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('/{id}/books-edit', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('booksEditExecute', [BooksController::class, 'booksEditExecute']);
     });
+    Route::prefix('order')->group(function(){
+        Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
+        Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
+    });
+    
+
     // Order History
     Route::prefix('history')->group(function(){
         // 
@@ -125,4 +127,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
 Route::middleware([UserMiddleware::class])->group(function(){
     Route::get('/user', [BooksStudentController::class, 'index'])->name('main-user')->middleware('user');
     Route::post('/user', [BooksStudentController::class, 'index'])->name('main-user');
+    Route::get('user/books-detail/{examplar}', [BooksController::class, 'booksDetailUser'])->name('book-detail-user');
+    
+
 });

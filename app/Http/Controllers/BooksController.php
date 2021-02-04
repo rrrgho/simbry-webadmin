@@ -9,9 +9,9 @@ use App\Models\Locker;
 use App\Models\Publisher;
 use App\Models\Books;
 use App\Models\BooksCategory;
-
-
-
+use App\Models\User;
+use SimpleSoftwareIO\QrCode\Generator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // Call Service
 use DataTables;
 use Carbon\Carbon;
@@ -99,8 +99,9 @@ class BooksController extends Controller
     }
     public function booksDetail($examplar){
         $data = Books::where('examplar', $examplar)->first();
+        $user = User::where('deleted_at',null)->get();
         $data['copy_amount'] = count(Books::where('examplar', $examplar)->get()); 
-        return view('books.book-detail', compact('data'));
+        return view('books.book-detail', compact('data','user'));
     }
     public function booksDelete(Request $request){
         $data = Books::where('examplar', $request->examplar)->orderBy('book_number','DESC')->first();
@@ -131,5 +132,17 @@ class BooksController extends Controller
             'cover' => $data->cover ?? null,
         ]);
         return response()->json(['error' => false, 'message' => 'Berhasil menduplikasi data !'], 200);
+    }
+    public function booksDetailUser($examplar){
+        $data = Books::where('examplar', $examplar)->first();
+        $books = Books::select(['examplar','name','cover'])->distinct('examplar')->paginate(2);
+        $copy['copy_amount'] = count(Books::where('examplar', $examplar)->get()); 
+        // $redy = Books::where('examplar');
+        $redy['redy'] = count(Books::where('examplar', $examplar)->get());
+        $item['category_name'] = $data['category'];
+        $item['publisher_name'] = $data['publisher'];
+        $item['locker_name'] = $data['locker'];
+        $item['edition_name'] = $data['edition'];
+        return view('books.book-detail-user', compact('data','books','item','copy','redy'));
     }
 }

@@ -3,7 +3,7 @@
 [ 'page' => 'Menambahkan Buku', 'link' => 'http://dashboard.com'],
 ],
 'class' => 'off-canvas-sidebar',
-'activeMainPage' => 'books',
+'activeMainPage' => 'books-management',
 'activePage' => 'books-data',
 'title' => __('Menambahkan Buku'),
 'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
@@ -206,17 +206,21 @@
         </div>
     </div>
 </div>
+{{-- Modal Edit Buku --}}
 
 
 
 @endsection
 @section('script')
 <script>
+    let callEditComponent = false;
+    let editBooksId;
+    // Add
     $('#form-add-buku').submit(function(event){
         event.preventDefault();
         var formData = new FormData(this);
         $.ajax({
-            url: "{{ url('books/books') }}",
+            url: "{{ url('books-management/books') }}",
             type: 'POST', cache: false, contentType: false, processData: false,
             headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
             data: formData,
@@ -233,6 +237,7 @@
         })
     })
 
+    
 
     // Datatable
     $(function(){

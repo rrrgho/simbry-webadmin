@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 use App\Models\History;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class HistorySeeder extends Seeder
 {
@@ -13,10 +14,10 @@ class HistorySeeder extends Seeder
      */
     public function run()
     {
-        History::create([
-            'user_id' => '10003',
-            'book_id' => '2',
-            'status' => 'Success'
+        User::create([
+            'user_number' => '10003',
+            'user_type_id' => '2',
+            'password' => 'Medan1010',
         ]);
     }
 }
