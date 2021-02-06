@@ -15,21 +15,21 @@ class CreateBookTable extends Migration
     {
         Schema::create('book', function (Blueprint $table) {
             $table->id();
-            $table->integer('creator_id');
-            $table->integer('category_id');
-            $table->integer('publisher_id');
-            $table->integer('edition_id');
-            $table->integer('locker_id');
-            $table->string('origin_book');
-            $table->integer('book_number');
-            $table->integer('queue_of_examplar');
-            $table->string('examplar');
-            $table->string('code_of_book');
-            $table->date('buying_year');
-            $table->date('publish_year');
-            $table->string('call_number');
-            $table->string('name');
-            $table->text('description');
+            $table->integer('category_id')->nullable();
+            $table->integer('publisher_id')->nullable();
+            $table->integer('locker_id')->nullable();
+            $table->string('book_number')->nullable();
+            $table->string('creator')->nullable();
+            $table->string('edition')->nullable();
+            $table->string('origin_book')->nullable();
+            $table->integer('queue_of_examplar')->nullable();
+            $table->string('examplar')->nullable();
+            $table->string('code_of_book')->nullable();
+            $table->string('buying_year')->nullable();
+            $table->string('publish_year')->nullable();
+            $table->string('call_number')->nullable();
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->string('cover')->nullable();
             $table->boolean('ready')->default(true); // Buat false jika sedang dipinjam
             $table->timestamps();
