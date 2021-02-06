@@ -16,7 +16,7 @@ use App\Models\History;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Generator;
-
+use App\Http\Controllers\KritikSaranController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +29,7 @@ use SimpleSoftwareIO\QrCode\Generator;
 */
 
 // Without Midleware Admin
+Route::get('welcome',[BooksStudentController::class, 'welcome'])->name('welcome');
 Route::get('login', [AuthController::class, 'Login'])->name('login');
 Route::post('login', [AuthController::class, 'Login'])->name('login');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
@@ -122,6 +123,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('history-datatable', [HistoryController::class, 'historyDatatable'])->name('history-datatable');
         Route::get('filter', [HistoryController::class, 'filter'])->name('filter');
     });
+    Route::get('/kritik',[KritikSaranController::class, 'kritik_saran'])->name('main-kritik-saran');
+    Route::get('kritik-datatable',[KritikSaranController::class, 'kritik_datatable'])->name('kritik-saran-datatable');
 });
 // Route Midleware User
 Route::middleware([UserMiddleware::class])->group(function(){

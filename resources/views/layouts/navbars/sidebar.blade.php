@@ -126,7 +126,15 @@
           </ul>
         </div>
       </li>
-      
+      {{-- Kritik & Saran --}}
+      <li class="nav-item {{ ($activePage == 'kritik-saran') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('main-kritik-saran') }}">
+          <i class="material-icons">announcement</i>
+            <span class="sidebar-mini"></span>
+            <span class="sidebar-normal">{{ __('Kritik & Saran') }} </span>
+          </p>
+        </a>
+      </li>
     </ul>
   </div>
 </div>
