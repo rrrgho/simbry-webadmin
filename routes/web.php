@@ -29,6 +29,7 @@ use App\Http\Controllers\KritikSaranController;
 */
 
 // Without Midleware Admin
+Route::get('welcome',[BooksStudentController::class, 'welcome'])->name('welcome');
 Route::get('login', [AuthController::class, 'Login'])->name('login');
 Route::post('login', [AuthController::class, 'Login'])->name('login');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
