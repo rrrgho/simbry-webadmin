@@ -83,13 +83,18 @@ class BooksController extends Controller
 
     }
     public function booksDatatable(){
-        $data = Books::where('deleted_at',null)->orderBy('created_at','DESC')->get();
-        return Datatables::of($data)
-        ->addIndexColumn()
+        $data = Books::query()->where('deleted_at',null)->orderBy('created_at','DESC');
+        return Datatables::eloquent($data)
         ->addColumn('action', function($data){
 
             $edit = '<a href="'.route('book-detail', [$data['examplar']]).'" class="btn btn-info p-1 text-white" id="btn-edit"> <i class="fa fa-sign-out"> </i> </a>';
             return $edit;
+        })
+        ->addColumn('category', function($data){
+            return $data['category'];
+        })
+        ->addColumn('locker', function($data){
+            return $data['locker'];
         })
         ->make(true);
     }
