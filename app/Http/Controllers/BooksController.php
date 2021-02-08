@@ -199,4 +199,21 @@ class BooksController extends Controller
         $item['edition_name'] = $data['edition'];
         return view('books.book-detail-user', compact('data','books','item','copy','redy'));
     }
+    // public function booksEdit(){
+    //     $data = Books::where('deleted_at',null)->get();
+    //     return view('books.ajax-books-edit', compact('data'));
+    // }
+    public function booksEditExecute(Request $request, $examplar){
+        $data = Books::where('examplar', $examplar)->first();
+        if(!$request->all())
+            return view('books.book-detail', compact('data','books','item','copy','redy'));
+        $data->category_id = $request->category_id;
+        $data->creator = $request->creator;
+        $data->locker_id = $request->locker_id;
+        $data->origin_book = $request->origin_book;
+        if($data->save())
+            return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Employee is Edited !');
+        return redirect(url('books-management/books-detail/'.$data['examplar']))->with('failed', 'Employee is failed to be edited, contact developer !');
+    }
+
 }

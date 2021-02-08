@@ -108,8 +108,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('books-detail/{examplar}', [BooksController::class, 'booksDetail'])->name('book-detail');
         Route::post('books-delete', [BooksController::class, 'booksDelete'])->name('book-delete');
         Route::post('books-duplicate', [BooksController::class, 'booksDuplicate'])->name('duplicate-book');
-        Route::get('/{id}/books-edit', [BooksController::class, 'booksEdit'])->name('books-edit');
-        Route::post('booksEditExecute', [BooksController::class, 'booksEditExecute']);
+        // Route::get('books-edit/{examplar}', [BooksController::class, 'booksEdit'])->name('books-edit');
+        Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
     });
     Route::prefix('order')->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
