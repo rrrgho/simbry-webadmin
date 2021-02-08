@@ -45,7 +45,6 @@ class MigrationController extends Controller
     // Migrate Book
     public function migrateBook(){
         $migrated = Migrated::find(1);
-        // return $oldBook = OldBook::select(['judul','id','noinduk','kategori','penerbit'])->where('noinduk','<>','')->where('id','>=',2001)->where('id','<=',2001+1000)->orderBy('id','ASC')->get();
         $oldBook = OldBook::select(['judul','id','noinduk','kategori','penerbit'])->where('noinduk','<>','')->where('visible','true')->where('id','>=',$migrated['value'])->where('id','<=',$migrated['value']+2000)->orderBy('id','ASC')->get();
         $nomor = "";
         $looped = 0;
@@ -110,5 +109,29 @@ class MigrationController extends Controller
         $migrated2->value = $dataMasuk + $inserted;
         $migrated2->save();
         return "Has Looped about : " .$looped. " Has inserted about :" . $inserted;
+    }
+
+    // Migrate Book Number
+    public function migrateBookNumber(){
+        $oldBook = Books::where('publish_year',null)->get();
+        $i=Books::max('year_in');
+        $nomor = "";
+        foreach($oldBook as $book){
+            if(strlen($nomor) < 1){
+                for($j=1; $j<6 - strlen(strval($i)); $j++){
+                    $nomor .= "0";
+                }
+                $nomor.=strval($i);
+            }
+            $year = '-20';
+            $book->year_in = $nomor;
+            $nomor.=$year;
+            $book->book_number = $nomor;
+            $book->save();
+
+
+            $i++;
+            $nomor="";
+        }
     }
 }

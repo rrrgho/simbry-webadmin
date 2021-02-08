@@ -37,6 +37,32 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-light">
+                <h1 class="text-success">Data Buku Examplar</h1>
+                <p>Menampilkan data buku berdasarkan jumlah Examplar.</p>
+                <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
+                    style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Buku</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive mt-4" id="data-book">
+                    <table class="ui celled table table-striped" id="data-buku-examplar">
+                        <thead>
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Examplar</th>
+                                <th>Jumlah Copy</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-light">
                 <h1 class="text-success">Data Seluruh Buku</h1>
                 <p>Anda hanya bisa mengedit data !</p>
                 <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
@@ -54,33 +80,6 @@
                                 <th>Nomor Examplar</th>
                                 <th>Kategori</th>
                                 <th>Loker</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header bg-light">
-                <h1 class="text-success">Data Buku Examplar</h1>
-                <p>Menampilkan data buku berdasarkan jumlah Examplar.</p>
-                <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
-                    style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Buku</button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive mt-4" id="data-book">
-                    <table class="ui celled table table-striped" id="data-buku-examplar">
-                        <thead>
-                            <tr class="text-center">
-                                <th>#</th>
-                                <th>Nama</th>
-                                <th>Examplar</th>
-                                <th>Jumlah Copy</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -253,9 +252,6 @@
                 { data: 'examplar', name: 'examplar'},
                 { data: 'category', name: 'category'},
                 { data: 'locker', name: 'locker'},
-                { data: 'action', name: 'action', 'render': function(data){
-                    return data
-                }},
                 
             ],
             language: {
@@ -266,7 +262,7 @@
             },   
             columnDefs:[
                 {
-                    "targets" : [0,2,3,4,5,6,7],
+                    "targets" : [0,2,3,4,5,6],
                     "className": "text-center"
                 },
             ],            

@@ -73,7 +73,7 @@ class BooksController extends Controller
 
     }
     public function booksDatatable(){
-        $data = Books::where('deleted_at',null)->get();
+        $data = Books::where('deleted_at',null)->where('id','<',100)->get();
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){
@@ -84,7 +84,7 @@ class BooksController extends Controller
         ->make(true);
     }
     public function booksDatatableExamplar(){
-        $data = Books::where('deleted_at',null)->distinct('examplar')->get(['name','examplar']);
+        $data = Books::where('deleted_at',null)->distinct('examplar')->where('id','<', 100)->get(['name','examplar']);
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('copy_amount',function($data){
