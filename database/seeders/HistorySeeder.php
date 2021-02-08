@@ -14,10 +14,10 @@ class HistorySeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'user_number' => '10003',
-            'user_type_id' => '2',
-            'password' => 'Medan1010',
+        History::create([
+            'user_id' => '10003',
+            'book_id' => '100012223',
+            'status' => 'Success',
         ]);
     }
 }

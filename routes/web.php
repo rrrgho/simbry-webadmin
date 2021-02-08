@@ -17,6 +17,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Generator;
 use App\Http\Controllers\KritikSaranController;
+use App\Http\Controllers\ManagementPeraturan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,7 +115,10 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
     });
-    
+    Route::prefix('manajemen-peraturan')->group(function(){
+        Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
+        Route::post('edit-peraturan', [ManagementPeraturan::class, 'edit'])->name('main-peraturan');
+    });
 
     // Order History
     Route::prefix('history')->group(function(){
