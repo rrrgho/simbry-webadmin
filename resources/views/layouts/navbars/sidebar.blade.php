@@ -29,6 +29,12 @@
         </a>
         <div class="collapse {{ ($activeMainPage == 'books-management') ? ' show' : '' }}" id="laravelExample">
           <ul class="nav">
+            <li class="nav-item{{ $activePage == 'books-data' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-books')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Data Buku') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'cetegory-books' ? ' active' : '' }}">
               <a class="nav-link" href="{{route('main-category-management')}}">
                 <span class="sidebar-mini"> - </span>
@@ -57,12 +63,6 @@
               <a class="nav-link" href="{{ route('main-locker-management') }}">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal"> {{ __('Rak Buku') }} </span>
-              </a>
-            </li>
-            <li class="nav-item{{ $activePage == 'books-data' ? ' active' : '' }}">
-              <a class="nav-link" href="{{route('main-books')}}">
-                <span class="sidebar-mini"> - </span>
-                <span class="sidebar-normal">{{ __('Data Buku') }} </span>
               </a>
             </li>
           </ul>

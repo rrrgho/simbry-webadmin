@@ -9,6 +9,7 @@ use App\Models\Locker;
 use App\Models\Publisher;
 use App\Models\Books;
 use App\Models\BooksCategory;
+use App\Models\Migrated;
 use App\Models\User;
 use SimpleSoftwareIO\QrCode\Generator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -20,16 +21,14 @@ use Carbon\Carbon;
 class BooksController extends Controller
 {
     public function books (){
-        $books = Books::where('deleted_at',null)->get();
-        $author = Author::where('deleted_at',null)->get();
-        $edition = Edition::where('deleted_at',null)->get();
         $locker = Locker::where('deleted_at',null)->get();
         $publisher = Publisher::where('deleted_at',null)->get();
         $category = BooksCategory::where('deleted_at',null)->get();
-        return view ('books.index', compact('author', 'edition', 'locker', 'publisher', 'category'));
+        return view ('books.index', compact('locker', 'publisher', 'category'));
     }
     public function books_add(Request $request){
         $examplar = "";
+        $number = "";
         $queue_copy = !Books::max('queue_of_examplar') ? 1 : Books::max('queue_of_examplar') + 1;
         if($request->hasFile('cover')){
             $file = $request->file('cover');
@@ -39,46 +38,57 @@ class BooksController extends Controller
             $pathCover = asset('book-images/'.$queue_copy.'BIMG-'.$file->getClientOriginalName());
         }
         for($i=0; $i<$request->copy_amount; $i++){
-            $exist = Books::all();
-            $queue = count($exist) == 0 ? 1 : count($exist) + 1;
+            $queue = Migrated::find(3);
             if(strlen($examplar) < 1){
                 for($j=1; $j<8 - strlen(strval($queue_copy)); $j++){
                     $examplar .= "0";
                 }
                 $examplar.=strval($queue_copy);
             }
+            if(strlen($queue['value'])<=6){
+                for($k=1; $k<=6-strlen($queue['value']); $k++)
+                    $number.="0";
+                $number.=$queue['value'];
+            }
+            else
+                $number.=strval($queue['value']);
             $examplar;
             $copy = count(Books::where('examplar',$examplar)->get()) == 0 ? 1 : count(Books::where('examplar',$examplar)->get()) + 1;
-            $examplar_number =$examplar.'/'.$request->origin_book.'/'.Carbon::now('Asia/Jakarta')->year.'/C'.$copy.'of'.$copy;
-            Books::create([
+            $examplar_number =$examplar.'/'.Carbon::now('Asia/Jakarta')->year.'/C'.$copy.'of'.$request->copy_amount;
+            $insert = Books::create([
                 'name' => $request->name,
                 'category_id' => $request->category_id,
-                'creator_id' => $request->creator_id,
+                'creator' => $request->creator,
                 'publisher_id' => $request->publisher_id,
-                'edition_id' => $request->edition_id,
+                'edition' => $request->edition,
                 'locker_id' => $request->locker_id,
                 'origin_book' => $request->origin_book,
-                'book_number' => $queue,
-                'buying_year' => Carbon::parse($request->buying_year)->format('Y-m-d H:m:s'),
-                'publish_year' => Carbon::parse($request->publish_year)->format('Y-m-d H:m:s'),
+                'book_number' => $number.'-'.Carbon::now('Asia/Jakarta')->year,
+                'buying_year' => Carbon::parse($request->buying_year)->year,
+                'publish_year' => Carbon::parse($request->publish_year)->year,
                 'queue_of_examplar' => $queue_copy,
                 'examplar' => $examplar,
                 'code_of_book' => $examplar_number,
-                'call_number' => $examplar.'-'.$queue,
+                'call_number' => $request->call_number ?? $examplar.'-'.$queue['value'],
                 'description' => $request->description ?? null,
                 'cover' => $pathCover ?? null,
             ]);
+            if($insert){
+                $number = "";
+                $queue->value = $queue['value'] + 1;
+                $queue->save();
+            }
         }     
         return response()->json(['error' => false, 'message' => 'Berhasil menambahkan data buku baru'], 200);
 
     }
     public function booksDatatable(){
-        $data = Books::where('deleted_at',null)->where('id','<',100)->get();
+        $data = Books::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){
 
-            $edit = '<button  key="'.$data['id'].'" data-toggle="modal" data-target="#addTeacher"  class="btn btn-info p-1 text-white" onclick="getEditBookComponent('.$data['id'].')" id="btn-edit"> <i class="fa fa-edit"> </i> </button>';
+            $edit = '<a href="'.route('book-detail', [$data['examplar']]).'" class="btn btn-info p-1 text-white" id="btn-edit"> <i class="fa fa-sign-out"> </i> </a>';
             return $edit;
         })
         ->make(true);
@@ -98,40 +108,79 @@ class BooksController extends Controller
         ->make(true);
     }
     public function booksDetail($examplar){
-        $data = Books::where('examplar', $examplar)->first();
+        $data = Books::where('examplar', $examplar)->where('deleted_at',null)->get();
         $user = User::where('deleted_at',null)->get();
-        $data['copy_amount'] = count(Books::where('examplar', $examplar)->get()); 
-        return view('books.book-detail', compact('data','user'));
+        $locker = Locker::where('deleted_at',null)->get();
+        $publisher = Publisher::where('deleted_at',null)->get();
+        $category = BooksCategory::where('deleted_at',null)->get();
+        return view('books.book-detail', compact('data','user','locker', 'publisher', 'category'));
     }
     public function booksDelete(Request $request){
-        $data = Books::where('examplar', $request->examplar)->orderBy('book_number','DESC')->first();
-        $data->delete();
-        return response()->json(['error' => false, 'message' => 'Berhasil menghapus data' ], 200);
+        $item = Books::find($request->id);
+        $sameBook = Books::where('examplar', $item->examplar)->where('deleted_at',null)->get();
+        $queue_on_same_book = 1;
+        foreach($sameBook as $book){
+            $code = "";
+            for($i=0; $i<13; $i++){
+                $code.=$book['code_of_book'][$i];
+            }
+            $code.='C'.$queue_on_same_book.'of'.strval(count($sameBook)-1);
+            $book->code_of_book = $code;
+            $book->save();
+            if($queue_on_same_book < count($sameBook))
+                $queue_on_same_book++;
+        }
+        $item->deleted_at = Carbon::now('Asia/Jakarta');
+        $item->save();
+        return response()->json(['error' => false], 200);
     }
     public function booksDuplicate(Request $request){
-        $exist = Books::all();
-        $queue = count($exist) == 0 ? 1 : count($exist) + 1;
-        $data = Books::where('examplar', $request->examplar)->orderBy('book_number','DESC')->first();
-        $copy = count(Books::where('examplar',$request->examplar)->get()) == 0 ? 1 : count(Books::where('examplar',$request->examplar)->get()) + 1;
-        $examplar_number =$data->examplar.'/'.$data->origin_book.'/'.Carbon::now('Asia/Jakarta')->year.'/C'.$copy.'of'.$copy;
+        $sameBook = Books::where('examplar', $request->examplar)->where('deleted_at',null)->get();
+        $queue_on_same_book = 1;
+        foreach($sameBook as $book){
+            $code = "";
+            for($i=0; $i<13; $i++){
+                $code.=$book['code_of_book'][$i];
+            }
+            $code.='C'.$queue_on_same_book.'of'.strval(count($sameBook)+1);
+            $book->code_of_book = $code;
+            $book->save();
+            if($queue_on_same_book < count($sameBook))
+                $queue_on_same_book++;
+        }
+
+        $queue = Migrated::find(3);
+        $data = Books::where('examplar', $request->examplar)->first();
+        $examplar_number =$data->examplar.'/'.Carbon::now('Asia/Jakarta')->year.'/C'.strval(count($sameBook)+1).'of'.strval(count($sameBook)+1);
+        $number = "";
+        if(strlen($queue['value'])<=6){
+            for($k=1; $k<=6-strlen($queue['value']); $k++)
+                $number.="0";
+            $number.=$queue['value'];
+        }
+        else
+            $number.=strval($queue['value']);
         Books::create([
             'name' => $data->name,
-            'creator_id' => $data->creator_id,
-            'publisher_id' => $data->publisher_id,
-            'edition_id' => $data->edition_id,
-            'locker_id' => $data->locker_id,
-            'origin_book' => $data->origin_book,
-            'book_number' => $queue,
-            'buying_year' => Carbon::parse($data->buying_year)->format('Y-m-d H:m:s'),
-            'publish_year' => Carbon::parse($data->publish_year)->format('Y-m-d H:m:s'),
+            'category_id' => $data->category_id,
+            'creator' => $request->creator,
+            'publisher_id' => $request->publisher_id,
+            'edition' => $request->edition,
+            'locker_id' => $request->locker_id,
+            'origin_book' => $request->origin_book,
+            'book_number' => $number.'-'.Carbon::now('Asia/Jakarta')->year,
+            'buying_year' => Carbon::parse($request->buying_year)->year,
+            'publish_year' => Carbon::parse($request->publish_year)->year,
             'queue_of_examplar' => $data->queue_of_examplar,
             'examplar' => $data->examplar,
             'code_of_book' => $examplar_number,
-            'call_number' => $data->examplar.'-'.$queue,
-            'description' => $data->description,
+            'call_number' => $request->call_number ?? $data->examplar.'-'.$queue['value'],
+            'description' => $request->description ?? null,
             'cover' => $data->cover ?? null,
         ]);
-        return response()->json(['error' => false, 'message' => 'Berhasil menduplikasi data !'], 200);
+        $queue->value = $queue['value'] + 1;
+        $queue->save();
+        return redirect(route('book-detail',[$data->examplar]))->with('success','Berhasil menduplikasi buku');
     }
     public function booksDetailUser($examplar){
         $data = Books::where('examplar', $examplar)->first();
