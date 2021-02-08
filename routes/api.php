@@ -18,3 +18,4 @@ use App\Http\Controllers\API\MigrationController;
 Route::get('migrate_book_category', [MigrationController::class, 'migrateBookCategory']);
 Route::get('migrate_book_publisher', [MigrationController::class, 'migrateBookPublisher']);
 Route::get('migrate_book', [MigrationController::class, 'migrateBook']);
+Route::get('migrate_book_number', [MigrationController::class, 'migrateBookNumber']);

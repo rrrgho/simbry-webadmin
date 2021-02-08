@@ -34,36 +34,7 @@
     </div>
 @endif
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header bg-light">
-                <h1 class="text-success">Data Seluruh Buku</h1>
-                <p>Anda hanya bisa mengedit data !</p>
-                <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
-                    style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Buku</button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive mt-4" id="data-book">
-                    <table class="ui celled table table-striped" id="data-buku">
-                        <thead>
-                            <tr class="text-center">
-                                <th>#</th>
-                                <th>Nama</th>
-                                <th>Kode Buku</th>
-                                <th>Nomor Panggil</th>
-                                <th>Nomor Examplar</th>
-                                <th>Kategori</th>
-                                <th>Loker</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
+    {{-- <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-light">
                 <h1 class="text-success">Data Buku Examplar</h1>
@@ -80,6 +51,36 @@
                                 <th>Nama</th>
                                 <th>Examplar</th>
                                 <th>Jumlah Copy</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h1 class="text-success">Data Seluruh Buku</h1>
+                <p>Anda hanya bisa mengedit data !</p>
+                <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
+                    style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Buku</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive mt-4" id="data-book">
+                    <table class="ui celled table table-striped" id="data-buku">
+                        <thead>
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Nomor Induk</th>
+                                <th>Kode Buku</th>
+                                <th>Nomor Panggil</th>
+                                <th>Nomor Examplar</th>
+                                <th>Kategori</th>
+                                <th>Loker</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -127,14 +128,8 @@
                                 </select>
                             </div>
                             <div class="col-6 mt-3">
-                                <label>Pilih Pencipta : </label><br>
-                                <select required class="form-control" style="width: 100%" name="creator_id">
-                                    <option value="" hidden>Pilih Penulis</option>
-                                    @foreach($author as $item)
-                                        <option value="{{ $item['id'] }}">
-                                            {{ $item['name'] }}</option>
-                                    @endforeach
-                                </select>
+                                <label>Penulis : </label><br>
+                                <input required class="date form-control"  name="creator" type="text">
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Pilih Penerbit : </label>
@@ -148,13 +143,7 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Pilih Edisi : </label>
-                                <select required class="form-control" style="width: 100%" name="edition_id">
-                                    <option value="" hidden>Pilih Edisi</option>
-                                    @foreach($edition as $item)
-                                        <option value="{{ $item['id'] }}">
-                                            {{ $item['name'] }}</option>
-                                    @endforeach
-                                </select>
+                                <input required class="date form-control"  name="edition" value="" type="text">
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Pilih Loker : </label>
@@ -168,11 +157,7 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Asal Buku : </label>
-                                <select required class="form-control" style="width: 100%" name="origin_book">
-                                    <option value="" hidden>Pilih Asal Buku</option>
-                                    <option value="B">Beli</option>
-                                    <option value="H">Hibah</option>
-                                </select>
+                                <input required class="date form-control"  name="origin_book"  type="text">
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Pembelian : </label>
@@ -248,14 +233,13 @@
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                 { data: 'name', name: 'name'},
+                { data: 'book_number', name: 'book_number'},
                 { data: 'code_of_book', name: 'code_of_book'},
                 { data: 'call_number', name: 'call_number'},
                 { data: 'examplar', name: 'examplar'},
                 { data: 'category', name: 'category'},
                 { data: 'locker', name: 'locker'},
-                { data: 'action', name: 'action', 'render': function(data){
-                    return data
-                }},
+                { data: 'action', name: 'action'},
                 
             ],
             language: {
@@ -266,7 +250,7 @@
             },   
             columnDefs:[
                 {
-                    "targets" : [0,2,3,4,5,6,7],
+                    "targets" : [0,2,3,4,5,6,7,8],
                     "className": "text-center"
                 },
             ],            
@@ -284,46 +268,46 @@
         });
     });
 
-    $(function(){
-        $('#data-buku-examplar').DataTable({
-            ajax: {
-                url :'{{route('books-datatable-examplar')}}',
-            },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'name', name: 'name'},
-                { data: 'examplar', name: 'examplar'},
-                { data: 'copy_amount', name: 'copy_amount'},
-                { data: 'action', name: 'action', 'render': function(data){
-                    return data
-                }},
+    // $(function(){
+    //     $('#data-buku-examplar').DataTable({
+    //         ajax: {
+    //             url :'{{route('books-datatable-examplar')}}',
+    //         },
+    //         columns: [
+    //             { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+    //             { data: 'name', name: 'name'},
+    //             { data: 'examplar', name: 'examplar'},
+    //             { data: 'copy_amount', name: 'copy_amount'},
+    //             { data: 'action', name: 'action', 'render': function(data){
+    //                 return data
+    //             }},
                 
-            ],
-            language: {
-            searchPlaceholder: 'Search Buku..',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-            destroy: true
-            },   
-            columnDefs:[
-                {
-                    "targets" : [0,1,2,3,4],
-                    "className": "text-center"
-                },
-            ],            
+    //         ],
+    //         language: {
+    //         searchPlaceholder: 'Search Buku..',
+    //         sSearch: '',
+    //         lengthMenu: '_MENU_ items/page',
+    //         destroy: true
+    //         },   
+    //         columnDefs:[
+    //             {
+    //                 "targets" : [0,1,2,3,4],
+    //                 "className": "text-center"
+    //             },
+    //         ],            
             
-            dom: 'Bfrtip',  
-            buttons: [
-                {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
-                {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
-                {extend:'pdf', className: 'bg-danger text-white rounded-pill border border-white'},
-                {extend:'print', className: 'bg-warning text-white rounded-pill border border-white'},
-            ],
-            "bDestroy": true,
-            "processing": true,
-            "serverSide": true, 
-        });
-    });
+    //         dom: 'Bfrtip',  
+    //         buttons: [
+    //             {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
+    //             {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
+    //             {extend:'pdf', className: 'bg-danger text-white rounded-pill border border-white'},
+    //             {extend:'print', className: 'bg-warning text-white rounded-pill border border-white'},
+    //         ],
+    //         "bDestroy": true,
+    //         "processing": true,
+    //         "serverSide": true, 
+    //     });
+    // });
 
     // Datepicker
     $('#buying_year, #publish_year').datepicker({

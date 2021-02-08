@@ -297,6 +297,41 @@
             }, 2000)
         }
 
+        function confirm_me_post(message, formData , link) {
+            
+            swal({
+                    title: "Apakah Kamu Yakin??",
+                    text: message,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: link,
+                            headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                            type: 'POST',
+                            data: formData,
+                            success:function(res){
+                                if(res.error == false)
+                                    swal("Berhasil menghapus data!", {
+                                        icon: "success",
+                                    });
+                                    setTimeout(() => {
+                                        location.reload()
+                                    }, 200)                                    
+                            }
+                        })
+                    }
+                });
+            setTimeout(function () {
+                $('#flash').css({
+                    'display': 'none'
+                })
+            }, 2000)
+        }
+
         function infoSuccess(message) {
             swal("Good job!", message, "success");
         }
