@@ -73,7 +73,7 @@
                     <table class="ui celled table table-striped" id="data-buku">
                         <thead>
                             <tr class="text-center">
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>Nama</th>
                                 <th>Nomor Induk</th>
                                 <th>Kode Buku</th>
@@ -231,7 +231,7 @@
                 url :'{{route('books-datatable')}}',
             },
             columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                 { data: 'name', name: 'name'},
                 { data: 'book_number', name: 'book_number'},
                 { data: 'code_of_book', name: 'code_of_book'},
@@ -250,7 +250,7 @@
             },   
             columnDefs:[
                 {
-                    "targets" : [0,2,3,4,5,6,7,8],
+                    "targets" : [1,2,3,4,5,6,7],
                     "className": "text-center"
                 },
             ],            
@@ -262,10 +262,11 @@
                 {extend:'pdf', className: 'bg-danger text-white rounded-pill border border-white'},
                 {extend:'print', className: 'bg-warning text-white rounded-pill border border-white'},
             ],
+            retrieve: true,
             "bDestroy": true,
             "processing": true,
             "serverSide": true, 
-        });
+        }).fnDestroy();
     });
 
     // $(function(){
