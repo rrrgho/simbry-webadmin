@@ -107,25 +107,6 @@
           </ul>
         </div>
       </li> --}}
-      {{-- History --}}
-      <li class="nav-item {{ ($activeMainPage == 'history-orders') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#history" aria-expanded="true">
-          <i class="material-icons">history</i>
-          <p>{{ __('History') }}
-            <b class="caret"></b>
-          </p>
-        </a>
-        <div class="collapse {{ ($activeMainPage == 'history-orders') ? ' show' : '' }}" id="history">
-          <ul class="nav">
-            <li class="nav-item{{ $activePage == 'orders' ? ' active' : '' }}">
-              <a class="nav-link" href="{{route('main-orders')}}">
-                <span class="sidebar-mini"> - </span>
-                <span class="sidebar-normal">{{ __('Riwayat Peminjaman') }} </span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li>
       {{-- Kritik & Saran --}}
       <li class="nav-item {{ ($activePage == 'kritik-saran') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('main-kritik-saran') }}">
@@ -135,6 +116,33 @@
           </p>
         </a>
       </li>
+    {{-- Manajemen Peraturan --}}
+    <li class="nav-item {{ ($activePage == 'management-peraturan') ? ' active' : '' }}">
+      <a class="nav-link" href="{{ route('main-management-peraturan') }}">
+        <i class="material-icons">contactless</i>
+          <span class="sidebar-mini"></span>
+          <span class="sidebar-normal">{{ __('Menajemen Peraturan') }} </span>
+        </p>
+      </a>
+     {{-- History --}}
+     <li class="nav-item {{ ($activeMainPage == 'history-orders') ? ' active' : '' }}">
+      <a class="nav-link" data-toggle="collapse" href="#history" aria-expanded="true">
+        <i class="material-icons">history</i>
+        <p>{{ __('History') }}
+          <b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse {{ ($activeMainPage == 'history-orders') ? ' show' : '' }}" id="history">
+        <ul class="nav">
+          <li class="nav-item{{ $activePage == 'orders' ? ' active' : '' }}">
+            <a class="nav-link" href="{{route('main-orders')}}">
+              <span class="sidebar-mini"> - </span>
+              <span class="sidebar-normal">{{ __('Riwayat Peminjaman') }} </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
     </ul>
   </div>
 </div>

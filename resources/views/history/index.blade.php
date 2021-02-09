@@ -34,9 +34,20 @@
         <div class="card">
             <div class="card-header bg-light">
                 <h1 class="text-success">Data History Peminjaman</h1>
-                <button class="btn btn-success position-absolute" id="btn-fiter" data-toggle="modal" data-target="#Filter" style="right: 10px; top:10px"><i class="fa fa-filter"></i> Filter</button>
             </div>
             <div class="card-body">
+                <div class="row input-daterange">
+                    <div class="col-lg-3 col-sm-4">
+                        <input type="text" name="start_date" id="start_date" class="form-control" placeholder="Dari Tanggal" readonly>
+                    </div>
+                    <div class="col-lg-3 col-sm-4">
+                        <input type="text" name="end_date" id="end_date" class="form-control" placeholder="Sampai Tanggal" readonly>
+                    </div>
+                    <div class="col-lg-3 col-sm-4">
+                       <button type="button" name="filter" class="btn btn-primary" id="filter">Filter</button>
+                       {{-- <button type="button" name="refresh" class="btn btn-default" id="refresh">Refresh</button> --}}
+                    </div>
+                </div>
                 <div class="table-responsive mt-4" id="history-book">
                     <table class="ui celled table table-striped" id="data-history">
                         <thead>
@@ -45,6 +56,8 @@
                                 <th>NIP</th>
                                 <th>ID Buku</th>
                                 <th>Status</th>
+                                <th>Start</th>
+                                <th>End</th>
                                 <th width="100px">Created At</th>
                             </tr>
                         </thead>
@@ -54,43 +67,22 @@
         </div>
     </div>
 </div>
-{{-- Modal Filter --}}
-<div class="modal fade" id="Filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="{{ route('filter') }}" method="GET">
-                <div class="body-box">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Dari Tanggal</label>
-                        <input type="text" id="start_date" name="start_date" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Sampai Tanggal</label>
-                        <input type="text" id="end_date" name="end_datedate" class="form-control">
-                    </div>
-                </div>
-            
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </div>
-    </form>
-    </div>
-  </div>
 @endsection
 @section('script')
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script>
+     $('#filter').click(function () {
+        var start_date = $('#start_date').val(); 
+        var end_date = $('#end_date').val(); 
+        if (start_date != '' && end_date != '') {
+            $('#data-history').DataTable().destroy();
+            load_data(start_date, end_date);
+        } else {
+            alert('Both Date is required');
+        }
+    });
     // Datatable
     $(function(){
         $('#data-history').DataTable({
@@ -100,6 +92,8 @@
                 { data: 'user_id', name: 'user_id'},
                 { data: 'book_id', name: 'book_id'},
                 { data: 'status', name: 'status'},
+                { data: 'start_date', name: 'start_date'},
+                { data: 'end_date', name: 'end_date'},
                 { data: 'created_at', name: 'created_at'},
             ],
             language: {
@@ -110,7 +104,7 @@
             },  
             columnDefs:[
                 {
-                    "targets" : [0,1,2,3],
+                    "targets" : [0,1,2,3,4,5],
                     "className": "text-center"
                 },
             ],              

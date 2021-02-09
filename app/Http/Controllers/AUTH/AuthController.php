@@ -26,7 +26,7 @@ class AuthController extends Controller
             ];
             Auth::attempt($data);
             if (Auth::check()) {
-                if(Auth()->user()->user_type_id == 2){
+                if(Auth()->user()->user_type_id == 3){
                     return redirect()->route('main');
                 }
                 else{

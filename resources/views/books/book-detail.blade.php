@@ -70,6 +70,7 @@
                                                                 <button class="btn btn-danger p-1" onclick="confirm_me_post('Data yang dihapus tidak dapat dikembalikan', {id:{{$item['id']}}} , '{{route('book-delete')}}')">
                                                                     <i class="fa fa-trash"></i>
                                                                 </button>
+                                                                <button type="button" class="btn btn-primary p-1" data-toggle="modal"  data-target=".bd-edit-modal-lg"> <i class="fa fa-edit"> </i> </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -79,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,8 +158,60 @@
         </div>
     </div>
 </div>
-
-
+{{-- Modal Edit --}}
+<div class="modal fade bd-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-content">
+                <form action="{{ url('books-management/'.$data[0]['examplar'].'/edit-books') }}" method="POST">@csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Buku</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row"> 
+                            <input type="hidden" name="examplar" value="{{$data[0]['examplar']}}">
+                            <div class="col-6 mt-3">
+                                <label>Pilih Kategori : </label><br>
+                                <select required class="form-control" style="width: 100%" name="category_id">
+                                    <option value="" hidden>Pilih Kategori</option>
+                                    @foreach($category as $item)
+                                        <option value="{{ $item['id'] }}">
+                                            {{ $item['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6 mt-3">
+                                <label>Penulis : </label><br>
+                                <input required class="date form-control"  name="creator" value="{{$data[0]['creator']}}" type="text">
+                            </div>
+                            <div class="col-6 mt-3">
+                                <label for="">Pilih Loker : </label>
+                                <select required class="form-control" style="width: 100%" name="locker_id">
+                                    <option value="" hidden>Pilih Loker</option>
+                                    @foreach($locker as $item)
+                                        <option @if($data[0]['locker_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
+                                            {{ $item['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6 mt-3">
+                                <label for="">Asal Buku : </label>
+                                <input required class="date form-control"  name="origin_book"  type="text" value="{{$data[0]['origin_book']}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                            <button class="btn btn-success" id="btn-tambah-books" type="submit">Tambah Buku</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script') 
     <script>
@@ -166,5 +219,8 @@
             changeMonth: true,
             changeYear: true
         });
+        function setIdBooks(id){
+            $('#id_books').val(id)
+        }
     </script>
 @endsection

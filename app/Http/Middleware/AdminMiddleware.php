@@ -30,7 +30,7 @@ class AdminMiddleware
         if(auth()->user()->user_type_id == 3){
             return $next($request);
         }
-        return redirect('user')->with('error',"You don't have admin access.");
+        return redirect('login')->with('error',"You don't have admin access.");
 
     }
 }

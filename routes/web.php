@@ -17,6 +17,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Generator;
 use App\Http\Controllers\KritikSaranController;
+use App\Http\Controllers\ManagementPeraturan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -107,14 +108,17 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('books-detail/{examplar}', [BooksController::class, 'booksDetail'])->name('book-detail');
         Route::post('books-delete', [BooksController::class, 'booksDelete'])->name('book-delete');
         Route::post('books-duplicate', [BooksController::class, 'booksDuplicate'])->name('duplicate-book');
-        Route::get('/{id}/books-edit', [BooksController::class, 'booksEdit'])->name('books-edit');
-        Route::post('booksEditExecute', [BooksController::class, 'booksEditExecute']);
+        // Route::get('books-edit/{examplar}', [BooksController::class, 'booksEdit'])->name('books-edit');
+        Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
     });
     Route::prefix('order')->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
     });
-    
+    Route::prefix('manajemen-peraturan')->group(function(){
+        Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
+        Route::post('edit-peraturan', [ManagementPeraturan::class, 'edit'])->name('main-peraturan');
+    });
 
     // Order History
     Route::prefix('history')->group(function(){

@@ -106,7 +106,6 @@
                         <div class="row">
                             <div class="col-12 mb-4">
                                 <div class="alert alert-danger d-none" id="warning">
-
                                 </div>
                             </div>
                             <div class="col-6 mt-3">
