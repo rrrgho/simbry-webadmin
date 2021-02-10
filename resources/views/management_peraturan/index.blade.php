@@ -12,7 +12,7 @@
     <div class="col-md-12">            
         <div class="col border-bottom pl-0 pb-3">
             <h3>Management Peraturan</h3>
-            <p>Anda dapat melihan Management Peraturan!!</p>
+            <p>Anda dapat melihat Management Peraturan!!</p>
         </div>
     </div>
 </div>

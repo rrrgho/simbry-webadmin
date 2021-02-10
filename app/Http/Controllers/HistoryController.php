@@ -21,10 +21,10 @@ class HistoryController extends Controller
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('status', function($data){
-            if($data['Success'] != null)        
+            if($data['Success'] != 1)        
                 return view ('history.success');
             else{
-                $data['pending'] != null;
+                $data['pending'] != 2;
                 return view ('history.pending');
             }
         })
@@ -40,7 +40,6 @@ class HistoryController extends Controller
         ->make(true);
     }
     public function filter(Request $request){
-        
         if(!empty($request->start_date))
             {
                 //Jika tanggal awal(from_date) hingga tanggal akhir(to_date) adalah sama maka

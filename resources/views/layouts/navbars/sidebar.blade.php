@@ -107,6 +107,15 @@
           </ul>
         </div>
       </li> --}}
+      {{-- Peminjaman Masuk --}}
+      <li class="nav-item {{ ($activePage == 'peminjaman-masuk') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('main-peminjaman-masuk') }}">
+          <i class="material-icons">supervisor_account</i>
+            <span class="sidebar-mini"></span>
+            <span class="sidebar-normal">{{ __('Peminjaman Masuk') }} </span>
+          </p>
+        </a>
+      </li>
       {{-- Kritik & Saran --}}
       <li class="nav-item {{ ($activePage == 'kritik-saran') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('main-kritik-saran') }}">

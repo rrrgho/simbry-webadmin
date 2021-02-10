@@ -206,10 +206,6 @@
 
 
 
-
-
-
-
     {{-- Bootstrap --}}
     <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
     <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>
@@ -296,7 +292,29 @@
                 })
             }, 2000)
         }
-
+        // Approved
+        function confirm_approved(message, link) {
+            swal({
+                    title: "Apakah Anda yakin untuk disetujui?",
+                    text: message,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                        document.location.href = link;
+                    }
+                });
+            setTimeout(function () {
+                $('#flash').css({
+                    'display': 'none'
+                })
+            }, 2000)
+        }
         function confirm_me_post(message, formData , link) {
             
             swal({

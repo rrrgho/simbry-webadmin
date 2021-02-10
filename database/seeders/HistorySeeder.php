@@ -4,6 +4,7 @@ namespace Database\Seeders;
 use App\Models\History;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Faker\Factory as Faker;
 
 class HistorySeeder extends Seeder
 {

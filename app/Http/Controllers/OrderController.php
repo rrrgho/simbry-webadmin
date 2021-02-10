@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 // Call Model
 use App\Models\User;
-
+use App\Models\History;
+use DataTables;
+use Illuminate\Support\Carbon;
 class OrderController extends Controller
 {
     public function CheckUser(Request $request){
@@ -20,5 +22,16 @@ class OrderController extends Controller
 
     public function NewOrder(Request $request){
         return $request->all();
+    }
+    public function peminjaman(){
+        $data = History::where('deleted_at',null)->get();
+        return view('peminjaman-masuk.index', compact('data'));
+    }
+    public function approved(Request $request){
+        $data = History::find($request->id);
+        $data->status = $request->status;
+        if($data->save())
+            return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Berhasil mengubah data Edit Limit ');
+        return redirect(url('peminjaman-masuk/'.$request->id.'/peminjaman-masuk'))->with('failed','Gagal mengubah data Edit Limit');
     }
 }

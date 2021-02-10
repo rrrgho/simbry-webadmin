@@ -119,7 +119,10 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
         Route::post('edit-peraturan', [ManagementPeraturan::class, 'edit'])->name('main-peraturan');
     });
-
+    Route::prefix('peminjaman-masuk')->group(function(){
+        Route::get('peminjaman-masuk', [OrderController::class , 'peminjaman'])->name('main-peminjaman-masuk');
+        Route::post('approved' , [OrderController::class, 'approved'])->name('approved');
+    });
     // Order History
     Route::prefix('history')->group(function(){
         // 

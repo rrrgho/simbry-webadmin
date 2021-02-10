@@ -13,11 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(100)->create();
+        \App\Models\History::factory(100)->create();
         $this->call([
             HistorySeeder::class,
-            RuleOrderSeeder::class,
-            UserSeeder::class,
         ]);
     }
 }
