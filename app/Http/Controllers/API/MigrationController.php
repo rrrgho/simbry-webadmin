@@ -7,10 +7,14 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use App\Models\OldBook;
+use App\Models\OldStudent;
 use App\Models\BooksCategory;
 use App\Models\Publisher;
 use App\Models\Books;
 use App\Models\Migrated;
+use App\Models\Unit;
+use App\Models\User;
+use App\Models\ClassModel;
 use Session;
 
 class MigrationController extends Controller
@@ -155,5 +159,49 @@ class MigrationController extends Controller
             $i++;
             $nomor="";
         }
+    }
+
+
+    // Migrate Class Unit
+    public function migrateClassUnit(){
+        $oldData = OldStudent::all();
+
+        // Migrate Unit
+        // foreach($oldData as $data){
+        //     $exist = Unit::where('name', $data['unit'])->first();
+        //     if(!$exist)
+        //         Unit::create([
+        //             'name' => $data['unit'],
+        //         ]);
+        // }
+
+        // Migrate Class
+        // foreach($oldData as $data){
+        //     $exist = ClassModel::where('name',$data['kelas'])->first();
+        //     if(!$exist){
+        //         $id_unit = Unit::where('name', $data['unit'])->first()['id'];
+        //         ClassModel::create([
+        //             'unit_id' => $id_unit,
+        //             'name' => $data['kelas'],
+        //         ]);
+        //     }
+        // };
+
+
+        // Migrate Student
+        // foreach($oldData as $data){
+        //     $exist = User::where('user_number', $data['nis'])->first();
+        //     if(!$exist){
+        //         $class_id = ClassModel::where('name', $data['kelas'])->first()['id'];
+        //         User::create([
+        //             'user_number' => $data['nis'],
+        //             'class_id' => $class_id,
+        //             'user_type_id' => 1,
+        //             'name' => $data['nama'],
+        //             'password' => bcrypt($data['nis']),
+        //         ]);
+        //     }
+        // }
+        // return "selesai";
     }
 }
