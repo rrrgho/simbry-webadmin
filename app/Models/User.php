@@ -25,5 +25,7 @@ class User extends Authenticatable
         'password',
     ];
 
-
+    public function order(){
+        return $this->hasMany(BooksOrder::class);
+    }
 }

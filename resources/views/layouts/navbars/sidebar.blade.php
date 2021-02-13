@@ -94,6 +94,37 @@
           </ul>
         </div>
       </li>
+      {{-- Management Peminjamman --}}
+      <li class="nav-item {{ ($activeMainPage == 'management-peminjaman') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#management-peminjaman" aria-expanded="true">
+          <i class="material-icons">book</i>
+          <p>{{ __('Manajemen Peminjaman') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse {{ ($activeMainPage == 'management-peminjaman') ? ' show' : '' }}" id="management-peminjaman">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'peminjaman-berjalan' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-management-peminjaman-berjalan')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Peminjaman Berjalan') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'peminjaman-expired' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-management-peminjaman-expired')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Peminjaman Expired') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'peminjaman-history' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-management-peminjaman-history')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Peminjaman History') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
       {{-- Add Books --}}
       {{-- <li class="nav-item {{ ($activeMainPage == 'books') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#add-books" aria-expanded="true">
@@ -133,24 +164,6 @@
           <span class="sidebar-normal">{{ __('Menajemen Peraturan') }} </span>
         </p>
       </a>
-     {{-- History --}}
-     <li class="nav-item {{ ($activeMainPage == 'history-orders') ? ' active' : '' }}">
-      <a class="nav-link" data-toggle="collapse" href="#history" aria-expanded="true">
-        <i class="material-icons">history</i>
-        <p>{{ __('History') }}
-          <b class="caret"></b>
-        </p>
-      </a>
-      <div class="collapse {{ ($activeMainPage == 'history-orders') ? ' show' : '' }}" id="history">
-        <ul class="nav">
-          <li class="nav-item{{ $activePage == 'orders' ? ' active' : '' }}">
-            <a class="nav-link" href="{{route('main-orders')}}">
-              <span class="sidebar-mini"> - </span>
-              <span class="sidebar-normal">{{ __('Riwayat Peminjaman') }} </span>
-            </a>
-          </li>
-        </ul>
-      </div>
     </li>
     </ul>
   </div>

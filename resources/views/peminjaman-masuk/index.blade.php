@@ -71,7 +71,7 @@
                     {{-- <input type="text" name="status" class="form-control" value="SUCCESS" readonly> --}}
                     <label>Pilih Status Peminjaman : </label><br>
                     <select required class="form-control" style="width: 100%" name="status">
-                        <option value="SUCCESS">SUCCESS</option>
+                        <option value="APPROVED">APPROVED</option>
                         <option value="CANCEL">CANCEL</option>
                         
                     </select>

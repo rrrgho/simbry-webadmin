@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Generator;
 use App\Http\Controllers\KritikSaranController;
 use App\Http\Controllers\ManagementPeraturan;
+use App\Http\Controllers\ManagementPeminjaman;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,6 +111,12 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('books-duplicate', [BooksController::class, 'booksDuplicate'])->name('duplicate-book');
         // Route::get('books-edit/{examplar}', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
+    });
+    Route::prefix('management-peminjaman')->group(function(){
+        Route::get('masuk', [ManagementPeminjaman::class, 'masuk'])->name('main-management-peminjaman-berjalan');
+        Route::get('expired', [ManagementPeminjaman::class, 'expired'])->name('main-management-peminjaman-expired');
+        // Route::get('expired-datatable', [ManagementPeminjaman::class, 'expiredDatatable'])->name('expired-datatable');
+        Route::get('history', [ManagementPeminjaman::class, 'history'])->name('main-management-peminjaman-history');
     });
     Route::prefix('order')->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
