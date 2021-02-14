@@ -7,19 +7,32 @@ use App\Models\BooksOrder;
 use App\Models\User;
 use Datatables;
 
+use Carbon\Carbon;
+
 class ManagementPeminjaman extends Controller
 {
     public function masuk(){
-        $data = BooksOrder::where('deleted_at',null)->get();
+        return $data = BooksOrder::where([
+            ['deleted_at',null],
+            ['status','APPROVED'],
+            ['end_date','>=',Carbon::now('Asia/Jakarta')]
+        ])->get();
         return view('management-peminjaman.peminjaman_berjalan', compact('data'));
     }
     public function expired(){
-        $data = BooksOrder::where('deleted_at',null)->get();
+        $data = $data = BooksOrder::where([
+            ['deleted_at',null],
+            ['status','APPROVED'],
+            ['end_date','<',Carbon::now('Asia/Jakarta')]
+        ])->get();
         return view('management-peminjaman.peminjaman_expired', compact('data'));
     }
 
     public function history(){
-        $data = BooksOrder::where('deleted_at',null)->get();
+        $data = BooksOrder::where([
+            ['deleted_at',null],
+            ['status','FINISHED']
+        ])->get();
         return view('management-peminjaman.history_peminjaman',compact('data'));
     }
 
