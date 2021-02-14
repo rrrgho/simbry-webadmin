@@ -25,7 +25,7 @@
                     <h3>Pengaturan Approved & Declined !!</h3>
                 </div>
                 <div class="card-body">
-                    <table class="ui celled table table-striped" id="data-peminjaman">
+                    <table class="ui celled table table-striped" id="peminjaman">
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
@@ -39,14 +39,12 @@
                         <tbody>
                             @foreach ($data as $item)
                             <tr>
-                                @if ($item->status == "PENDING")
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->user_id }}</td>
-                                    <td>{{ $item->book_id }}</td>
-                                    <td class="text-center"><button class="btn-danger">{{ $item->status }}</button></td>
-                                    <td class="text-center">{{ $item->created_at }}</td>
-                                    <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdOrder('{{ $item['id'] }}')" data-target="#editPeminjaman"><i class="fa fa-check"></i></button></td>
-                                @endif
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>{{ $item->user_id }}</td>
+                                <td class="text-center">{{ $item->book_id }}</td>
+                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</button></td>
+                                <td class="text-center">{{ $item->created_at }}</td>
+                                <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdOrder('{{ $item['id'] }}')" data-target="#editPeminjaman"><i class="fa fa-check"></i></button></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -77,8 +75,8 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
           </div>
@@ -89,10 +87,12 @@
 @section('script')
 <script>
     // Datatable
-    
-      // Id
       function setIdOrder(id){
             $('#id_order').val(id)
         }
+        
+        $(document).ready(function() {
+            $('#peminjaman').DataTable();
+        } );
     </script>
 @endsection

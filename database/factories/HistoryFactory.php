@@ -25,7 +25,7 @@ class HistoryFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween(5,11),
             'book_id' => $this->faker->numberBetween(5,11),
-            'status' => $this->faker->randomElement(["Success", "Pending"]),
+            'status' => $this->faker->randomElement(["APPROVED", "FINISHED"]),
         ];
     }
 }

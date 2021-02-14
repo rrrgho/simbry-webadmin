@@ -27,7 +27,7 @@
                 <h3>Peminjaman Berjalan Approved!!</h3>
             </div>
             <div class="card-body">
-                <table class="ui celled table table-striped">
+                <table class="ui celled table table-striped" id="data-masuk">
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
@@ -42,15 +42,13 @@
                     <tbody>
                         @foreach ($data as $item)
                             <tr>
-                                @if ($item->status == "APPROVED")
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->user->name }}</td>
-                                    <td>{{ $item->user->user_number }}</td>
-                                    <td class="text-center">{{ $item->user->user_type_id == 1 ?  'SISWA' : 'GURU' }}</td>
-                                    <td class="text-center">{{ $item->start_date }}</td>
-                                    <td class="text-center">{{ $item->end_date }}</td>
-                                    <td class="text-center"><button class="btn-danger">{{ $item->status }}</td> 
-                                @endif                           
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->user_number }}</td>
+                                <td class="text-center">{{ $item->user->user_type_id == 1 ?  'SISWA' : 'GURU' }}</td>
+                                <td class="text-center">{{ $item->start_date }}</td>
+                                <td class="text-center">{{ $item->end_date }}</td>
+                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>                         
                             </tr>
                         @endforeach
                     </tbody>
@@ -59,4 +57,11 @@
         </div>
     </div>    
 </div>
+@endsection
+@section('script')
+    <script>
+         $(document).ready(function() {
+            $('#data-masuk').DataTable();
+        } );
+    </script>
 @endsection

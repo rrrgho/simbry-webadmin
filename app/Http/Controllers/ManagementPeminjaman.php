@@ -4,21 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BooksOrder;
-use App\Models\User;
-use Datatables;
+use DataTables;
 
 use Carbon\Carbon;
 
 class ManagementPeminjaman extends Controller
 {
     public function masuk(){
-        return $data = BooksOrder::where([
+        $data = BooksOrder::where([
             ['deleted_at',null],
             ['status','APPROVED'],
             ['end_date','>=',Carbon::now('Asia/Jakarta')]
         ])->get();
         return view('management-peminjaman.peminjaman_berjalan', compact('data'));
     }
+    
     public function expired(){
         $data = $data = BooksOrder::where([
             ['deleted_at',null],
