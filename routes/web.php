@@ -140,6 +140,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     });
     Route::get('/kritik',[KritikSaranController::class, 'kritik_saran'])->name('main-kritik-saran');
     Route::get('kritik-datatable',[KritikSaranController::class, 'kritik_datatable'])->name('kritik-saran-datatable');
+    Route::prefix('logactivity')->group(function(){
+    });
 });
 // Route Midleware User
 Route::middleware([UserMiddleware::class])->group(function(){
