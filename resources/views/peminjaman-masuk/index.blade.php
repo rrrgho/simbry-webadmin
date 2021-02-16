@@ -30,7 +30,7 @@
                             <tr class="text-center">
                                 <th>#</th>
                                 <th>NIP</th>
-                                <th>Nomor Buku</th>
+                                <th>Nama Buku</th>
                                 <th>Status</th>
                                 <th>Created_at</th>
                                 <th>Action</th>
@@ -40,8 +40,8 @@
                             @foreach ($data as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td>{{ $item->user_id }}</td>
-                                <td class="text-center">{{ $item->book_id }}</td>
+                                <td class="text-center">{{ $item->user->user_number }}</td>
+                                <td>{{ $item->book->name }}</td>
                                 <td class="text-center"><button class="btn-danger">{{ $item->status }}</button></td>
                                 <td class="text-center">{{ $item->created_at }}</td>
                                 <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdOrder('{{ $item['id'] }}')" data-target="#editPeminjaman"><i class="fa fa-check"></i></button></td>
