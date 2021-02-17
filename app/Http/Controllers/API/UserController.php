@@ -20,10 +20,11 @@ class UserController extends Controller
                 $data['token'] = $user->createToken('nApp')->accessToken;
                 $data['id'] = $user->id;
                 $data['user_number'] = $user->user_number;
+                $data['name'] = $user->name;
                 return response()->json(['error' => false, 'message' => 'Login success !', 'data' => $data], 200);
             }
-            return response()->json(['error' => true, 'message' => 'Password is wrong'], 401);
+            return response()->json(['error' => true, 'message' => 'Password is wrong'], 200);
         }
-        return response()->json(['error' => true, 'message' => 'Username not found !'], 401);
+        return response()->json(['error' => true, 'message' => 'Username not found !'], 200);
     }        
 }
