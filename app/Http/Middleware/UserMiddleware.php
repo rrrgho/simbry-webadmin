@@ -16,7 +16,7 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->user_type_id == 1){
+        if(auth()->user()->user_type_id < 3){
             return $next($request);
         }
         return redirect('user')->with('error',"You don't have user access.");
