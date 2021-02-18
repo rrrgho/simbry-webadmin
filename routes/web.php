@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
@@ -131,16 +132,13 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('peminjaman-masuk', [OrderController::class , 'peminjaman'])->name('main-peminjaman-masuk');
         Route::post('approved' , [OrderController::class, 'approved'])->name('approved');
     });
-    // Order History
-    Route::prefix('history')->group(function(){
-        // 
-        Route::get('/', [HistoryController::class, 'orders'])->name('main-orders');
-        Route::get('history-datatable', [HistoryController::class, 'historyDatatable'])->name('history-datatable');
-        Route::get('filter', [HistoryController::class, 'filter'])->name('filter');
-    });
+
+    
     Route::get('/kritik',[KritikSaranController::class, 'kritik_saran'])->name('main-kritik-saran');
     Route::get('kritik-datatable',[KritikSaranController::class, 'kritik_datatable'])->name('kritik-saran-datatable');
-    Route::prefix('logactivity')->group(function(){
+    Route::post('kritik-delete', [KritikSaranController::class, 'kritikDelete'])->name('kritik-delete');
+    Route::prefix('activity')->group(function(){
+        Route::get('log', [ActivityController::class, 'log'])->name('main-activity-log');
     });
 });
 // Route Midleware User

@@ -5,12 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Books;
 use App\Models\BooksOrder;
+use App\Models\KritikSaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
+use DateTime;
+use Illuminate\Console\Scheduling\Event;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +29,9 @@ class UserController extends Controller
                 $data['token'] = $user->createToken('nApp')->accessToken;
                 $data['id'] = $user->id;
                 $data['user_number'] = $user->user_number;
+                $user->update([
+                    'last_login_at' => Carbon::now()->toDateTimeString(),
+                ]);
                 return response()->json(['error' => false, 'message' => 'Login success !', 'data' => $data], 200);
             }
             return response()->json(['error' => true, 'message' => 'Password is wrong'], 401);
@@ -68,5 +74,32 @@ class UserController extends Controller
         return response()->json([
             'error' => false, 'message' => 'Permohonam peminjaman sedang diproses oleh Admin, cek sekala berkala status peminjaman anda !'
         ], 200);
+    }
+    public function historybook(){
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->get();
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            if($data)
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+        }
+
+    }
+    public function kritik(Request $request){
+        $data = KritikSaran::where('deleted_at',null)->first();
+        if(!$request->all())
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        else{ 
+            $data = KritikSaran::create([
+                'user_id' => Auth::guard('api')->user()->id,
+                'deskripsi' => $data->deskripsi,
+            ]);
+            if($data)
+                return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
+            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);      
+        }
+        
     }
 }

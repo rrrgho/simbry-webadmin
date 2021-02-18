@@ -165,6 +165,14 @@
         </p>
       </a>
     </li>
+    <li class="nav-item {{ ($activePage == 'activity') ? ' active' : '' }}">
+      <a class="nav-link" href="{{ route('main-activity-log') }}">
+        <i class="material-icons">donut_large</i>
+          <span class="sidebar-mini"></span>
+          <span class="sidebar-normal">{{ __('Activtylog') }} </span>
+        </p>
+      </a>
+    </li>
     </ul>
   </div>
 </div>
