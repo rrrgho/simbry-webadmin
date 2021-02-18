@@ -30,6 +30,7 @@ Route::namespace('API')->group(function(){
     Route::post('user-login', [UserController::class, 'Login']);
     Route::middleware('auth:api')->group(function(){
         Route::get('book-data', [BooksController::class, 'bookData']);
+        Route::get('book-detail/{id}', [BooksController::class, 'bookDetail']);
         Route::post('order-book', [UserController::class, 'orderBook']);
     });
 });
