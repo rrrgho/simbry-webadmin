@@ -43,8 +43,13 @@ class UserController extends Controller
         // Validasi
         $validated = $request->validate([
             'book_id' => ['required'],
+            'user_id' => ['required|min:2']
         ]);
-
+        $userType = Auth::guard('api')->user()->user_type_id;
+        $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
+        if (($userType == 1 && $unfinishedOrder > 2) || ($userType == 2 && $unfinishedOrder > 3))  {
+            return response()->json(['mg' => 'melebihi batas']);
+        } 
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
         
         if (!$data) {
@@ -56,6 +61,7 @@ class UserController extends Controller
                 $userType = Auth::guard('api')->user()->user_type_id;
                 if ($userType == 1) {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
+                    
                 } else {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
                 }
