@@ -16,20 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\History::factory(100)->create();
-        // $this->call([
-        //     HistorySeeder::class,
-        // ]);
-        $faker = Faker::create();
-        foreach(range(1,20) as $index)
-        {
-            DB::table('book_order')->insert([
-                'user_id' => $faker->user_id,
-                'book_id' => $faker->book_id,
-                'status' => $faker->status,
-                'created_at' => $faker->dateTimeBetween('-6 month','+1 month')
-            ]);
-        }
+        $this->call([
+            UserSeeder::class,
+        ]);
+        // $faker = Faker::create();
+        // foreach(range(1,20) as $index)
+        // {
+        //     DB::table('book_order')->insert([
+        //         'user_id' => $faker->user_id,
+        //         'book_id' => $faker->book_id,
+        //         'status' => $faker->status,
+        //         'created_at' => $faker->dateTimeBetween('-6 month','+1 month')
+        //     ]);
+        // }
 
     }
 }

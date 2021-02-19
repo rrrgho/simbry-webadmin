@@ -157,14 +157,14 @@
         </a>
       </li>
     {{-- Manajemen Peraturan --}}
-    <li class="nav-item {{ ($activePage == 'management-peraturan') ? ' active' : '' }}">
+    {{-- <li class="nav-item {{ ($activePage == 'management-peraturan') ? ' active' : '' }}">
       <a class="nav-link" href="{{ route('main-management-peraturan') }}">
         <i class="material-icons">contactless</i>
           <span class="sidebar-mini"></span>
           <span class="sidebar-normal">{{ __('Menajemen Peraturan') }} </span>
         </p>
       </a>
-    </li>
+    </li> --}}
     <li class="nav-item {{ ($activePage == 'activity') ? ' active' : '' }}">
       <a class="nav-link" href="{{ route('main-activity-log') }}">
         <i class="material-icons">donut_large</i>

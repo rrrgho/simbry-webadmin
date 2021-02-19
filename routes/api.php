@@ -28,7 +28,7 @@ Route::get('migrate_unit', [MigrationController::class, 'migrateClassUnit']);
 
 
 Route::namespace('API')->group(function(){
-    Route::post('user-login', [UserController::class, 'Login']);
+    Route::post('login', [UserController::class, 'Login']);
     Route::middleware('auth:api')->group(function(){
         Route::post('order-book', [UserController::class, 'orderBook']);
         Route::post('history-user', [UserController::class, 'historybook']);

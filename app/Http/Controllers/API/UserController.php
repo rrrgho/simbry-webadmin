@@ -94,18 +94,12 @@ class UserController extends Controller
 
     }
     public function kritik(Request $request){
-        $data = KritikSaran::where('deleted_at',null)->first();
-        if(!$request->all())
-            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
-        else{ 
-            $data = KritikSaran::create([
-                'user_id' => Auth::guard('api')->user()->id,
-                'deskripsi' => $data->deskripsi,
-            ]);
-            if($data)
-                return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
-            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);      
-        }
-        
+        $data = KritikSaran::create([
+            'user_id' => Auth::guard('api')->user()->id,
+            'deskripsi' => $request->deskripsi,
+        ]);
+        if($data)
+            return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);     
     }
 }
