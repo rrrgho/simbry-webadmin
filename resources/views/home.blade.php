@@ -18,9 +18,9 @@
           <div class="card-icon">
             <i class="material-icons">content_copy</i>
           </div>
-          <p class="card-category">Used Space</p>
-          <h3 class="card-title">49/50
-            <small>GB</small>
+          <p class="card-category">Total Guru & Murid</p>
+          <h3 class="card-title">{{ $data }}
+            <small>Orang</small>
           </h3>
         </div>
         <div class="card-footer">

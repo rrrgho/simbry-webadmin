@@ -10,9 +10,9 @@
               <div class="card-icon">
                 <i class="material-icons">content_copy</i>
               </div>
-              <p class="card-category">Used Space</p>
-              <h3 class="card-title">49/50
-                <small>GB</small>
+              <p class="card-category">Total Guru & Murid</p>
+              <h3 class="card-title">{{ $data }}
+                <small>Orang</small>
               </h3>
             </div>
             <div class="card-footer">
@@ -27,10 +27,10 @@
           <div class="card card-stats">
             <div class="card-header card-header-success card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">store</i>
+                <i class="material-icons">shopping_cart</i>
               </div>
-              <p class="card-category">Revenue</p>
-              <h3 class="card-title">$34,245</h3>
+              <p class="card-category">Pemesanan Approved</p>
+              <h3 class="card-title">{{ $approved }}</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -43,10 +43,10 @@
           <div class="card card-stats">
             <div class="card-header card-header-danger card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">info_outline</i>
+                <i class="material-icons">shopping_cart</i>
               </div>
-              <p class="card-category">Fixed Issues</p>
-              <h3 class="card-title">75</h3>
+              <p class="card-category">Pemesanan Pending</p>
+              <h3 class="card-title">{{ $pending }}</h3>
             </div>
             <div class="card-footer">
               <div class="stats">

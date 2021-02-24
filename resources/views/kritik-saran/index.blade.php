@@ -31,7 +31,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="50">#</th>
-                                <th>Nomor Induk Murid</th>
+                                <th>Id Murid</th>
                                 <th>Deskripsi</th>
                                 <th width="100px">Created At</th>
                             </tr>
@@ -46,12 +46,13 @@
 @section('script')
     <script>
         // Datatable
+
         $(function(){
         $('#data-kritik-saran').DataTable({
             ajax: '{{route('kritik-saran-datatable')}}',
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'id_user', name: 'id_user'},
+                { data: 'user_id', name: 'user_id'},
                 { data: 'deskripsi', name: 'deskripsi'},
                 { data: 'created_at', name: 'created_at'},
             ],

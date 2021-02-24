@@ -20,15 +20,27 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $dates = [
+        'updated_at',
+        'created_at',
+        'deleted_at',
+        'email_verified_at',
+        'last_login_at',
+    ];
     protected $fillable = [
         'name',
         'user_number',
         'class_id',
         'user_type_id',
         'password',
+        'last_login_at',
     ];
 
     public function order(){
         return $this->hasMany(BooksOrder::class);
     }
+    public function kritik(){
+        return $this->hasMany(KritikSaran::class);
+    }
+    
 }

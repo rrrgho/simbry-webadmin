@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +16,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\History::factory(100)->create();
-        $this->call([
-            HistorySeeder::class,
-        ]);
+        // \App\Models\History::factory(100)->create();
+        // $this->call([
+        //     HistorySeeder::class,
+        // ]);
+        $faker = Faker::create();
+        foreach(range(1,20) as $index)
+        {
+            DB::table('book_order')->insert([
+                'user_id' => $faker->user_id,
+                'book_id' => $faker->book_id,
+                'status' => $faker->status,
+                'created_at' => $faker->dateTimeBetween('-6 month','+1 month')
+            ]);
+        }
+
     }
 }

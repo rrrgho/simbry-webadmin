@@ -10,4 +10,8 @@ class KritikSaran extends Model
     use HasFactory;
     protected $table = "saran";
     protected $guarded = [];
+    public function GetUser(){
+        return $this->belongsTo(User::class);
+    }
+    
 }

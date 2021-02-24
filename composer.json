@@ -9,14 +9,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "consoletvs/charts": "7.*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/passport": "^10.0",
-        "lcobucci/jwt": "^3.3.3",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "laraveldaily/laravel-charts": "^0.1.25",
+        "lcobucci/jwt": "^3.3.3",
+        "predis/predis": "^1.1",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-permission": "^4.0",
         "yajra/laravel-datatables-oracle": "~9.0"
