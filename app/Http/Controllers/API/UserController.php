@@ -45,8 +45,13 @@ class UserController extends Controller
         // Validasi
         $validated = $request->validate([
             'book_id' => ['required'],
+            'user_id' => ['required|min:2']
         ]);
-
+        $userType = Auth::guard('api')->user()->user_type_id;
+        $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
+        if (($userType == 1 && $unfinishedOrder > 2) || ($userType == 2 && $unfinishedOrder > 3))  {
+            return response()->json(['mg' => 'melebihi batas']);
+        } 
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
         
         if (!$data) {
@@ -58,6 +63,7 @@ class UserController extends Controller
                 $userType = Auth::guard('api')->user()->user_type_id;
                 if ($userType == 1) {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
+                    
                 } else {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
                 }
@@ -90,18 +96,12 @@ class UserController extends Controller
 
     }
     public function kritik(Request $request){
-        $data = KritikSaran::where('deleted_at',null)->first();
-        if(!$request->all())
-            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
-        else{ 
-            $data = KritikSaran::create([
-                'user_id' => Auth::guard('api')->user()->id,
-                'deskripsi' => $data->deskripsi,
-            ]);
-            if($data)
-                return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
-            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);      
-        }
-        
+        $data = KritikSaran::create([
+            'user_id' => Auth::guard('api')->user()->id,
+            'deskripsi' => $request->deskripsi,
+        ]);
+        if($data)
+            return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);     
     }
 }

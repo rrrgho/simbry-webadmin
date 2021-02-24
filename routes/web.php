@@ -129,10 +129,10 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
     });
-    Route::prefix('manajemen-peraturan')->group(function(){
-        Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
-        Route::post('edit-peraturan', [ManagementPeraturan::class, 'edit'])->name('main-peraturan');
-    });
+    // Route::prefix('manajemen-peraturan')->group(function(){
+    //     Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
+    //     Route::post('edit-peraturan', [ManagementPeraturan::class, 'edit'])->name('main-peraturan');
+    // });
     Route::prefix('peminjaman-masuk')->group(function(){
         Route::get('peminjaman-masuk', [OrderController::class , 'peminjaman'])->name('main-peminjaman-masuk');
         Route::post('approved' , [OrderController::class, 'approved'])->name('approved');

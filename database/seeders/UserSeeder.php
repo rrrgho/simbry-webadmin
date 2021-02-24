@@ -14,12 +14,18 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        for($i=1; $i<=3; $i++)
+        // for($i=1; $i<=3; $i++){}
+        //     User::create([
+        //         'user_number' => '000'.$i,
+        //         'user_type_id' => $i,
+        //         'password' => bcrypt('000'.$i),
+        //         'name' => $i == 1 ? "Mahasiswa" : $i == 2 ? "Guru" : "Admin",
+        //     ]);
             User::create([
-                'user_number' => '000'.$i,
-                'user_type_id' => $i,
-                'password' => bcrypt('000'.$i),
-                'name' => $i == 1 ? "Mahasiswa" : $i == 2 ? "Guru" : "Admin",
+                'user_number' => '0003',
+                'user_type_id' => '3',
+                'password' => bcrypt('admin'),
+                'name' => 'admin',
             ]);
     }
 }
