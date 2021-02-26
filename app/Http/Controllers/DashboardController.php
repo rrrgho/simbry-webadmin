@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $approved = BooksOrder::where('status','APPROVED')->count();
         $pending = BooksOrder::where('status','PENDING')->count();
         $finished = BooksOrder::where('status','FINISHED')->count();
-        $book = Books::all()->count();
+        $book = Books::where('ready', 1)->count();
         $number_blocks = [
             [
                 'title' => 'Users Logged In Today',

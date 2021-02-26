@@ -10,4 +10,8 @@ class ClassModel extends Model
     use HasFactory;
     protected $table = 'class';
     protected $guarded = [];
+    public function User()
+    {
+        return $this->belongsTo(User::class,'name');
+    }
 }
