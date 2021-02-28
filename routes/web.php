@@ -122,7 +122,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('masuk', [ManagementPeminjaman::class, 'masuk'])->name('main-management-peminjaman-berjalan');
         // Route::get('masuk-datatable', [ManagementPeminjaman::class, 'masukDatatable'])->name('masuk-datatable');
         Route::get('expired', [ManagementPeminjaman::class, 'expired'])->name('main-management-peminjaman-expired');
-        // Route::get('expired-datatable', [ManagementPeminjaman::class, 'expiredDatatable'])->name('expired-datatable');
+        Route::post('finished' , [ManagementPeminjaman::class, 'finished'])->name('finished');
         Route::get('history', [ManagementPeminjaman::class, 'history'])->name('main-management-peminjaman-history');
     });
     Route::prefix('order')->group(function(){

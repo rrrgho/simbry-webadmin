@@ -30,12 +30,17 @@ Route::get('migrate_unit', [MigrationController::class, 'migrateClassUnit']);
 
 Route::namespace('API')->group(function(){
     Route::post('login', [UserController::class, 'Login']);
+    Route::post('announcement', [UserController::class, 'announcement']);
+    Route::post('rating', [UserController::class, 'rating']);
     Route::middleware('auth:api')->group(function(){
         Route::get('book-data', [BooksController::class, 'bookData']);
         Route::post('search-book', [BooksController::class, 'bookSearch']);
         Route::get('book-detail/{id}', [BooksController::class, 'bookDetail']);
         Route::post('order-book', [UserController::class, 'orderBook']);
         Route::post('history-user', [UserController::class, 'historybook']);
+        Route::post('order', [UserController::class, 'orderBook']);
+        Route::post('history', [UserController::class, 'historybook']);
         Route::post('kritik',[UserController::class, 'kritik']);
+        Route::post('notifikasi',[UserController::class, 'notifikasi']);
     });
 });

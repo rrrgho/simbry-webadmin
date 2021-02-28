@@ -49,9 +49,10 @@ class UserController extends Controller
         ]);
         $userType = Auth::guard('api')->user()->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
-        if (($userType == 1 && $unfinishedOrder > 2) || ($userType == 2 && $unfinishedOrder > 3))  {
-            return response()->json(['mg' => 'melebihi batas']);
+        if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
+            return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         } 
+        
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
         
         if (!$data) {
@@ -60,6 +61,7 @@ class UserController extends Controller
         try {
             DB::transaction(function () use ($data) {
                 $data->ready = false;
+                $data->borrowed = $data['borrowed'] + 1;
                 $userType = Auth::guard('api')->user()->user_type_id;
                 if ($userType == 1) {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
@@ -84,7 +86,7 @@ class UserController extends Controller
         ], 200);
     }
     public function historybook(){
-        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->paginate(1);
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->orderBy('created_at','DESC')->paginate(10);
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
@@ -103,5 +105,18 @@ class UserController extends Controller
         if($data)
             return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);     
+    }
+    public function rating(Request $request)
+    {
+        $data = Books::orderBy('borrowed', 'DESC')->take(10)->get();     
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            if($data)
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+        }
+
     }
 }

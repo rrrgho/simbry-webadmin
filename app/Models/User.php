@@ -42,5 +42,9 @@ class User extends Authenticatable
     public function kritik(){
         return $this->hasMany(KritikSaran::class);
     }
+    public function class()
+    {
+        return $this->hasMany(ClassModel::class,'name');
+    }
     
 }
