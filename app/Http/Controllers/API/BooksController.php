@@ -23,4 +23,8 @@ class BooksController extends Controller
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
     }
+    public function bookSearch(Request $request){
+        $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(50);
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+    }
 }

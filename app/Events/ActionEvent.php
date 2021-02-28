@@ -39,7 +39,6 @@ class ActionEvent
         return [
             'actionId' => $this->actionId,    
             'actionData' => $this->actionData,
-
         ];
     }
 }
