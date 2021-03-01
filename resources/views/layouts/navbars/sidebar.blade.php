@@ -94,6 +94,15 @@
           </ul>
         </div>
       </li>
+      {{-- Tambah Peminjaman Siswa --}}
+      {{-- <li class="nav-item {{ ($activePage == 'peminjaman-siswa') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('main-peminjaman-siswa') }}">
+          <i class="material-icons">bookmark_add</i>
+            <span class="sidebar-mini"></span>
+            <span class="sidebar-normal">{{ __('Tambah Peminjaman') }} </span>
+          </p>
+        </a>
+      </li> --}}
       {{-- Management Peminjamman --}}
       <li class="nav-item {{ ($activeMainPage == 'management-peminjaman') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#management-peminjaman" aria-expanded="true">
@@ -165,14 +174,14 @@
         </p>
       </a>
     </li> --}}
-    <li class="nav-item {{ ($activePage == 'activity') ? ' active' : '' }}">
+    {{-- <li class="nav-item {{ ($activePage == 'activity') ? ' active' : '' }}">
       <a class="nav-link" href="{{ route('main-activity-log') }}">
         <i class="material-icons">donut_large</i>
           <span class="sidebar-mini"></span>
           <span class="sidebar-normal">{{ __('Activtylog') }} </span>
         </p>
       </a>
-    </li>
+    </li> --}}
     </ul>
   </div>
 </div>

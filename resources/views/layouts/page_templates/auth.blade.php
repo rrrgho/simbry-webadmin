@@ -11,7 +11,7 @@
     </div>
     @include('layouts.footers.auth')
   </div>
-  {{-- <div class="box-peminjaman">
+  <div class="box-peminjaman">
     <div class="navigator">
       <i class="fa fa-shopping-cart"></i>
     </div>
@@ -21,6 +21,6 @@
     <div class="pengembalian d-none">
       <i class="fa fa-sign-out"></i>
     </div>
-  </div> --}}
+  </div>
 </div>
 

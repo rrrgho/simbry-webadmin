@@ -128,12 +128,15 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     //     Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
     //     Route::post('edit-peraturan', [ManagementPeraturan::class, 'edit'])->name('main-peraturan');
     // });
+    // Peminjaman Tambah
+    // Route::get('add-peminjaman', [OrderController::class, 'Order'])->name('main-peminjaman-siswa');
+    // Route::post('add-peminjaman', [OrderController::class, 'Order']);
+    // Route::post('add-peminjaman', [OrderController::class, 'addOrder'])->name('peminjaman-siswa');
     Route::prefix('peminjaman-masuk')->group(function(){
         Route::get('peminjaman-masuk', [OrderController::class , 'peminjaman'])->name('main-peminjaman-masuk');
         Route::post('approved' , [OrderController::class, 'approved'])->name('approved');
     });
 
-    
     Route::get('/kritik',[KritikSaranController::class, 'kritik_saran'])->name('main-kritik-saran');
     Route::get('kritik-datatable',[KritikSaranController::class, 'kritik_datatable'])->name('kritik-saran-datatable');
     Route::post('kritik-delete', [KritikSaranController::class, 'kritikDelete'])->name('kritik-delete');

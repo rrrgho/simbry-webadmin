@@ -165,7 +165,6 @@
                             <div class="col-12">
                                 <label for="">Pilih Buku</label>
                                 <input type="text" name="book_id" class="form-control">
-                            </div>
                             <div class="col-12 mt-3">
                                 <label class="label-control">Tanggal Pengembalian</label>
                                 <input type="text" name="end_date" autocomplete="off" class="form-control"

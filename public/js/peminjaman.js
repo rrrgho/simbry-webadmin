@@ -1,4 +1,5 @@
 let user_number;
+let book_id;
 $('#btn-check-user').click(function(){
     $.ajax({
         url: $('#route-check').val(),
@@ -33,3 +34,25 @@ $('#form-pinjam-buku').submit(function(event){
         }
     })
 })
+$('.livesearchBuku').select2({
+    placeholder: 'Pilih Buku',
+    ajax: {
+        url: 'new-order',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.name,
+                        id: item.id
+                    }
+                })
+            };
+        },
+        cache: true
+    }
+});
+$( function() {
+    $( "#datepicker" ).datepicker();
+  } );

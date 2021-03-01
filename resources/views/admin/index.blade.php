@@ -69,7 +69,7 @@
           <div class="card-icon">
             <i class="material-icons">book</i>
           </div>
-          <p class="card-category">Total Buku</p>
+          <p class="card-category">Total Buku Tersedia</p>
           <h3 class="card-title">{{ $book }}</h3>
         </div>
         <div class="card-footer">
