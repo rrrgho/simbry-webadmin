@@ -29,15 +29,17 @@ class UserController extends Controller
                 $data['token'] = $user->createToken('nApp')->accessToken;
                 $data['id'] = $user->id;
                 $data['user_number'] = $user->user_number;
+                $data['name'] = $user->name;
                 $user->update([
                     'last_login_at' => Carbon::now()->toDateTimeString(),
                 ]);
                 return response()->json(['error' => false, 'message' => 'Login success !', 'data' => $data], 200);
             }
-            return response()->json(['error' => true, 'message' => 'Password is wrong'], 401);
+            return response()->json(['error' => true, 'message' => 'Password is wrong'], 200);
         }
-        return response()->json(['error' => true, 'message' => 'Username not found !'], 401);
-    }
+        return response()->json(['error' => true, 'message' => 'Username not found !'], 200);
+    }        
+      
     public function orderBook(Request $request)
     {
         // Validasi
@@ -48,7 +50,7 @@ class UserController extends Controller
         $userType = Auth::guard('api')->user()->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
-            return response()->json(['mg' => 'melebihi batas']);
+            return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         } 
         
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
@@ -84,7 +86,7 @@ class UserController extends Controller
         ], 200);
     }
     public function historybook(){
-        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->get();
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->orderBy('created_at','DESC')->paginate(10);
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }

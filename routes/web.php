@@ -36,6 +36,11 @@ Route::get('welcome',[BooksStudentController::class, 'welcome'])->name('welcome'
 Route::get('login', [AuthController::class, 'Login'])->name('login');
 Route::post('login', [AuthController::class, 'Login'])->name('login');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
+
+Route::middleware('cors')->group(function(){
+
+    Route::get('socket.io',[AuthController::class, 'Redis']);
+});
 // Route Midleware Admin
 
 Route::middleware([AdminMiddleware::class])->group(function(){
