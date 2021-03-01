@@ -227,7 +227,7 @@
                         url :'{{route('student-datatable')}}',
                     },
                     columns: [
-                        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                        // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                         { data: 'name', name: 'name'},
                         { data: 'user_number', name: 'user_number'},
                         { data: 'class_id', name: 'class_id'},
@@ -245,7 +245,7 @@
                     },   
                     columnDefs:[
                         {
-                            "targets" : [0,2,3,4,5],
+                            "targets" : [1,2,3,4],
                             "className": "text-center"
                         },
                     ],            

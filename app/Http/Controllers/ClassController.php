@@ -44,10 +44,9 @@ class ClassController extends Controller
     }
     // Student Datatable
     public function studentDatatable(){
-        $data = User::where('deleted_at',null)->where('user_type_id',1)->get();
+        $data = User::query()->where('deleted_at',null)->where('user_type_id',1);
 
-        return Datatables::of($data)
-        ->addIndexColumn()
+        return Datatables::eloquent($data)
         ->addColumn('action', function($data){
             $delete_link = "'".url('books-management/category-delete/'.$data['id'])."'";
             $delete_message = "'This cannot be undo'";
@@ -59,6 +58,9 @@ class ClassController extends Controller
         })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
+        })
+        ->addColumn('class_id', function($data){
+            return $data->class_relation['name'];
         })
         ->rawColumns(['action'])
         ->make(true);

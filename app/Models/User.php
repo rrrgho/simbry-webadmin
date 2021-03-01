@@ -36,6 +36,10 @@ class User extends Authenticatable
         'last_login_at',
     ];
 
+    public function class_relation(){
+        return $this->belongsTo(ClassModel::class, 'class_id', 'id');
+    }
+
     public function order(){
         return $this->hasMany(BooksOrder::class);
     }

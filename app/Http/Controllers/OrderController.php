@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Books;
 use App\Models\BooksOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 // Call Model
 use App\Models\User;
@@ -25,10 +27,49 @@ class OrderController extends Controller
         return response()->json(['error' => true, 'message' => 'tidak ada data'], 200);
     }
     public function NewOrder(Request $request){
-        $book = Books::where('deleted_at',null)->get();
-        return view('layouts.page_templates.auth', compact('book'));
-        // return response()->json($book);
-        // return $request->all();
+        // Validasi
+        $validated = $request->validate([
+            'book_number' => ['required'],
+            'user_id' => ['required']
+        ]);
+        $book_id = Books::select('id')->where('book_number', $validated['book_number'])->first();
+        $userType = User::find($validated['user_id'])->user_type_id;
+        $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
+        if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
+            return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
+        } 
+        
+        $data = Books::where('id', $book_id)->where('ready',true)->first();
+        
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        try {
+            DB::transaction(function () use ($data, $validated) {
+                $data[0]->ready = false;
+                $data[0]->borrowed = $data[0]['borrowed'] + 1;
+                $userType = User::find($validated['user_id'])->user_type_id;
+                if ($userType == 1) {
+                    $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
+                    
+                } else {
+                    $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
+                }
+                BooksOrder::create([
+                    'user_id' => User::find($validated['user_id'])->id,
+                    'book_id' => $data[0]->id,
+                    'status' => 'PENDING',
+                    'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
+                    'end_date' => $endDate
+                ]);
+                $data[0]->save();
+            });
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e], 200);
+        }
+        return response()->json([
+            'error' => false, 'message' => 'Permohonam peminjaman sedang diproses oleh Admin, cek sekala berkala status peminjaman anda !'
+        ], 200);
     }
     public function Order(Request $request)
     {

@@ -163,13 +163,8 @@
                         <div class="row mt-3">
                             <input type="hidden" id="route-pinjam" value="{{ route('new-order') }}">
                             <div class="col-12">
-                                <label for="">Pilih Buku</label>
-                                <input type="text" name="book_id" class="form-control">
-                            <div class="col-12 mt-3">
-                                <label class="label-control">Tanggal Pengembalian</label>
-                                <input type="text" name="end_date" autocomplete="off" class="form-control"
-                                    id="datepicker" placeholder="21/06/2018" />
-                            </div>
+                                <label for="">Nomor induk Buku</label>
+                                <input type="text" name="book_number" id="book_number" class="form-control">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success btn-block" id="btn-pinjam"
                                     disabled>Proses</button>

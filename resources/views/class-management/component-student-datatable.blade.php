@@ -1,7 +1,6 @@
 <table id="student-datatable" class="table ui celled table-striped">
     <thead>
         <tr class="text-center">
-            <th>#</th>
             <th>Nama</th>
             <th>Nomor Induk Siswa</th>
             <th>Kelas</th>

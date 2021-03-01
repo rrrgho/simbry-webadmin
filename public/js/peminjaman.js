@@ -1,5 +1,5 @@
 let user_number;
-let book_id;
+let book_number = $('#book_number').val();
 $('#btn-check-user').click(function(){
     $.ajax({
         url: $('#route-check').val(),
@@ -25,12 +25,26 @@ $('#form-pinjam-buku').submit(function(event){
     event.preventDefault()
     var formData = new FormData(this)
     formData.append('user_id', user_number)
+    formData.append('book_number', $('#book_number').val())
     $.ajax({
         url: $('#route-pinjam').val(),
         type: 'POST', cache: false, contentType: false, processData: false,
         data: formData,
         success:function(response){
-            console.log(response)
+            if(response.error == false){
+                swal("Good job!", response.message, "success");
+                setTimeout(() => {
+                    location.reload()
+                },500)
+            }else{
+                swal({
+                    title: "Maaf??",
+                    text: 'Buku ini sudah tidak tersedia',
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+            }
         }
     })
 })

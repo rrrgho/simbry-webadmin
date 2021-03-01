@@ -107,7 +107,7 @@
       <li class="nav-item {{ ($activeMainPage == 'management-peminjaman') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#management-peminjaman" aria-expanded="true">
           <i class="material-icons">book</i>
-          <p>{{ __('Manajemen Peminjaman') }}
+          <p>{{ __('Peminjaman') }}
             <b class="caret"></b>
           </p>
         </a>
