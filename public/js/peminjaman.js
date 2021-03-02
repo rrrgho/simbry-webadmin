@@ -39,7 +39,7 @@ $('#form-pinjam-buku').submit(function(event){
             }else{
                 swal({
                     title: "Maaf??",
-                    text: 'Buku ini sudah tidak tersedia',
+                    text: response.message,
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

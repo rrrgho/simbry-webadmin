@@ -39,9 +39,9 @@ class OrderController extends Controller
             return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         } 
         
-        $data = Books::where('id', $book_id)->where('ready',true)->first();
+        $data = Books::find($book_id);
         
-        if (!$data) {
+        if (!$data[0]['ready']) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
         try {
