@@ -113,7 +113,6 @@ class OrderController extends Controller
             $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
         }
         $data = BooksOrder::find($request->id);
-        dd($data);
         // return $data;
         $data->status = $request->status;
         $data->start_date = Carbon::now('Asia/Jakarta')->toDateTimeString();
