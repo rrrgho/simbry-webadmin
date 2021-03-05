@@ -57,6 +57,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('add-student', [ClassController::class, 'addStudent'])->name('add-student');
         Route::post('edit-student', [ClassController::class, 'editStudent'])->name('edit-student');
         Route::post('delete-student', [ClassController::class, 'deleteStudent'])->name('delete-student');
+        Route::get('migrasi-class', [ClassController::class, 'migrasiClass'])->name('migrasi-class');
         // Class Data Teacher
         Route::get('/teacher', [ClassController::class , 'teacher'])->name('main-teacher-management');
         Route::get('teacher-datatable',[ClassController::class, 'teacherDatatable'])->name('teacher-datatable');
@@ -125,9 +126,13 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('finished' , [ManagementPeminjaman::class, 'finished'])->name('finished');
         Route::get('history', [ManagementPeminjaman::class, 'history'])->name('main-management-peminjaman-history');
     });
+    Route::get('pemulangan',[OrderController::class, 'pemulangan'])->name('main-pemulangan-buku');
+    Route::post('pemulangan',[OrderController::class, 'savePemulangan'])->name('main-pemulangan-buku');
+    Route::get('get-book-user',[OrderController::class, 'getBookByUserId'])->name('main-getBookByUserId-buku');
     Route::prefix('order')->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
+        Route::post('pemulangan', [OrderController::class, 'pemulangan'])->name('pemulangan');
     });
     // Route::prefix('manajemen-peraturan')->group(function(){
     //     Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');

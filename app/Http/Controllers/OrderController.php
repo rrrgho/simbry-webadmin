@@ -26,6 +26,68 @@ class OrderController extends Controller
             return response()->json(['error' => false, 'message' => 'Success', 'data' => $data], 200);
         return response()->json(['error' => true, 'message' => 'tidak ada data'], 200);
     }
+    public function pemulangan(Request $request)
+    {
+        $data = User::has('order')->get();
+        return view('pemulangan.index',compact('data'));
+    }
+
+    public function savePemulangan(Request $request)
+    {
+        $data = $request->validate([
+            'user_number' => ['required'],
+            'book_number' => ['required']
+        ]);
+        $user = User::where('user_number', $data['user_number'])->first();
+        if (!$user) {
+            return redirect()->back()->with('success', [
+                'status' => false,
+                'message' => 'Data user tidak ada'
+            ]);
+        }
+        $book = Books::where('book_number', $data['book_number'])->first();
+        if (!$book) {
+            return redirect()->back()->with('success', [
+                'status' => false,
+                'message' => 'Data buku tidak ada'
+            ]);
+        }
+        $order = BooksOrder::where('user_id', $user->id)->where('book_id', $book->id)->first();
+        if (!$order) {
+            return redirect()->back()->with('success', [
+                'status' => false,
+                'message' => 'Data peminjaman tidak ada'
+            ]);
+        }
+        try {
+            DB::transaction(function () use ($user, $book, $order) {
+                $order->update([
+                    'status' => 'FINISHED'
+                ]);
+    
+                $book->update([
+                    'ready' => 1
+                ]);
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', [
+                'status' => false,
+            ]);
+        }
+        return redirect()->back()->with('success', [
+            'status' => true,
+            'message' => 'Siswa Sudah Memulangkan Buku'
+        ]);
+    }
+
+    public function getBookByUserId(Request $request)
+    {
+        $userId = $request->user_id;
+
+        $book = BooksOrder::where('user_id', $userId)->get();
+
+        return response()->json($book);
+    }
     public function NewOrder(Request $request){
         // Validasi
         $validated = $request->validate([
@@ -34,9 +96,9 @@ class OrderController extends Controller
         ]);
         $book_id = Books::select('id')->where('book_number', $validated['book_number'])->first();
         $userType = User::find($validated['user_id'])->user_type_id;
-        $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
+        $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
-            return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
+            return response()->json(['error' => true, 'message' => 'Peminjaman siswa sudah melebihi batas'],200);
         } 
         
         $data = Books::find($book_id);

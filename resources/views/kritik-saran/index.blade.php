@@ -31,7 +31,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="50">#</th>
-                                <th>Id Murid</th>
+                                <th>Nomor Induk Murid</th>
                                 <th>Deskripsi</th>
                                 <th width="100px">Created At</th>
                             </tr>

@@ -68,7 +68,7 @@
           </ul>
         </div>
       </li>
-
+      
       {{-- Class Management --}}
       <li class="nav-item {{ ($activeMainPage == 'class-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#class-management" aria-expanded="true">
@@ -91,6 +91,12 @@
                 <span class="sidebar-normal">{{ __('Data Guru') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'migrasi-class' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('migrasi-class')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Pepindahaan Kelas') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>
@@ -103,6 +109,15 @@
           </p>
         </a>
       </li> --}}
+      {{-- Pemulangan Buku --}}
+      <li class="nav-item {{ ($activePage == 'pemulangan-buku') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('main-pemulangan-buku') }}">
+          <i class="material-icons">book</i>
+            <span class="sidebar-mini"></span>
+            <span class="sidebar-normal">{{ __('Pemulangan Buku') }} </span>
+          </p>
+        </a>
+      </li>
       {{-- Management Peminjamman --}}
       <li class="nav-item {{ ($activeMainPage == 'management-peminjaman') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#management-peminjaman" aria-expanded="true">
