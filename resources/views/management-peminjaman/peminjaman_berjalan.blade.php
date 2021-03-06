@@ -32,7 +32,7 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Nama</th>
-                            <th>NIP</th>
+                            <th>Nama Buku</th>
                             <th>Peminjaman</th>
                             <th>Tanggal Peminjamn</th>
                             <th>Tanggal Expired</th>
@@ -44,7 +44,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->user->user_number }}</td>
+                                <td>{{ $item->book->name }}</td>
                                 <td class="text-center">{{ $item->user->user_type_id == 1 ?  'SISWA' : 'GURU' }}</td>
                                 <td class="text-center">{{ $item->start_date }}</td>
                                 <td class="text-center">{{ $item->end_date }}</td>

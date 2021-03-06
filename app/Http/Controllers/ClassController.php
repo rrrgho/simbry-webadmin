@@ -21,6 +21,12 @@ class ClassController extends Controller
     public function teacher(){
         return view('class-management.teacher');
     }
+    public function migrasiClass ()
+    {
+        $class = ClassModel::where('deleted_at',null)->get();
+        $user = User::where('deleted_at',null)->get();
+        return view('class-management.migrasi', compact('user','class'));
+    }
     // Teacher Datatable
     public function teacherDatatable(){
         $data = User::where('deleted_at',null)->where('user_type_id',2)->get();

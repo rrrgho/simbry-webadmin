@@ -48,7 +48,7 @@
                                 {{-- <td class="text-center">{{ $item->user->user_type_id == 1 ?  'SISWA' : 'GURU' }}</td> --}}
                                 <td class="text-center">{{ $item->start_date }}</td>
                                 <td class="text-center">{{ $item->end_date }}</td>
-                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>                        s
+                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>
                                 <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdFinished('{{ $item['id'] }}')" data-target="#editFinished"><i class="fa fa-check"></i></button></td>                        
                             </tr>
                         @endforeach

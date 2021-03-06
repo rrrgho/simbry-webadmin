@@ -42,20 +42,16 @@
         .js-example-basic-single{
           display: none !important;
         }
-
         .select2-container .select2-selection--single {
             height: 35px !important;
             line-height: 10px !important;
         }
-
         .select2-selection__arrow {
             height: 34px !important;
         }
-
         .select2-selection__rendered {
             line-height: 10px !important;
         }
-
         /* Box Peminjaman */
         .box-peminjaman {
             width: 200px;
@@ -70,7 +66,6 @@
             line-height: 100px;
             z-index: 10;
         }
-
         .navigator {
             width: 100px;
             height: 100px;
@@ -82,11 +77,9 @@
             cursor: pointer;
             box-shadow: 0 0 10px green;
         }
-
         .navigator:hover {
             box-shadow: 0 0 15px #000;
         }
-
         .peminjaman {
             width: 60px;
             height: 60px;
@@ -102,7 +95,6 @@
             line-height: 60px;
             box-shadow: 0 0 10px green;
         }
-
         .pengembalian {
             width: 60px;
             height: 60px;
@@ -118,12 +110,10 @@
             line-height: 60px;
             box-shadow: 0 0 10px green;
         }
-
         .peminjaman:hover,
         .pengembalian:hover {
             box-shadow: 0 0 15px #000;
         }
-
     </style>
     @yield('style')
 </head>
@@ -175,8 +165,23 @@
             </div>
         </div>
     </div>
-
-
+    <div class="modal fade" id="pengembalian" tabindex="-1" role="dialog" aria-labelledby="pengembalianLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pengembalian Buku</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
 
 
@@ -216,12 +221,10 @@
     {{-- Select 2 --}}
     <script src="{{ asset('js/peminjaman.js') }}"></script>
     <script>
-
+        
         setTimeout(() => {
             $('#flash-message').hide();
         }, 2000)
-
-
         // Navigator
         let nav = false;
         $('.navigator').click(function () {
@@ -249,8 +252,9 @@
                 nav = false
             }
         })
-
-
+        $('document').on('click', '#pengembalian', function(){
+            alert('ahah')
+        })
         // Get Component by Ajax
         function getComponent(component, route) {
             $(component).html('Sedang memuat ...')
@@ -261,9 +265,6 @@
                 }
             })
         }
-
-
-
         function confirm_me(message, link) {
             swal({
                     title: "Apakah Kamu Yakin??",
@@ -343,12 +344,9 @@
                 })
             }, 2000)
         }
-
         function infoSuccess(message) {
             swal("Good job!", message, "success");
         }
-
-
         // Image Preview
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -361,11 +359,9 @@
                 reader.readAsDataURL(input.files[0]); // convert to base64 string
             }
         }
-
         $("#imgInp").change(function() {
         readURL(this);
         });
-
     </script>
     @yield('script')
 </body>
