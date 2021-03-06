@@ -85,6 +85,12 @@
                 <span class="sidebar-normal">{{ __('Data Siswa') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'upgrade-siswa' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('main-upgrade-siswa')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Upgrade Siswa') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'teacher-data' ? ' active' : '' }}">
               <a class="nav-link" href="{{route('main-teacher-management')}}">
                 <span class="sidebar-mini"> - </span>

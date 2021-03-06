@@ -49,6 +49,9 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('class-management')->group(function(){
         // Class Data Student
         Route::get('/student', [ClassController::class, 'index'])->name('main-class-management');
+        Route::get('upgrade-siswa', [ClassController::class, 'upgradeSiswa'])->name('main-upgrade-siswa');
+        Route::post('upgrade-siswa', [ClassController::class, 'upgradeSiswa'])->name('main-upgrade-siswa');
+        Route::post('move-class', [ClassController::class, 'moveClass'])->name('move-class');
         Route::get('student-datatable', [ClassController::class, 'studentDatatable'])->name('student-datatable');
         Route::get('component-add-student', [ClassController::class, 'componentAddStudent'])->name('component-add-student');
         Route::post('component-edit-student', [ClassController::class, 'componentEditStudent'])->name('component-edit-student');

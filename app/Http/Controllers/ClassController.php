@@ -89,6 +89,22 @@ class ClassController extends Controller
             return response()->json(['error' => false, 'message' => 'Berhasil menghapus data Siswa '.$user->name], 200);
         return response()->json(['error' => true, 'message' => 'Gagal menghapus data siswa'], 200);
     }
+    public function upgradeSiswa(Request $request){
+        $class = ClassModel::where('deleted_at',null)->get();
+        if(!$request->all())
+            return view('class-management.upgrade-siswa', compact('class'));
+        $data = User::where('class_id',$request->class_id)->where('deleted_at',null)->get();
+        return view('class-management.upgrade-siswa', compact('class','data'));
+    }
+    public function moveClass(Request $request){
+       $data = $request->user_id;
+       foreach($data as $item){
+           $query = User::find($item);
+           $query->class_id = $item;
+           $query->save();
+       }
+       return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
+    }
 
 
     // Teacher
