@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            UserSeeder::class,
+            // UserSeeder::class,
+            GameSeeder::class
         ]);
         // $faker = Faker::create();
         // foreach(range(1,20) as $index)

@@ -30,6 +30,7 @@ class UserController extends Controller
                 $data['id'] = $user->id;
                 $data['user_number'] = $user->user_number;
                 $data['name'] = $user->name;
+                $data['level'] = $user->level;
                 $user->update([
                     'last_login_at' => Carbon::now()->toDateTimeString(),
                 ]);
@@ -86,7 +87,7 @@ class UserController extends Controller
         ], 200);
     }
     public function historybook(){
-        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->orderBy('created_at','DESC')->paginate(10);
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->orderBy('created_at','DESC')->paginate(1);
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
