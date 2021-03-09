@@ -47,7 +47,7 @@
     <script>
         // Datatable
 
-        $(function(){
+    $(function(){
         $('#data-kritik-saran').DataTable({
             ajax: '{{route('kritik-saran-datatable')}}',
             columns: [

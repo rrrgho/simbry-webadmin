@@ -33,7 +33,7 @@
     </div>
 </div>
 @endif
-  <form action="/pemulangan" method="post">
+  <form action="{{ url('pemulangan') }}" method="post">
     @csrf
     <div class="row">
       <div class="col-lg-7 col-md-12">

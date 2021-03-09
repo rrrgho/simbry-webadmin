@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Books;
 use App\Models\BooksOrder;
 use App\Models\KritikSaran;
@@ -118,5 +119,9 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
         }
 
+    }
+    public function announcement()
+    {
+        return Announcement::all();
     }
 }

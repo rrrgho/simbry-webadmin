@@ -32,8 +32,8 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Nama</th>
+                            <th>Kelas</th>
                             <th>Nama Buku</th>
-                            <th>Peminjaman</th>
                             <th>Tanggal Peminjamn</th>
                             <th>Tanggal Expired</th>
                             <th>Status</th>
@@ -44,8 +44,8 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->class_relation->name }}</td>
                                 <td>{{ $item->book->name }}</td>
-                                <td class="text-center">{{ $item->user->user_type_id == 1 ?  'SISWA' : 'GURU' }}</td>
                                 <td class="text-center">{{ $item->start_date }}</td>
                                 <td class="text-center">{{ $item->end_date }}</td>
                                 <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>                         

@@ -22,6 +22,9 @@
 @section('content')
 <div class="row">
     <div class="col-md-12 col-lg-12">
+        <div class="container">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filter"> <i class="fa fa-filter"></i> </button>
+        </div>  
         <div class="card">
             <div class="card-header">
                 <h3>Peminjaman Expired!!</h3>
@@ -36,28 +39,41 @@
                             <th>Tanggal Peminjamn</th>
                             <th>Tanggal Expired</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($data as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->book->name }}</td>
-                                {{-- <td class="text-center">{{ $item->user->user_type_id == 1 ?  'SISWA' : 'GURU' }}</td> --}}
-                                <td class="text-center">{{ $item->start_date }}</td>
-                                <td class="text-center">{{ $item->end_date }}</td>
-                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>
-                                <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdFinished('{{ $item['id'] }}')" data-target="#editFinished"><i class="fa fa-check"></i></button></td>                        
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>    
 </div>
+{{-- Filter --}}
+<div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Filter Tanggal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="" method="POST">@csrf
+                <div class="form-group">
+                    <label for="">Dari Tanggal</label>
+                    <input type="text"  class="form-control date-picker" id="start_date" name="start_date">
+                </div>
+                <div class="form-group">
+                    <label for="">Sampai Tanggal</label>
+                    <input type="text" class="form-control" id="end_date" name="end_date">
+                </div>
+                <div class="form-group">
+                   <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {{-- Modal Finished Order --}}
 <div class="modal fade" id="editFinished" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -88,12 +104,53 @@
 @endsection
 @section('script')
     <script>
-        function setIdFinished(id){
-                $('#id_finished').val(id)
-            }
-         $(document).ready(function() {
-            $('#data-expired').DataTable();
-        } );
+        $(function(){
+            $('#start_date').datepicker();
+        })
+            //Datatable
+        $(function(){
+            $('#data-expired').DataTable({
+                ajax: '{{route('expired-datatable')}}',
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'user_id', name: 'user_id'},
+                    { data: 'book_id', name: 'book_id'},
+                    { data: 'start_date', name: 'start_date'},
+                    { data: 'end_date', name: 'end_date'},
+                    { data: 'status', name: 'status'},
+                ],
+                language: {
+                searchPlaceholder: 'Search Peminjaman..',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+                destroy: true
+                },  
+                columnDefs:[
+                    {
+                        "targets" : [0,3,4,5],
+                        "className": "text-center"
+                    },
+                ],              
+                
+                dom: 'Bfrtip',  
+                buttons: [
+                    {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
+                    {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
+                    {extend:'pdf', className: 'bg-danger text-white rounded-pill border border-white'},
+                    {extend:'print', className: 'bg-warning text-white rounded-pill border border-white'},
+                ],
+                "bDestroy": true,
+                "processing": true,
+                "serverSide": true, 
+            });
+        }); 
+
+        // function setIdFinished(id){
+        //         $('#id_finished').val(id)
+        //     }
+        //  $(document).ready(function() {
+        //     $('#data-expired').DataTable();
+        // } );
 
     </script>
 @endsection

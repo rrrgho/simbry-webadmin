@@ -91,12 +91,6 @@
                 <span class="sidebar-normal">{{ __('Data Guru') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'migrasi-class' ? ' active' : '' }}">
-              <a class="nav-link" href="{{route('migrasi-class')}}">
-                <span class="sidebar-mini"> - </span>
-                <span class="sidebar-normal">{{ __('Pepindahaan Kelas') }} </span>
-              </a>
-            </li>
           </ul>
         </div>
       </li>
@@ -189,6 +183,25 @@
         </p>
       </a>
     </li> --}}
+    {{-- Pengumuman --}}
+    <li class="nav-item {{ ($activeMainPage == 'announcement-management') ? ' active' : '' }}">
+      <a class="nav-link" data-toggle="collapse" href="#announcement-management" aria-expanded="true">
+        <i class="material-icons">campaign</i>
+        <p>{{ __('Pengumuman') }}
+          <b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse {{ ($activeMainPage == 'announcement-management') ? ' show' : '' }}" id="announcement-management">
+        <ul class="nav">
+          <li class="nav-item{{ $activePage == 'announcement' ? ' active' : '' }}">
+            <a class="nav-link" href="{{route('announcements')}}">
+              <span class="sidebar-mini"> - </span>
+              <span class="sidebar-normal">{{ __('Pengumuman') }} </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
     {{-- <li class="nav-item {{ ($activePage == 'activity') ? ' active' : '' }}">
       <a class="nav-link" href="{{ route('main-activity-log') }}">
         <i class="material-icons">donut_large</i>
