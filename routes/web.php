@@ -20,6 +20,9 @@ use SimpleSoftwareIO\QrCode\Generator;
 use App\Http\Controllers\KritikSaranController;
 use App\Http\Controllers\ManagementPeraturan;
 use App\Http\Controllers\ManagementPeminjaman;
+
+use App\Http\Controllers\AnnouncementsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -126,6 +129,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('masuk', [ManagementPeminjaman::class, 'masuk'])->name('main-management-peminjaman-berjalan');
         // Route::get('masuk-datatable', [ManagementPeminjaman::class, 'masukDatatable'])->name('masuk-datatable');
         Route::get('expired', [ManagementPeminjaman::class, 'expired'])->name('main-management-peminjaman-expired');
+        Route::get('expired-datatable', [ManagementPeminjaman::class, 'expiredDatatable'])->name('expired-datatable');
+        Route::post('search', [ManagementPeminjaman::class, 'search'])->name('search');
         Route::post('finished' , [ManagementPeminjaman::class, 'finished'])->name('finished');
         Route::get('history', [ManagementPeminjaman::class, 'history'])->name('main-management-peminjaman-history');
     });
@@ -149,7 +154,12 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('peminjaman-masuk', [OrderController::class , 'peminjaman'])->name('main-peminjaman-masuk');
         Route::post('approved' , [OrderController::class, 'approved'])->name('approved');
     });
-
+    Route::get('announcements',[AnnouncementsController::class, 'announcement'])->name('announcements');
+    Route::post('add-announcements', [AnnouncementsController::class, 'announcement_add'])->name('add-annountcements');
+    Route::get('announcement-datatable', [AnnouncementsController::class, 'annountcementDatatable'])->name('announcement-datatable');
+    Route::get('announcement-delete/{id}', [AnnouncementsController::class, 'announcementDelete']);
+    Route::get('/announcement-edit/{id}/', [AnnouncementsController::class, 'announcementEdit'])->name('announcementEdit');
+    Route::post('announcementEditExecute', [AnnouncementsController::class, 'announcementEditExecute']);
     Route::get('/kritik',[KritikSaranController::class, 'kritik_saran'])->name('main-kritik-saran');
     Route::get('kritik-datatable',[KritikSaranController::class, 'kritik_datatable'])->name('kritik-saran-datatable');
     Route::post('kritik-delete', [KritikSaranController::class, 'kritikDelete'])->name('kritik-delete');

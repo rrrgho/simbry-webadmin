@@ -19,6 +19,12 @@ class BooksOrder extends Model
     public function getBookAttribute(){
         return $this->book_relation ?? '-';
     }
+    public function class_relation(){
+        return $this->belongsTo(ClassModel::class, 'class_id', 'id');
+    }
+    public function user_relation(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
     public function User(){
         return $this->belongsTo(User::class);
     }
