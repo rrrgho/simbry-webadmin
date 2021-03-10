@@ -160,11 +160,13 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Pembelian : </label>
-                                <input required class=" form-control" autocomplete="off" id="buying_year" name="buying_year" type="text">
+                                <input type="date" class="form-control" value="" name="buying_year" required>
+                                {{-- <input required class="form-control"  id="buying_year" name="buying_year" type="text"> --}}
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Penerbit : </label>
-                                <input required class=" form-control" autocomplete="off" id="publish_year" name="publish_year" type="text">
+                                <input type="date" class="form-control" value="" name="publish_year" required>
+                                {{-- <input required class="form-control" id="publish_year" name="publish_year" type="text"> --}}
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="">Deskripsi : </label>
@@ -197,6 +199,9 @@
 @endsection
 @section('script')
 <script>
+    $( function() {
+        $('#buying_year').datepicker();
+    } );
     let callEditComponent = false;
     let editBooksId;
     // Add

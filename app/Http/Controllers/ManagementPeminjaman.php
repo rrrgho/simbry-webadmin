@@ -18,7 +18,7 @@ class ManagementPeminjaman extends Controller
             ['deleted_at',null],
             ['status','APPROVED'],
             ['end_date','>=',Carbon::now('Asia/Jakarta')]
-        ])->get();
+        ])->orderBy('created_at','DESC')->get();
         return view('management-peminjaman.peminjaman_berjalan', compact('data'));
     }
     
@@ -36,7 +36,7 @@ class ManagementPeminjaman extends Controller
             ['deleted_at',null],
             ['status','APPROVED'],
             ['end_date','<',Carbon::now('Asia/Jakarta')]
-        ])->get();
+        ])->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
         ->addColumn('user_id', function($data){
             return $data->user_relation['name'];
@@ -51,10 +51,11 @@ class ManagementPeminjaman extends Controller
         ->addColumn('end_date', function($data){
             return Carbon::parse($data['end_date'])->format('F d, y');
         })
-        ->addColumn('status', function($data){
-            return '<button class="btn btn-danger p-1 text-white"> '.$data['status'].' </button>';
+        ->addColumn('action', function($data){
+            $dataEnd = Carbon::parse($data['end_date']);
+            return '<button class="btn btn-danger p-1 text-white"> '.$dataEnd->diffInDays(Carbon::now('Asia/Jakarta')).' Hari </button>';
         })
-        ->rawColumns(['status'])
+        ->rawColumns(['action'])
         ->make(true);
     }
     public function search(Request $request)
@@ -82,7 +83,7 @@ class ManagementPeminjaman extends Controller
         $data = BooksOrder::where([
             ['deleted_at',null],
             ['status','FINISHED']
-        ])->get();
+        ])->orderBy('created_at','DESC')->get();
         return view('management-peminjaman.history_peminjaman',compact('data'));
     }
 

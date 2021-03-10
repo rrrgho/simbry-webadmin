@@ -38,7 +38,7 @@
                             <th>Nama Buku</th>
                             <th>Tanggal Peminjamn</th>
                             <th>Tanggal Expired</th>
-                            <th>Status</th>
+                            <th>Lama Tunggakan</th>
                         </tr>
                     </thead>
                 </table>
@@ -117,7 +117,7 @@
                     { data: 'book_id', name: 'book_id'},
                     { data: 'start_date', name: 'start_date'},
                     { data: 'end_date', name: 'end_date'},
-                    { data: 'status', name: 'status'},
+                    { data: 'action', name: 'action'},
                 ],
                 language: {
                 searchPlaceholder: 'Search Peminjaman..',

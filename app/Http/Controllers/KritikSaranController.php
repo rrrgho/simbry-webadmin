@@ -16,7 +16,7 @@ class KritikSaranController extends Controller
         return view('kritik-saran.index', compact('data'));
     }
     public function kritik_datatable(){
-        $data = KritikSaran::where('deleted_at',null)->get();
+        $data = KritikSaran::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('created_at', function($data){

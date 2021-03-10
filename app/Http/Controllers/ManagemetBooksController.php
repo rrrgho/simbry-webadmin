@@ -33,7 +33,7 @@ class ManagemetBooksController extends Controller
         }
     }
     public function categoryDatatable(){
-        $data = BooksCategory::where('deleted_at',null)->get();
+        $data = BooksCategory::where('deleted_at',null)->orderBy('created_at','DESC')->get();
 
         return Datatables::of($data)
         ->addIndexColumn()
@@ -91,7 +91,7 @@ class ManagemetBooksController extends Controller
         }
     }
     public function authorDatatable(){
-        $data = Author::where('deleted_at',null)->get();
+        $data = Author::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){
@@ -276,7 +276,7 @@ class ManagemetBooksController extends Controller
         return view('books-management.ajax-locker-edit', compact('data'));
     }
     public function lockerDatatable(){
-        $data = Locker::where('deleted_at',null)->get();
+        $data = Locker::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){

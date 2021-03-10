@@ -29,7 +29,7 @@ class ClassController extends Controller
     }
     // Teacher Datatable
     public function teacherDatatable(){
-        $data = User::where('deleted_at',null)->where('user_type_id',2)->get();
+        $data = User::where('deleted_at',null)->orderBy('created_at','DESC')->where('user_type_id',2)->get();
 
         return Datatables::of($data)
         ->addIndexColumn()
@@ -50,7 +50,7 @@ class ClassController extends Controller
     }
     // Student Datatable
     public function studentDatatable(){
-        $data = User::query()->where('deleted_at',null)->where('user_type_id',1);
+        $data = User::query()->where('deleted_at',null)->orderBy('created_at','DESC')->where('user_type_id',1);
 
         return Datatables::eloquent($data)
         ->addColumn('action', function($data){

@@ -31,7 +31,7 @@ class AuthController extends Controller
                     return redirect()->route('main');
                 }
                 else{
-                    return redirect()->route('main-user');
+                    return 'ANDA TIDAK MEMEILIK AKSES KE HALAMAN ADMIN!!!!';
                 }
     
             } else { // false

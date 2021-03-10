@@ -41,24 +41,24 @@
                 <span class="sidebar-normal">{{ __('Kategori Buku') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'author-books' ? ' active' : '' }}">
+            {{-- <li class="nav-item{{ $activePage == 'author-books' ? ' active' : '' }}">
               <a class="nav-link" href="{{route('main-author-management')}}">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal"> {{ __('Penulis Buku') }} </span>
               </a>
-            </li>
+            </li> --}}
             <li class="nav-item{{ $activePage == 'publisher-books' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('main-publisher-management') }}">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal"> {{ __('Penerbit Buku') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'edition-books' ? ' active' : '' }}">
+            {{-- <li class="nav-item{{ $activePage == 'edition-books' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('main-edition-management') }}">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal"> {{ __('Edisi Buku') }} </span>
               </a>
-            </li>
+            </li> --}}
             <li class="nav-item{{ $activePage == 'locker-books' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('main-locker-management') }}">
                 <span class="sidebar-mini"> - </span>

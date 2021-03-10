@@ -16,7 +16,7 @@ class HistoryController extends Controller
     }
     public function historyDatatable(){
         
-        $data = History::where('deleted_at',null)->get();
+        $data = History::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         
         return Datatables::of($data)
         ->addIndexColumn()

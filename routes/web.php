@@ -168,16 +168,16 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     });
 });
 // Route Midleware User
-Route::middleware([UserMiddleware::class])->group(function(){
-    Route::get('/user', [BooksStudentController::class, 'index'])->name('main-user')->middleware('user');
-    Route::post('/user', [BooksStudentController::class, 'index'])->name('main-user');
-    Route::get('user/books-detail/{examplar}', [BooksController::class, 'booksDetailUser'])->name('book-detail-user');
+// Route::middleware([UserMiddleware::class])->group(function(){
+//     Route::get('/user', [BooksStudentController::class, 'index'])->name('main-user')->middleware('user');
+//     Route::post('/user', [BooksStudentController::class, 'index'])->name('main-user');
+//     Route::get('user/books-detail/{examplar}', [BooksController::class, 'booksDetailUser'])->name('book-detail-user');
     
 
-    Route::prefix('user')->group(function(){
-        Route::post('show-book-component', [BooksStudentController::class, 'userShowBookComponent']);
-        Route::post('order-book', [BooksStudentController::class, 'orderBook']);
-        Route::get('show-order-component', [BooksStudentController::class, 'userShowOrderComponent']);
-    });
+//     Route::prefix('user')->group(function(){
+//         Route::post('show-book-component', [BooksStudentController::class, 'userShowBookComponent']);
+//         Route::post('order-book', [BooksStudentController::class, 'orderBook']);
+//         Route::get('show-order-component', [BooksStudentController::class, 'userShowOrderComponent']);
+//     });
 
-});
+// });

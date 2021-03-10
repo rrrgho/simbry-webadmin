@@ -39,7 +39,7 @@ class AnnouncementsController extends Controller
     }
     public function annountcementDatatable()
     {
-        $data = Announcement::where('deleted_at',null)->get();
+        $data = Announcement::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){
