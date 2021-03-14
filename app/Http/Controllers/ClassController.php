@@ -11,12 +11,14 @@ use Carbon\Carbon;
 // Call Model
 use App\Models\User;
 use App\Models\ClassModel;
+use App\Models\Unit;
 
 class ClassController extends Controller
 {
     public function index(){
-        $teacher = User::where('deleted_at',null)->get();
-        return view('class-management.index', compact('teacher'));
+        $teacher = User::where('deleted_at',null)->where('user_type_id',2)->get();
+        $unit = Unit::all();
+        return view('class-management.index', compact('teacher','unit'));
     }
     public function teacher(){
         return view('class-management.teacher');
@@ -75,6 +77,7 @@ class ClassController extends Controller
         $requestData = $request->all();
         $requestData['user_type_id'] = 1;
         $requestData['password'] = bcrypt($request->password);
+        $requestData['unit'] = ClassModel::find($request->class_id)['unit_id'];
         $insert = User::create($requestData);
         if($insert)
             return response()->json(['error' => false, 'message' => 'Berhasil menambahkan Siswa '.$request->name], 200);
@@ -151,7 +154,7 @@ class ClassController extends Controller
     
     // Component by AJAX
     public function componentAddStudent(){
-        $class = ClassModel::where('deleted_at',null)->get();
+        $class = ClassModel::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return view('class-management.component-add-student', compact('class'));
     }
     public function componentAddTeacher(){

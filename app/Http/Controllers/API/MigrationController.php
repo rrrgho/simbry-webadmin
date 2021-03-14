@@ -34,6 +34,16 @@ class MigrationController extends Controller
         return response()->json(['error' => false, 'message' => 'Migrate book category has been finished'], 200);
     }
 
+    // Add unit id to user
+    public function add_unit_id(){
+        $data = User::where('class_id','<>',null)->get();
+        foreach($data as $item){
+            $class = ClassModel::find($item['class_id'])['unit_id'];
+            $item->unit = $class;
+            $item->save();
+        }
+    }
+
 
     // Migrate Book Publisher
     public function migrateBookPublisher(){
