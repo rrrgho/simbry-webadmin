@@ -59,11 +59,19 @@
                             <h5 class="text-white">Jika anda tidak menemukan kelas, silahkan tambah kelas dibawah ini</h5>
                             <form id="form-add-class">@csrf
                                 <div class="row">
-                                    <div class="col-6 mt-3">
-                                        <input type="text" name="name" placeholder="Nama kelas" class="form-control text-white">
+                                    <div class="col-12 mt-3">
+                                        <select name="unit_id" required class="form-control select2-single">
+                                            <option value="" hidden>Unit Kelas</option>
+                                            @foreach ($unit as $item)
+                                                <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-6 mt-3">
-                                        <select name="author_id" class="form-control select2-single">
+                                        <input type="text" required name="name" placeholder="Nama kelas" class="form-control text-white">
+                                    </div>
+                                    <div class="col-6 mt-3">
+                                        <select required name="author_id" class="form-control select2-single">
                                             <option value="" hidden>Penanggung jawab kelas</option>
                                             @foreach ($teacher as $item)
                                                 <option value="{{$item['id']}}">{{$item['name']}}</option>
