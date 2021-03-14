@@ -134,11 +134,11 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Pembelian : </label>
-                                <input required class=" form-control" autocomplete="off" id="buying_year" name="buying_year" type="text">
+                                <input required class=" form-control" autocomplete="off"  name="buying_year" type="date">
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Penerbit : </label>
-                                <input required class=" form-control" autocomplete="off" id="publish_year" name="publish_year" type="text">
+                                <input required class=" form-control" autocomplete="off"  name="publish_year" type="date">
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="">Deskripsi : </label>

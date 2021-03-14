@@ -25,6 +25,10 @@ class BooksOrder extends Model
     public function user_relation(){
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function lates_relation()
+    {
+        return $this->belongsTo(Late::class, 'user_id','id');
+    }
     public function User(){
         return $this->belongsTo(User::class);
     }

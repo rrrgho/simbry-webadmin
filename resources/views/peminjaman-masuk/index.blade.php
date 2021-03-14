@@ -70,8 +70,6 @@
                     <label>Pilih Status Peminjaman : </label><br>
                     <select required class="form-control" style="width: 100%" name="status">
                         <option value="APPROVED">APPROVED</option>
-                        <option value="CANCEL">CANCEL</option>
-                        
                     </select>
                 </div>
                 <div class="modal-footer">

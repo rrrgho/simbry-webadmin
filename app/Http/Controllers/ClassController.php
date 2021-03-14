@@ -104,11 +104,11 @@ class ClassController extends Controller
     }
     public function moveClass(Request $request){
        $data = $request->user_id;
-       foreach($data as $item){
-           $query = User::find($item);
-           $query->class_id = $item;
-           $query->save();
-       }
+        foreach($data as $item){
+            $query = User::find($item);
+            $query->class_id = $request->class_id;
+            $query->save();
+        }
        return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
     }
 

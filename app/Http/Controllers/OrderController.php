@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 // Call Model
 use App\Models\User;
 use App\Models\History;
+use App\Models\Late;
 use DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -36,13 +37,13 @@ class OrderController extends Controller
     {
         $data = $request->validate([
             'user_number' => ['required'],
-            'book_number' => ['required']
+            'book_number' => ['required'],
         ]);
         $user = User::where('user_number', $data['user_number'])->first();
         if (!$user) {
             return redirect()->back()->with('success', [
                 'status' => false,
-                'message' => 'Data user tidak ada'
+                'message' => 'Data User tidak ada'
             ]);
         }
         $book = Books::where('book_number', $data['book_number'])->first();
@@ -52,7 +53,7 @@ class OrderController extends Controller
                 'message' => 'Data buku tidak ada'
             ]);
         }
-        $order = BooksOrder::where('user_id', $user->id)->where('book_id', $book->id)->first();
+        $order = BooksOrder::where('user_id', $user->id)->where('book_id', $book->id)->where('status','APPROVED')->first();
         if (!$order) {
             return redirect()->back()->with('success', [
                 'status' => false,
@@ -60,18 +61,27 @@ class OrderController extends Controller
             ]);
         }
         try {
-            DB::transaction(function () use ($user, $book, $order) {
-                $order->update([
-                    'status' => 'FINISHED'
-                ]);
-    
-                $book->update([
-                    'ready' => 1
-                ]);
+            DB::transaction(function () use ($user, $book, $order, $data) {
+                    if(Carbon::parse($order->end_date)->lt(now())){
+                        Late::create([
+                            'user_id' => $user->id,
+                            'date' => Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString(),
+                        ]);
+                    }
+                    $user->point = $user['point'] + 10;
+                    $order->update([
+                        'status' => 'FINISHED'
+                    ]);
+                    $book->update([
+                        'ready' => 1
+                    ]);
+                    $user->save();
+                    
             });
         } catch (\Exception $e) {
             return redirect()->back()->with('success', [
                 'status' => false,
+                'message' => 'Gagal simpan data'
             ]);
         }
         return redirect()->back()->with('success', [
@@ -79,7 +89,6 @@ class OrderController extends Controller
             'message' => 'Siswa Sudah Memulangkan Buku'
         ]);
     }
-
     public function getBookByUserId(Request $request)
     {
         $userId = $request->user_id;
@@ -94,6 +103,10 @@ class OrderController extends Controller
             'book_number' => ['required'],
             'user_id' => ['required']
         ]);
+        $late = Late::where('user_id', $validated['user_id'])->where('date','>', now()->toDateTimeString())->exists();
+        if($late){
+            return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
+        }
         $book_id = Books::select('id')->where('book_number', $validated['book_number'])->first();
         $userType = User::find($validated['user_id'])->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
@@ -180,7 +193,7 @@ class OrderController extends Controller
         $data->start_date = Carbon::now('Asia/Jakarta')->toDateTimeString();
         $data->end_date = $endDate;
         if($data->save())
-            return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Berhasil mengubah data Edit Limit ');
-        return redirect(url('peminjaman-masuk/'.$request->id.'/peminjaman-masuk'))->with('failed','Gagal mengubah data Edit Limit');
+            return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Berhasil Menerima Peminjaman Buku Siswa ');
+        return redirect(url('peminjaman-masuk/'.$request->id.'/peminjaman-masuk'))->with('failed','Gagal Menerima Peminjamanan Buku Siswa');
     }
 }

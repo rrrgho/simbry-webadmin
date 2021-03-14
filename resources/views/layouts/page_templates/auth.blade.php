@@ -11,7 +11,7 @@
     </div>
     @include('layouts.footers.auth')
   </div>
-<div class="box-peminjaman" style="margin-left: 80%">
+<div class="box-peminjaman" style="margin-left: 3%">
     <div class="navigator">
       <i class="fa fa-shopping-cart"></i>
     </div>
