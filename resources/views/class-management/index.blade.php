@@ -27,7 +27,7 @@
                 <div class="card-header bg-light">
                     <h1 class="text-success">Data Seluruh Siswa</h1>
                     <p>Tambah, edit atau hapus data siswa.</p>
-
+                    <button type="submit" data-toggle="modal" data-target="#passwordall" class="btn btn-danger p-2 mt-3">Reset Password</button>
                     <button class="btn btn-success position-absolute" onclick="getAddStudentComponent()" data-toggle="modal" id="btn-add-student" data-target="#addStudent" style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Siswa</button>
                 </div>
                 <div class="card-body">
@@ -37,7 +37,31 @@
             </div>
         </div>
     </div>
-
+    {{-- Modal Reset Password --}}
+    <div class="modal fade" id="passwordall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Password Terbaru</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{{ route('reset-passsword-all') }}" method="post">@csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5>Password Terbaru</h4>
+                        <input type="text" class="form-control" name="password" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
     <!-- Modal Add Student -->
     <div class="modal fade" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="addStudentLabel" aria-hidden="true">

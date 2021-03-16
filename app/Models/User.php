@@ -36,13 +36,17 @@ class User extends Authenticatable
         'user_type_id',
         'password',
         'last_login_at',
+        'unit',
+        'point'
     ];
     protected $appends = ['level'];
 
     public function class_relation(){
         return $this->belongsTo(ClassModel::class, 'class_id', 'id');
     }
-
+    public function unit_relation(){
+        return $this->belongsTo(Unit::class, 'unit', 'id');
+    }
     public function order(){
         return $this->hasMany(BooksOrder::class);
     }

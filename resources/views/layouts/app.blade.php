@@ -315,6 +315,28 @@
                 })
             }, 2000)
         }
+        function reset_point(message, link) {
+            swal({
+                    title: "Reset Point Siswa",
+                    text: message,
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                        document.location.href = link;
+                    }
+                });
+            setTimeout(function () {
+                $('#flash').css({
+                    'display': 'none'
+                })
+            }, 2000)
+        }
         function confirm_me_post(message, formData , link) {
             
             swal({

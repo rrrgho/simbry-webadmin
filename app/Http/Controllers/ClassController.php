@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BooksOrder;
 use Illuminate\Http\Request;
 
 // Call Service
@@ -11,7 +12,10 @@ use Carbon\Carbon;
 // Call Model
 use App\Models\User;
 use App\Models\ClassModel;
+use App\Models\Popular;
 use App\Models\Unit;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ClassController extends Controller
 {
@@ -19,6 +23,51 @@ class ClassController extends Controller
         $teacher = User::where('deleted_at',null)->where('user_type_id',2)->get();
         $unit = Unit::all();
         return view('class-management.index', compact('teacher','unit'));
+    }
+    public function StudentTerpopuler()
+    {
+        $sd = User::where('deleted_at',null)->where('unit',1)->orderBy('point','DESC')->first();
+        $smp =  User::where('deleted_at',null)->where('unit',2)->orderBy('point','DESC')->first();
+        $smk = User::where('deleted_at',null)->where('unit',3)->orderBy('point','DESC')->first();
+        $sma = User::where('deleted_at',null)->where('unit',4)->orderBy('point','DESC')->first();
+        return view('class-management.student-terpopuler', compact('sd','smp','sma','smk'));
+    }
+    public function StudentPublish(Request $request)
+    {
+        $insert = $request->validate([
+            'user_id' => 'required',
+            'unit_id' => 'required',
+        ]);
+        $insert = Popular::create($request->all());
+        if($insert)
+            return redirect(route('student-terpopuler'))->with('success', 'Berhasil Mempublish Siswa');
+        return redirect(route('student-terpopuler'))->with('failed', 'Berhasil Mempublish Siswa');
+    }
+    public function ResetPoint(Request $request)
+    {
+        $user = User::all();
+        foreach ($user as $item) {
+            $item->point = 0;
+            $item->save();
+        }
+            return redirect(route('student-terpopuler'))->with('success', 'Berhasil Reset Point');
+        return redirect(route('student-terpopuler'))->with('failed', 'Gagal Reset point');
+    }
+    public function allReset(Request $request)
+    {
+        $user = User::all();
+        $password_new = $request->password;
+            return redirect(route('main-class-management'))->with('success','Berhasil Ganti Password User');
+        return redirect(route('main-class-management'))->with('failed','Gagal Ganti Password User');
+    }
+    public function ResetPassword(Request $request){
+        
+    }
+    public function detailSiswa($id)
+    {
+        $data = User::where('id', $id)->where('deleted_at',null)->get();
+        $order = BooksOrder::where('deleted_at')->get();
+        return view('class-management.student-detail',compact('data','order'));
     }
     public function teacher(){
         return view('class-management.teacher');
@@ -59,10 +108,10 @@ class ClassController extends Controller
             $delete_link = "'".url('books-management/category-delete/'.$data['id'])."'";
             $delete_message = "'This cannot be undo'";
             $edit_link = "'".url('books-management/'.$data['id'].'/category-edit')."'";
-
+            $editDetail = '<a href="'.route('detail-siswa', [$data['id']]).'" class="btn btn-info p-1 text-white" id="btn-edit"> <i class="fa fa-sign-out"> </i> </a>';
             $edit = '<button  key="'.$data['id'].'" data-toggle="modal" data-target="#addStudent"  class="btn btn-info p-1 text-white" onclick="getEditStudentComponent('.$data['id'].')" id="btn-edit"> <i class="fa fa-edit"> </i> </button>';
             $delete = '<button onClick="deleteStudentData('.$data['id'].')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
-            return $edit.' '.$delete;
+            return $edit.' '.$delete.''.$editDetail;
         })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');

@@ -64,6 +64,13 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('edit-student', [ClassController::class, 'editStudent'])->name('edit-student');
         Route::post('delete-student', [ClassController::class, 'deleteStudent'])->name('delete-student');
         Route::get('migrasi-class', [ClassController::class, 'migrasiClass'])->name('migrasi-class');
+        Route::get('student-terpopuler', [ClassController::class, 'StudentTerpopuler'])->name('student-terpopuler');
+        Route::post('student-publish', [ClassController::class, 'StudentPublish'])->name('student-publish');
+        Route::post('reset-point', [ClassController::class, 'ResetPoint'])->name('reset-point');
+        Route::post('reset-passsword-all', [ClassController::class, 'allReset'])->name('reset-passsword-all');
+        Route::post('reset-passsword', [ClassController::class, 'ResetPassword'])->name('reset-passsword');
+        Route::get('detail-siswa/{id}', [ClassController::class, 'detailSiswa'])->name('detail-siswa');
+        // Route::get('student-terpopuler-datatable', [ClassController::class, 'StudentTerpopulerDatatable'])->name('student-terpopuler-datatable');
         // Class Data Teacher
         Route::get('/teacher', [ClassController::class , 'teacher'])->name('main-teacher-management');
         Route::get('teacher-datatable',[ClassController::class, 'teacherDatatable'])->name('teacher-datatable');

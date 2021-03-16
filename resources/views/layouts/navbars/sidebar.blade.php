@@ -97,6 +97,12 @@
                 <span class="sidebar-normal">{{ __('Data Guru') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'terpopuler-data' ? ' active' : '' }}">
+              <a class="nav-link" href="{{route('student-terpopuler')}}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal">{{ __('Siswa Terpopuler') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

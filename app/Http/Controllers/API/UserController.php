@@ -7,6 +7,7 @@ use App\Models\Announcement;
 use App\Models\Books;
 use App\Models\BooksOrder;
 use App\Models\KritikSaran;
+use App\Models\Popular;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -124,5 +125,11 @@ class UserController extends Controller
     public function announcement()
     {
         return Announcement::all();
+    }
+    public function studentPpopular(){
+        $data = Popular::where('deleted_at',null)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
     }
 }

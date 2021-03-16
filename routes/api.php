@@ -34,6 +34,7 @@ Route::namespace('API')->group(function(){
     Route::post('login', [UserController::class, 'Login']);
     Route::post('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
+    Route::post('student-popular', [UserController::class, 'studentPpopular']);
     Route::middleware('auth:api')->group(function(){
         Route::get('book-data', [BooksController::class, 'bookData']);
         Route::post('search-book', [BooksController::class, 'bookSearch']);
