@@ -55,8 +55,9 @@ class ClassController extends Controller
     }
     public function allReset(Request $request)
     {
-        $user = User::all();
         $password_new = $request->password;
+        $user = User::query()->update(['password' => bcrypt($password_new)]);
+        if($user)
             return redirect(route('main-class-management'))->with('success','Berhasil Ganti Password User');
         return redirect(route('main-class-management'))->with('failed','Gagal Ganti Password User');
     }

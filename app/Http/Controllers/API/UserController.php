@@ -8,6 +8,7 @@ use App\Models\Books;
 use App\Models\BooksOrder;
 use App\Models\KritikSaran;
 use App\Models\Popular;
+use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -128,6 +129,13 @@ class UserController extends Controller
     }
     public function studentPpopular(){
         $data = Popular::where('deleted_at',null)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+    }
+    public function slideBanner()
+    {
+        $data = Slide::where('deleted_at',null)->where('active',true)->orderBy('created_at', 'DESC')->get();
         if($data)
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);

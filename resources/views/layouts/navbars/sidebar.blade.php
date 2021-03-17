@@ -214,6 +214,37 @@
         </ul>
       </div>
     </li>
+    {{-- Settings --}}
+    <li class="nav-item {{ ($activeMainPage == 'settings') ? ' active' : '' }}">
+      <a class="nav-link" data-toggle="collapse" href="#management-settings" aria-expanded="true">
+        <i class="material-icons">settings</i>
+        <p>{{ __('Pengaturan Halaman Siswa') }}
+          <b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse {{ ($activeMainPage == 'management-settings') ? ' show' : '' }}" id="management-settings">
+        <ul class="nav">
+          <li class="nav-item{{ $activePage == 'slide-banner' ? ' active' : '' }}">
+            <a class="nav-link" href="{{route('slide-banner')}}">
+              <span class="sidebar-mini"> - </span>
+              <span class="sidebar-normal">{{ __('Slide Banner') }} </span>
+            </a>
+          </li>
+          <li class="nav-item{{ $activePage == 'contact' ? ' active' : '' }}">
+            <a class="nav-link" href="{{route('contact')}}">
+              <span class="sidebar-mini"> - </span>
+              <span class="sidebar-normal">{{ __('Kontak') }} </span>
+            </a>
+          </li>
+          <li class="nav-item{{ $activePage == 'about' ? ' active' : '' }}">
+            <a class="nav-link" href="{{route('about-school')}}">
+              <span class="sidebar-mini"> - </span>
+              <span class="sidebar-normal">{{ __('Tentang Sekolah') }} </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
     {{-- <li class="nav-item {{ ($activePage == 'activity') ? ' active' : '' }}">
       <a class="nav-link" href="{{ route('main-activity-log') }}">
         <i class="material-icons">donut_large</i>

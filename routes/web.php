@@ -22,6 +22,7 @@ use App\Http\Controllers\ManagementPeraturan;
 use App\Http\Controllers\ManagementPeminjaman;
 
 use App\Http\Controllers\AnnouncementsController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -148,6 +149,29 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
         Route::post('pemulangan', [OrderController::class, 'pemulangan'])->name('pemulangan');
+    });
+    Route::prefix('settings')->group(function(){
+        // Slide
+        Route::get('slide-banner',[SettingsController::class, 'slideBanner'])->name('slide-banner');
+        Route::post('slide-post',[SettingsController::class, 'slideBannerPost'])->name('slide-post');
+        Route::get('slide-datatable',[SettingsController::class, 'slideDatatable'])->name('slide-datatable');
+        Route::get('/{id}/slide-edit',[SettingsController::class, 'slideEdit'])->name('slide-edit');
+        Route::post('slide-edit-execute',[SettingsController::class, 'slideEditExecute'])->name('slide-edit-execute');
+        Route::get('slide-delete/{id}',[SettingsController::class, 'slideDelete'])->name('slide-delete');
+        // Contact
+        Route::get('contact',[SettingsController::class, 'contact'])->name('contact');
+        Route::post('contact-post',[SettingsController::class, 'contactPost'])->name('contact-post');
+        Route::get('contact-datatable',[SettingsController::class, 'contactDatatable'])->name('contact-datatable');
+        Route::get('/{id}/contact-edit',[SettingsController::class, 'contactEdit'])->name('contact-edit');
+        Route::post('contact-edit-execute',[SettingsController::class, 'contactEditExecute'])->name('contact-edit-execute');
+        Route::get('contact-delete/{id}',[SettingsController::class, 'contactDelete'])->name('contact-delete');
+        // About
+        Route::get('about-school',[SettingsController::class, 'about'])->name('about-school');
+        Route::post('about-school-post',[SettingsController::class, 'aboutPost'])->name('about-school-post');
+        Route::get('about-school-datatable',[SettingsController::class, 'aboutDatable'])->name('about-school-datatable');
+        Route::get('/{id}/about-edit', [SettingsController::class, 'aboutEdit'])->name('about-edit');
+        Route::post('about-edit-execute', [SettingsController::class, 'aboutEditExecute'])->name('about-edit-execute');
+        Route::get('about-delete/{id}', [SettingsController::class, 'aboutDelete'])->name('about-edit-delete');
     });
     // Route::prefix('manajemen-peraturan')->group(function(){
     //     Route::get('peraturan' , [ManagementPeraturan::class, 'index'])->name('main-management-peraturan');
