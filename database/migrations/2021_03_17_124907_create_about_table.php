@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToPopularRable extends Migration
+class CreateAboutTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddStatusToPopularRable extends Migration
      */
     public function up()
     {
-        Schema::table('popular', function (Blueprint $table) {
-            $table->boolean('status')->default(true);
+        Schema::create('about', function (Blueprint $table) {
+            $table->id();
+            $table->text('description');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +28,6 @@ class AddStatusToPopularRable extends Migration
      */
     public function down()
     {
-        Schema::table('pupular', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('about');
     }
 }

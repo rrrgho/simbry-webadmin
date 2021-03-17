@@ -35,6 +35,7 @@ Route::namespace('API')->group(function(){
     Route::post('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
     Route::get('student-popular/{unit}', [UserController::class, 'studentPopular']);
+    Route::get('slide-banner', [UserController::class, 'slideBanner']);
     Route::middleware('auth:api')->group(function(){
         Route::get('book-data', [BooksController::class, 'bookData']);
         Route::post('search-book', [BooksController::class, 'bookSearch']);

@@ -8,6 +8,7 @@ use App\Models\Books;
 use App\Models\BooksOrder;
 use App\Models\KritikSaran;
 use App\Models\Popular;
+use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -21,8 +22,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
+
+
+
 class UserController extends Controller
 {
+    public function test(){
+        // History peminjaman
+        OrderBook::where('user_id',$user_id)->where('status','FINISHED')->get()
+
+        // Peminjaman Berjalan
+        OrderBook::where('user_id', $user_id)->where('status','APPROVED')->get()
+
+    }
+
     public function Login(Request $request)
     {
         $user = User::where('user_number', $request->user_number)->first();
@@ -128,6 +141,13 @@ class UserController extends Controller
     }
     public function studentPopular($unit){
         $data = Popular::with('user')->where('deleted_at',null)->where('unit_id', $unit)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+    }
+    public function slideBanner()
+    {
+        $data = Slide::where('deleted_at',null)->where('active',true)->orderBy('created_at', 'DESC')->get();
         if($data)
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
