@@ -50,16 +50,51 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>{{ $smk->name }}</td>
-                    <td class="text-center">{{ $smk->unit }}</td>
-                    <td class="text-center">{{ $smk->point }}</td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-primary p-1" data-toggle="modal" data-target="#smk">
-                        Publish
-                      </button>
-                    </td>
-                  </tr>
+                  @if(count($smk)>0)
+                    @foreach ($smk as $item)
+                      <tr>
+                        <td>{{ $item->name }}</td>
+                        <td class="text-center">{{ $item->unit }}</td>
+                        <td class="text-center">{{ $item->point }}</td>
+                        <td class="text-center">
+                          <form id="publish-form" action="{{ route('student-publish') }}" method="POST">@csrf
+                            <input type="hidden" name="user_id" value="{{$item['id']}}">
+                            <input type="hidden" name="unit_id" value="{{$item['unit']}}">
+                            <input type="hidden" name="point" value="{{$item['point']}}">
+                            @php $isPublish = false; @endphp
+                            @foreach ($popular as $hasPublish)
+                              <?php
+                                if($hasPublish['user_id'] != $item['id'])
+                                  $isPublish = false;
+                                else {
+                                  $isPublish = true; break;
+                                }
+                              ?>                    
+                            @endforeach
+                            @if($isPublish == false)
+                              <button type="submit" class="btn btn-primary p-1" data-toggle="modal" data-target="#sd">
+                                PUBLISH
+                              </button>
+                            @else
+                              <button disabled class="btn btn-success p-1">
+                                PUBLISHED
+                              </button>
+                            @endif
+                          </form>
+                        </td>
+                      </tr>                      
+                    @endforeach
+                  @else
+                      <tr>
+                        <td colspan="4">
+                          <div class="alert alert-warning">
+                            <span class="ml-2">
+                              Belum ada data yang dihitung oleh system !
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                  @endif
                 </tbody>
               </table>   
           </div>
@@ -79,16 +114,51 @@
                 </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{{ $sma->name }}</td>
-                <td class="text-center">{{ $sma->unit }}</td>
-                <td class="text-center">{{ $sma->point }}</td>
-                <td class="text-center">
-                  <button type="button" class="btn btn-primary p-1" data-toggle="modal" data-target="#sma">
-                    Publish
-                  </button>
-                </td>
-              </tr>
+              @if(count($sma) > 0)
+                @foreach ($sma as $item)
+                  <tr>
+                    <td>{{ $item->name }}</td>
+                    <td class="text-center">{{ $item->unit }}</td>
+                    <td class="text-center">{{ $item->point }}</td>
+                    <td class="text-center">
+                      <form id="publish-form" action="{{ route('student-publish') }}" method="POST">@csrf
+                        <input type="hidden" name="user_id" value="{{$item['id']}}">
+                        <input type="hidden" name="unit_id" value="{{$item['unit']}}">
+                        <input type="hidden" name="point" value="{{$item['point']}}">
+                        @php $isPublish = false; @endphp
+                        @foreach ($popular as $hasPublish)
+                          <?php
+                            if($hasPublish['user_id'] != $item['id'])
+                              $isPublish = false;
+                            else {
+                              $isPublish = true; break;
+                            }
+                          ?>                    
+                        @endforeach
+                        @if($isPublish == false)
+                          <button type="submit" class="btn btn-primary p-1" data-toggle="modal" data-target="#sd">
+                            PUBLISH
+                          </button>
+                        @else
+                          <button disabled class="btn btn-success p-1">
+                            PUBLISHED
+                          </button>
+                        @endif
+                      </form>
+                    </td>
+                  </tr>                  
+                @endforeach
+              @else
+                <tr>
+                  <td colspan="4">
+                    <div class="alert alert-warning">
+                      <span class="ml-2">
+                        Belum ada data yang dihitung oleh system !
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              @endif
             </tbody>
           </table>   
         </div>
@@ -108,16 +178,51 @@
               </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{{ $smp->name }}</td>
-              <td class="text-center">{{ $smp->unit }}</td>
-              <td class="text-center">{{ $smp->point }}</td>
-              <td class="text-center">
-                <button type="button" class="btn btn-primary p-1" data-toggle="modal" data-target="#smp">
-                  Publish
-                </button>
-              </td>
-            </tr>
+            @if(count($smp) > 0)
+              @foreach ($smp as $item)
+                <tr>
+                  <td>{{ $item->name }}</td>
+                  <td class="text-center">{{ $item->unit }}</td>
+                  <td class="text-center">{{ $item->point }}</td>
+                  <td class="text-center">
+                    <form id="publish-form" action="{{ route('student-publish') }}" method="POST">@csrf
+                      <input type="hidden" name="user_id" value="{{$item['id']}}">
+                      <input type="hidden" name="unit_id" value="{{$item['unit']}}">
+                      <input type="hidden" name="point" value="{{$item['point']}}">
+                      @php $isPublish = false; @endphp
+                      @foreach ($popular as $hasPublish)
+                        <?php
+                          if($hasPublish['user_id'] != $item['id'])
+                            $isPublish = false;
+                          else {
+                            $isPublish = true; break;
+                          }
+                        ?>                    
+                      @endforeach
+                      @if($isPublish == false)
+                        <button type="submit" class="btn btn-primary p-1" data-toggle="modal" data-target="#sd">
+                          PUBLISH
+                        </button>
+                      @else
+                        <button disabled class="btn btn-success p-1">
+                          PUBLISHED
+                        </button>
+                      @endif
+                    </form>
+                  </td>
+                </tr>                
+              @endforeach
+            @else
+              <tr>
+                <td colspan="4">
+                  <div class="alert alert-warning">
+                    <span class="ml-2">
+                      Belum ada data yang dihitung oleh system !
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            @endif
           </tbody>
         </table>   
       </div>
@@ -137,164 +242,56 @@
             </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{{ $sd->name }}</td>
-            <td class="text-center">{{ $sd->unit }}</td>
-            <td class="text-center">{{ $sd->point }}</td>
-            <td class="text-center">
-              {{-- <button class="btn btn-primary p-1" onclick="('Harap Perhatikan Data Dengan Baik', {id:{{$sd['id']}}} , '{{ route('student-publish') }}')">
-                <i class="fa fa-plus"></i>
-              </button> --}}
-              <button type="button" class="btn btn-primary p-1" data-toggle="modal" data-target="#sd">
-                Publish
-              </button>
-            </td>
-          </tr>
+          @if(count($sd) > 0)
+            @foreach ($sd as $item)
+              <tr>
+                <td>{{ $item->name }}</td>
+                <td class="text-center">{{ $item->unit }}</td>
+                <td class="text-center">{{ $item->point }}</td>
+                <td class="text-center">
+                  <form id="publish-form" action="{{ route('student-publish') }}" method="POST">@csrf
+                    <input type="hidden" name="user_id" value="{{$item['id']}}">
+                    <input type="hidden" name="unit_id" value="{{$item['unit']}}">
+                    <input type="hidden" name="point" value="{{$item['point']}}">
+                    @php $isPublish = false; @endphp
+                    @foreach ($popular as $hasPublish)
+                      <?php
+                        if($hasPublish['user_id'] != $item['id'])
+                          $isPublish = false;
+                        else {
+                          $isPublish = true; break;
+                        }
+                      ?>                    
+                    @endforeach
+                    @if($isPublish == false)
+                      <button type="submit" class="btn btn-primary p-1" data-toggle="modal" data-target="#sd">
+                        PUBLISH
+                      </button>
+                    @else
+                      <button disabled class="btn btn-success p-1">
+                        PUBLISHED
+                      </button>
+                    @endif
+                  </form>
+                </td>
+              </tr>
+            @endforeach
+          @else
+            <tr>
+              <td colspan="4">
+                <div class="alert alert-warning">
+                  <span class="ml-2">
+                    Belum ada data yang dihitung oleh system !
+                  </span>
+                </div>
+              </td>
+            </tr>
+          @endif
         </tbody>
       </table>   
     </div>
   </div>
   </div>    
-</div>
-{{-- Modal SMK --}}
-<div class="modal fade" id="smk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Publish</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="{{ route('student-publish') }}" method="POST">@csrf
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" hidden name="user_id" value="{{ $smk['id'] }}">
-            <input type="text" hidden name="unit_id" value="{{ $smk['unit'] }}">
-            <input type="text" hidden name="point" value="{{ $smk['point'] }}">
-          <div class="form-grouop">
-            <h5>Nama : {{ $smk['name'] }}</h5>
-          </div>
-          </div>
-          <div class="form-group">
-            <h5>Unit : {{ $smk['unit'] }}</h5>
-          </div>
-          <div class="form-group">
-            <h5>point : {{ $smk['point'] }}</h5>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-{{-- Modal SMA --}}
-<div class="modal fade" id="sma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Publish</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="{{ route('student-publish') }}" method="POST">@csrf
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" hidden name="user_id" value="{{ $sma['id'] }}">
-            <input type="text" hidden name="unit_id" value="{{ $sma['unit'] }}">
-            <input type="text" hidden name="point" value="{{ $sma['point'] }}">
-          <div class="form-grouop">
-            <h5>Nama : {{ $sma['name'] }}</h5>
-          </div>
-          </div>
-          <div class="form-group">
-            <h5>Unit : {{ $sma['unit'] }}</h5>
-          </div>
-          <div class="form-group">
-            <h5>point : {{ $sma['point'] }}</h5>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-{{-- Modal SMP --}}
-<div class="modal fade" id="smp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Publish</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="{{ route('student-publish') }}" method="POST">@csrf
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" hidden name="user_id" value="{{ $smp['id'] }}">
-            <input type="text" hidden name="unit_id" value="{{ $smp['unit'] }}">
-            <input type="text" hidden name="point" value="{{ $smp['point'] }}">
-          <div class="form-grouop">
-            <h5>Nama : {{ $smp['name'] }}</h5>
-          </div>
-          </div>
-          <div class="form-group">
-            <h5>Unit : {{ $smp['unit'] }}</h5>
-          </div>
-          <div class="form-group">
-            <h5>point : {{ $smp['point'] }}</h5>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-{{-- Modal SD --}}
-<div class="modal fade" id="sd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Publish</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="{{ route('student-publish') }}" method="POST">@csrf
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" hidden name="user_id" value="{{ $sd['id'] }}">
-            <input type="text" hidden name="unit_id" value="{{ $sd['unit'] }}">
-            <input type="text" hidden name="point" value="{{ $sd['point'] }}">
-          <div class="form-grouop">
-            <h5>Nama : {{ $sd['name'] }}</h5>
-          </div>
-          </div>
-          <div class="form-group">
-            <h5>Unit : {{ $sd['unit'] }}</h5>
-          </div>
-          <div class="form-group">
-            <h5>point : {{ $sd['point'] }}</h5>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
 </div>
 
 @endsection

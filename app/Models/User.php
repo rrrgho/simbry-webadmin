@@ -39,7 +39,7 @@ class User extends Authenticatable
         'unit',
         'point'
     ];
-    protected $appends = ['level'];
+    protected $appends = ['level','class_name','unit_name'];
 
     public function class_relation(){
         return $this->belongsTo(ClassModel::class, 'class_id', 'id');
@@ -78,6 +78,14 @@ class User extends Authenticatable
             }
         }
         return $level;
+    }
+
+    public function getClassNameAttribute(){
+        return $this->class_relation->name ?? '-';
+    }
+
+    public function getUnitNameAttribute(){
+        return $this->unit_relation->name ?? '-';
     }
     
 }

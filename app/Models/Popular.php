@@ -15,4 +15,8 @@ class Popular extends Model
         'unit_id',
         'point'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

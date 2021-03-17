@@ -126,8 +126,8 @@ class UserController extends Controller
     {
         return Announcement::all();
     }
-    public function studentPpopular(){
-        $data = Popular::where('deleted_at',null)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
+    public function studentPopular($unit){
+        $data = Popular::with('user')->where('deleted_at',null)->where('unit_id', $unit)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
         if($data)
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);

@@ -26,14 +26,16 @@ class ClassController extends Controller
     }
     public function StudentTerpopuler()
     {
-        $sd = User::where('deleted_at',null)->where('unit',1)->orderBy('point','DESC')->first();
-        $smp =  User::where('deleted_at',null)->where('unit',2)->orderBy('point','DESC')->first();
-        $smk = User::where('deleted_at',null)->where('unit',3)->orderBy('point','DESC')->first();
-        $sma = User::where('deleted_at',null)->where('unit',4)->orderBy('point','DESC')->first();
-        return view('class-management.student-terpopuler', compact('sd','smp','sma','smk'));
+        $sd = User::where('deleted_at',null)->where('unit',1)->where('point','>',0)->orderBy('point','DESC')->take(5)->get();
+        $smp =  User::where('deleted_at',null)->where('unit',2)->where('point','>',0)->orderBy('point','DESC')->take(5)->get();
+        $smk = User::where('deleted_at',null)->where('unit',3)->where('point','>',0)->orderBy('point','DESC')->take(5)->get();
+        $sma = User::where('deleted_at',null)->where('unit',4)->where('point','>',0)->orderBy('point','DESC')->take(5)->get();
+        $popular = Popular::where('status',true)->whereMonth('created_at',Carbon::now('Asia/Jakarta')->month)->get();
+        return view('class-management.student-terpopuler', compact('sd','smp','sma','smk','popular'));
     }
     public function StudentPublish(Request $request)
     {
+        return $request->all();
         $insert = $request->validate([
             'user_id' => 'required',
             'unit_id' => 'required',
@@ -45,11 +47,8 @@ class ClassController extends Controller
     }
     public function ResetPoint(Request $request)
     {
-        $user = User::all();
-        foreach ($user as $item) {
-            $item->point = 0;
-            $item->save();
-        }
+        $user = User::query()->update(['point' => 0]);
+        if($user)
             return redirect(route('student-terpopuler'))->with('success', 'Berhasil Reset Point');
         return redirect(route('student-terpopuler'))->with('failed', 'Gagal Reset point');
     }
