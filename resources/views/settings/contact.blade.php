@@ -61,8 +61,8 @@
     </table>   
 </div>        
 </div>
-{{-- Modal aBOUT --}}
-<div class="modal fade" id="ContactSchool"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- Modal Contact --}}
+<div class="modal fade" id="editContactSchool"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog">
 <div class="modal-content" id="box_edit_contact">
 </div>
@@ -105,7 +105,7 @@
                 "serverSide": true,                
             })
         });
-        ContactSchool = (link) => {
+        editContactSchool = (link) => {
             $.ajax({
                 url: link,
                 success: function(response){

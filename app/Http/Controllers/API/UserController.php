@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\Announcement;
 use App\Models\Books;
 use App\Models\BooksOrder;
+use App\Models\Contact;
 use App\Models\KritikSaran;
 use App\Models\Popular;
 use App\Models\Slide;
@@ -125,7 +127,10 @@ class UserController extends Controller
     }
     public function announcement()
     {
-        return Announcement::all();
+        $data = Announcement::where('deleted_at',null)->orderBy('created_at', 'DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
     }
     public function studentPpopular(){
         $data = Popular::where('deleted_at',null)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
@@ -136,6 +141,18 @@ class UserController extends Controller
     public function slideBanner()
     {
         $data = Slide::where('deleted_at',null)->where('active',true)->orderBy('created_at', 'DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+    }
+    public function contact(){
+        $data = Contact::where('deleted_at',null)->orderBy('created_at', 'DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+    }
+    public function about(){
+        $data = About::where('deleted_at',null)->orderBy('created_at', 'DESC')->get();
         if($data)
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
