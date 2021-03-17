@@ -31,7 +31,7 @@ class AnnouncementsController extends Controller
             $insert = new Announcement();
             $insert->name = $name;
             $insert->description = $description;
-            $insert->images = $extension;
+            $insert->images = asset('announcement/'.$extension);
             if($insert->save())
                 return redirect(route('announcements'))->with('success' , 'Berhasil menambahkan pengumuman infromasi' );
             return redirect(route('announcements'))->with('failed', 'Gagal menambahkan pengumuman informasi');

@@ -20,7 +20,7 @@ class SettingsController extends Controller
     public function slideBannerPost(Request $request){
         $insert = $request->validate([
             'title' => 'required|unique:slide_banner,title,',
-            'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'images' => 'required|image|mimes:jpg,png|max:2048'
         ]);
         if($request->hasFile('images'))
         {
@@ -113,7 +113,7 @@ class SettingsController extends Controller
             $delete_message = "'This cannot be undo'";
             $edit_link = "'".url('settings/'.$data['id'].'/contact-edit')."'";
 
-            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#ContactSchool" onclick="ContactSchool('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editContactSchool" onclick="editContactSchool('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
             $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
             return $edit.' '.$delete;
         })
@@ -122,6 +122,26 @@ class SettingsController extends Controller
         })
         ->rawColumns(['action'])
         ->make(true);
+    }
+    public function contactEdit($id){
+        $data = Contact::find($id);
+        return view('settings.ajax-contact',compact('data'));
+    }
+    public function contactEditExecute (Request $request){
+        $data = $request->validate([
+            'description' => 'required'
+        ]);
+        $data = Contact::find($request->id);
+        $data->description = $request->description;
+        if($data->save())
+            return redirect(route('contact'))->with('success', 'Berhasil mengubah data Kontak' .$data['name']);
+        return redirect(route('contact'))->with('failed', 'Gagal menghapus' .$data['name']);
+    }
+    public function contactDelete($id){
+        $data = Contact::find($id);
+        if($data->delete());
+            return redirect(route('contact'))->with('success', 'Berhasil menghapus' .$data['name']);
+        return redirect(route('contact'))->with('failed', 'Gagal menghapus' .$data['name']);
     }
     // ABOUT
     public function about(){

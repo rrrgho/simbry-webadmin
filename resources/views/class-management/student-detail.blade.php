@@ -22,28 +22,42 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-lg-6">
         <div class="card">
-            <div class="card-header bg-light">
-                <h1 class="text-success">Detail {{$data[0]['name']}}</h1>
-                <p></p>
+            <div class="card-header">
+                <h5 class="text-center">{{ $data[0]['name'] }}</h5>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 p-0">
-                            <div class="card">
-                                <div class="card-header bg-light">
-                                    <span style="font-size: 25px">{{$data[0]['name']}}</span> <br><br>
-                                    <button class="btn btn-success position-absolute" data-toggle="modal" data-target="#changePassword" style="top:5px; right:10px;"><i class="fa fa-plus"></i> <span class="ml-2">Ganti Password</span></button>
-                                </div>
-                                <div class="card-body">
-                                    <h5 style="opacity: 0.7; margin-top:10px;">BUKU DI PINJAM : {{$order[0]['id'] ?? 'Tidak ada Point'}}</h5>
-                                    <h5 style="opacity: 0.7; margin-top:10px;">POINT : {{$data[0]['point'] ?? 'Tidak ada Point'}}</h5>
-                                </div>
-                            </div>
-                        </div>
+            <form action="{{ route('detail-siswa-execute') }} " method="POST">@csrf
+                <div class="card-body">
+                    <input type="text" name="id" hidden value="{{ $data[0]['id'] }}">
+                    <div class="form-group">
+                        <label for="">Nomor Induk Siswa</label>
+                        <input type="text" name="user_number" class="form-control" value="{{ $data[0]['user_number'] }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nama</label>
+                        <input type="text" name="name" class="form-control" value="{{ $data[0]['name'] }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Ganti Password</label>
+                        <input type="text" class="form-control" name="password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary float-right">Simpan</button>
                     </div>
                 </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="text-center">History {{ $data[0]['name'] }}</h5>
+            </div>
+            <div class="card-body">
+                {{-- <h5 style="opacity: 0.7; margin-top:10px;">BUKU SEDANG PINJAM : {{$order[0]['id'] ?? 'Tidak ada Di pinjam'}}</h5> --}}
+                <h5 style="opacity: 0.7; margin-top:10px;">POINT : {{$data[0]['point'] ?? 'Tidak ada Point'}}</h5>
+                <h5 style="opacity: 0.7; margin-top:10px;">LEVEL : {{$data[0]['level'] ?? 'Tidak Ada Medali'}}</h5>
             </div>
         </div>
     </div>

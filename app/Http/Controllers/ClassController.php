@@ -66,8 +66,21 @@ class ClassController extends Controller
     public function detailSiswa($id)
     {
         $data = User::where('id', $id)->where('deleted_at',null)->get();
-        $order = BooksOrder::where('deleted_at')->get();
-        return view('class-management.student-detail',compact('data','order'));
+        // $order = BooksOrder::where('user_id', $id)->where('status','APPROVED')->get();
+        return view('class-management.student-detail',compact('data'));
+    }
+    public function detailSiswaExecute(Request $request){
+        $data = $request->validate([
+            'user_number' => 'required',
+            'name' => 'required'
+        ]);
+        $data = User::find($request->id);
+        $data->user_number = $request->user_number;
+        $data->name = $request->name;
+        $data->password = Hash::make($request->password);
+        if($data->save())
+            return redirect(route('main-class-management'))->with('success', 'Berhasil mengubah data Kontak' .$data['name']);
+        return redirect(route('main-class-management'))->with('failed', 'Gagal menghapus' .$data['name']);
     }
     public function teacher(){
         return view('class-management.teacher');

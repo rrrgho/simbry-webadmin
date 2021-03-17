@@ -5,7 +5,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        <div class="modal-body" id="box_edit_about_school">
+        <div class="modal-body" id="box_edit_contact">
             {{-- Data will be sent --}}
             <input type="hidden" name="id" value="{{$data['id']}}">
             <div class="form-group">
