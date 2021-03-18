@@ -9,6 +9,7 @@ use App\Models\Books;
 use App\Models\BooksOrder;
 use App\Models\Contact;
 use App\Models\KritikSaran;
+use App\Models\Late;
 use App\Models\Popular;
 use App\Models\Slide;
 use Illuminate\Http\Request;
@@ -48,7 +49,40 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Password is wrong'], 200);
         }
         return response()->json(['error' => true, 'message' => 'Username not found !'], 200);
-    }        
+    }       
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        $user_id = Auth::guard('api')->user()->id;
+        $rules = array(
+            'old_password' => 'required',
+            'new_password' => 'required|min:6',
+            'confirm_password' => 'required|same:new_password',
+        );
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
+        } else {
+            try {
+                if ((Hash::check(request('old_password'), Auth::user()->password)) == false) {
+                    $arr = array("status" => 400, "message" => "Check your old password.", "data" => array());
+                } else if ((Hash::check(request('new_password'), Auth::user()->password)) == true) {
+                    $arr = array("status" => 400, "message" => "Please enter a password which is not similar then current password.", "data" => array());
+                } else {
+                    User::where('id', $user_id)->update(['password' => Hash::make($input['new_password'])]);
+                    $arr = array("status" => 200, "message" => "Password updated successfully.", "data" => array());
+                }
+            } catch (\Exception $ex) {
+                if (isset($ex->errorInfo[2])) {
+                    $msg = $ex->errorInfo[2];
+                } else {
+                    $msg = $ex->getMessage();
+                }
+                $arr = array("status" => 400, "message" => $msg, "data" => array());
+            }
+        }
+        return response()->json($arr);
+    } 
       
     public function orderBook(Request $request)
     {
@@ -57,6 +91,10 @@ class UserController extends Controller
             'book_id' => ['required'],
             'user_id' => ['required|min:2']
         ]);
+        $late = Late::where('user_id', $validated['user_id'])->where('date','>', now()->toDateTimeString())->exists();
+        if($late){
+            return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
+        }
         $userType = Auth::guard('api')->user()->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {

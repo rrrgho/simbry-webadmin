@@ -24,7 +24,7 @@
     <div class="col-md-12 col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h3>Peminjaman Berjalan Approved!!</h3>
+                {{-- <h3>Peminjaman Berjalan Approved!!</h3> --}}
             </div>
             <div class="card-body">
                 <table class="ui celled table table-striped" id="data-masuk">
@@ -34,7 +34,7 @@
                             <th>Nama</th>
                             {{-- <th>Kelas</th> --}}
                             <th>Nama Buku</th>
-                            <th>Tanggal Peminjamn</th>
+                            <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
                             <th>Status</th>
                         </tr>

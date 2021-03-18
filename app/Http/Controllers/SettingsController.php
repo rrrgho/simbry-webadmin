@@ -20,7 +20,7 @@ class SettingsController extends Controller
     public function slideBannerPost(Request $request){
         $insert = $request->validate([
             'title' => 'required|unique:slide_banner,title,',
-            'images' => 'required|image|mimes:jpg,png|max:2048'
+            'images' => 'required|image|mimes:jpg,png|max:2048|dimensions:min_width=800,min_height=300'
         ]);
         if($request->hasFile('images'))
         {
