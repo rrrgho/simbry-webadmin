@@ -22,7 +22,7 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3>Pengaturan Approved & Declined !!</h3>
+                    {{-- <h3>Pengaturan Approved & Declined !!</h3> --}}
                 </div>
                 <div class="card-body">
                     <table class="ui celled table table-striped" id="peminjaman">

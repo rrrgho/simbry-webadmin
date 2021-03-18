@@ -22,12 +22,12 @@
 @section('content')
 <div class="row">
     <div class="col-md-12 col-lg-12">
-        <div class="container">
+        {{-- <div class="container">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filter"> <i class="fa fa-filter"></i> </button>
-        </div>  
+        </div>   --}}
         <div class="card">
             <div class="card-header">
-                <h3>Peminjaman Expired!!</h3>
+                {{-- <h3>Peminjaman Expired!!</h3> --}}
             </div>
             <div class="card-body">
                 <table class="ui celled table table-striped" id="data-expired">
@@ -36,7 +36,7 @@
                             <th>#</th>
                             <th>Nama</th>
                             <th>Nama Buku</th>
-                            <th>Tanggal Peminjamn</th>
+                            <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
                             <th>Lama Tunggakan</th>
                         </tr>

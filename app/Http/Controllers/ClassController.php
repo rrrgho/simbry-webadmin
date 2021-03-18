@@ -35,7 +35,7 @@ class ClassController extends Controller
     }
     public function StudentPublish(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         $insert = $request->validate([
             'user_id' => 'required',
             'unit_id' => 'required',

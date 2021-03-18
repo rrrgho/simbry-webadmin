@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-12 border-bottom mb-3">
             <div class="col border-bottom pl 0 pb-3">
-                <h3>Peminjaman History!!</h3>
+                <h3>Riwayat Peminjaman</h3>
                 <p>Anda dapat menambah, mengedit atau menghapus data Peminjaman disini !</p>       
             </div>
         </div>    
@@ -24,7 +24,7 @@
     <div class="col-md-12 col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h3>Peminjaman History!!</h3>
+                {{-- <h3>Peminjaman History!!</h3> --}}
             </div>
             <div class="card-body">
                 <table class="ui celled table table-striped" id="data-history">
@@ -33,7 +33,7 @@
                             <th>#</th>
                             <th>Nama</th>
                             <th>Nama Buku</th>
-                            <th>Tanggal Peminjamn</th>
+                            <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
                             <th>Status</th>
                         </tr>

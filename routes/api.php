@@ -49,5 +49,6 @@ Route::namespace('API')->group(function(){
         Route::post('history', [UserController::class, 'historybook']);
         Route::post('kritik',[UserController::class, 'kritik']);
         Route::post('notifikasi',[UserController::class, 'notifikasi']);
+        Route::post('change-password', [UserController::class, 'changePassword']);
     });
 });
