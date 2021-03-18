@@ -29,14 +29,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function test(){
-        // History peminjaman
-        OrderBook::where('user_id',$user_id)->where('status','FINISHED')->get()
-
-        // Peminjaman Berjalan
-        OrderBook::where('user_id', $user_id)->where('status','APPROVED')->get()
-
-    }
 
     public function Login(Request $request)
     {
