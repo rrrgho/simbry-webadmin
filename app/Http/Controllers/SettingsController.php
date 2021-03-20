@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\About;
 use App\Models\Contact;
 use App\Models\Slide;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DataTables;
 use Dotenv\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class SettingsController extends Controller
 {
@@ -89,6 +91,19 @@ class SettingsController extends Controller
     public function contact(){
         return view('settings.contact');
     }
+    public function contactStore(Request $request){
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+            $request->file('upload')->move(public_path('pages'), $fileName);
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('pages/'.$fileName);
+            $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url')</script>";
+            echo $response;
+            }
+    }
     public function contactPost(Request $request)
     {
         if(!$request->all())
@@ -111,11 +126,11 @@ class SettingsController extends Controller
         ->addColumn('action', function($data){
             $delete_link = "'".url('settings/contact-delete/'.$data['id'])."'";
             $delete_message = "'This cannot be undo'";
-            $edit_link = "'".url('settings/'.$data['id'].'/contact-edit')."'";
+            // $edit_link = "'".url('settings/'.$data['id'].'/contact-edit')."'";
 
-            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editContactSchool" onclick="editContactSchool('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            // $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editContactSchool" onclick="editContactSchool('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
             $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
-            return $edit.' '.$delete;
+            return  $delete;
         })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
@@ -147,6 +162,19 @@ class SettingsController extends Controller
     public function about(){
         return view('settings.about');
     }
+    public function aboutStore(Request $request){
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+            $request->file('upload')->move(public_path('pages'), $fileName);
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('pages/'.$fileName);
+            $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url')</script>";
+            echo $response;
+            }
+    }
     public function aboutPost(Request $request)
     {
         if(!$request->all())
@@ -168,11 +196,11 @@ class SettingsController extends Controller
         ->addColumn('action', function($data){
             $delete_link = "'".url('settings/about-delete/'.$data['id'])."'";
             $delete_message = "'This cannot be undo'";
-            $edit_link = "'".url('settings/'.$data['id'].'/about-edit')."'";
+            // $edit_link = "'".url('settings/'.$data['id'].'/about-edit')."'";
 
-            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editAboutSchool" onclick="editAboutSchool('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            // $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editAboutSchool" onclick="editAboutSchool('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
             $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
-            return $edit.' '.$delete;
+            return $delete;
         })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
@@ -200,5 +228,23 @@ class SettingsController extends Controller
         if($data->delete());
             return redirect(route('about-school'))->with('success', 'Berhasil menghapus' .$data['name']);
         return redirect(route('about-school'))->with('failed', 'Gagal menghapus' .$data['name']);
+    }
+    public function changePassword()
+    {
+        $data = User::where('deleted_at',null)->where('user_type_id',3)->get();
+        return view('admin.change-password', compact('data'));
+    }
+    public function changePasswordPost(Request $request){
+        $data = $request->validate([
+            'user_number' => 'required',
+            'name' => 'required'
+        ]);
+        $data = User::find($request->id);
+        $data->user_number = $request->user_number;
+        $data->name = $request->name;
+        $data->password = Hash::make($request->password);
+        if($data->save())
+            return redirect(route('change-password'))->with('success', 'Berhasil mengganti Password' .$data['name']);
+        return redirect(route('change-password'))->with('failed', 'Gagal menghapus' .$data['name']);
     }
 }

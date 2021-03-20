@@ -102,6 +102,16 @@ form{
             <p>Selamat datang di e-library {{env('APP_NAME')}}</p>
 					</div>
 					<div class="row">
+						@if(session('success'))
+						<div class="row pb-4">
+							<div class="col-4">
+								<div class="alert alert-success outline alert-dismissible fade show" role="alert"><i data-feather="thumbs-up"></i>
+									<p>{{session('success')}}</p>
+									{{-- <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> --}}
+								</div>
+							</div>
+						</div>
+						@endif
 						<form action="{{ route('login') }}" class="form-group" method="POST">@csrf
 							<div class="row">
 								<input type="text" name="username" id="username" class="form__input" placeholder="Username">

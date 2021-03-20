@@ -31,35 +31,37 @@
 </div>
 @endif
 <div class="row">
-<div class="col-md-12 col-lg-4">
-    <div class="card">
-        <form action="{{route('about-school-post')}}" method="POST">@csrf
-            <div class="card-header bg-light">
-                <h3>Tambah Informasi Perpustakaan</h3>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <textarea name="description" class="form-control" id="" placeholder="Ketik Disini..." rows="3"></textarea>                            
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <form action="{{route('about-school-post')}}" method="POST">@csrf
+                <div class="card-header bg-light">
+                    <h3>Tambah Informasi Perpustakaan</h3>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-info btn-block">Simpan</button>
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea name="description" class="form-control" id="" placeholder="Ketik Disini..." rows="3"></textarea>                            
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-block">Simpan</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    </div> 
 </div>
-<div class="col-md-12 col-lg-8">                 
-    <table class="ui celled table table-striped" id="data-about-school">
-        <thead>
-            <tr class="text-center">
-                <th width="50">#</th>
-                <th>Deskripsi</th>
-                <th width="100px">Created At</th>
-                <th width="100px">Action</th>
-            </tr>
-        </thead>
-    </table>   
-</div>        
+<div class="row">
+    <div class="col-md-12 col-lg-12">                 
+        <table class="ui celled table table-striped" id="data-about-school">
+            <thead>
+                <tr class="text-center">
+                    <th width="50">#</th>
+                    <th>Deskripsi</th>
+                    <th width="100px">Created At</th>
+                    <th width="100px">Action</th>
+                </tr>
+            </thead>
+        </table>   
+    </div>       
 </div>
 {{-- Modal aBOUT --}}
 <div class="modal fade" id="editAboutSchool"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,6 +72,7 @@
 </div>
 @endsection
 @section('script')
+<script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
     <script>
         // Datatable
         $(function(){
@@ -113,5 +116,9 @@
                 }
             })
         }
+        CKEDITOR.replace('description', {
+            filebrowserUploadUrl: "{{route('about-store', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
     </script>
 @endsection

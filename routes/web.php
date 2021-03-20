@@ -49,7 +49,8 @@ Route::middleware('cors')->group(function(){
 
 Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
-
+    Route::get('change-password', [SettingsController::class, 'changePassword'])->name('change-password');
+    Route::post('change-password-post', [SettingsController::class, 'changePasswordPost'])->name('change-password-post');
     Route::prefix('class-management')->group(function(){
         // Class Data Student
         Route::get('/student', [ClassController::class, 'index'])->name('main-class-management');
@@ -162,6 +163,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         // Contact
         Route::get('contact',[SettingsController::class, 'contact'])->name('contact');
         Route::post('contact-post',[SettingsController::class, 'contactPost'])->name('contact-post');
+        Route::post('contact-store',[SettingsController::class, 'contactStore'])->name('contact-store');
         Route::get('contact-datatable',[SettingsController::class, 'contactDatatable'])->name('contact-datatable');
         Route::get('/{id}/contact-edit',[SettingsController::class, 'contactEdit'])->name('contact-edit');
         Route::post('contact-edit-execute',[SettingsController::class, 'contactEditExecute'])->name('contact-edit-execute');
@@ -169,6 +171,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         // About
         Route::get('about-school',[SettingsController::class, 'about'])->name('about-school');
         Route::post('about-school-post',[SettingsController::class, 'aboutPost'])->name('about-school-post');
+        Route::post('about-store',[SettingsController::class, 'aboutStore'])->name('about-store');
         Route::get('about-school-datatable',[SettingsController::class, 'aboutDatable'])->name('about-school-datatable');
         Route::get('/{id}/about-edit', [SettingsController::class, 'aboutEdit'])->name('about-edit');
         Route::post('about-edit-execute', [SettingsController::class, 'aboutEditExecute'])->name('about-edit-execute');
