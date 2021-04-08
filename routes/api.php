@@ -29,6 +29,7 @@ Route::get('migrate_unit', [MigrationController::class, 'migrateClassUnit']);
 
 Route::get('add_unit_id', [MigrationController::class, 'add_unit_id']);
 
+Route::post('testing', [MigrationController::class, 'testing']);
 
 Route::namespace('API')->group(function(){
     Route::post('login', [UserController::class, 'Login']);

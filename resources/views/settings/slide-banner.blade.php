@@ -62,6 +62,7 @@
         <thead>
             <tr class="text-center">
                 <th>#</th>
+                <th>Image</th>
                 <th>Title</th>
                 <th>Deskripsi</th>
                 <th>Aktif</th>
@@ -89,6 +90,7 @@
           ajax: '{{route('slide-datatable')}}',
           columns: [
               { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+              { data: 'image', name: 'image'},
               { data: 'title', name: 'title'},
               { data: 'description', name: 'description'},
               { data: 'active', name: 'active'},

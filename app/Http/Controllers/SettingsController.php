@@ -46,6 +46,10 @@ class SettingsController extends Controller
         $data = Slide::where('deleted_at',null)->orderBy('created_at','DESC')->get();
         return DataTables::of($data)
         ->addIndexColumn()
+        ->addColumn('image', function($data){
+            $html = '<div class="col"> <img class="image-fluid" alt="" style="width:100px; height:70px" src="'.$data['images'].'"> </ima>  </div>';
+            return $html;
+        })
         ->addColumn('action', function($data){
             $delete_link = "'".url('settings/slide-delete/'.$data['id'])."'";
             $delete_message = "'This cannot be undo'";
@@ -56,12 +60,16 @@ class SettingsController extends Controller
             return $edit.' '.$delete;
         })
         ->addColumn('active', function($data){
-            return '<button class="btn btn-danger p-1 text-white">'.$data['active'].'</button>';
+            $result = $data['active'] == 1 ? 'ACTIVE' : 'TIDAK ACTIVE';
+
+            if($result == 'ACTIVE')
+                return '<button class="btn btn-success p-1 text-white">'.$result.'</button>';
+            return '<button class="btn btn-danger p-1 text-white">'.$result.'</button>';
         })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
         })
-        ->rawColumns(['action','active'])
+        ->rawColumns(['action','active','image'])
         ->make(true);
     }
     public function slideEdit($id){

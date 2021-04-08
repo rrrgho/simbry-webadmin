@@ -214,4 +214,10 @@ class MigrationController extends Controller
         // }
         // return "selesai";
     }
+
+
+
+    public function testing(Request $request){
+        return response()->json(['message' => 'success', 'data' => $request->all()]);
+    }
 }
