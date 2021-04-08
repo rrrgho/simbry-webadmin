@@ -89,9 +89,8 @@ class UserController extends Controller
         // Validasi
         $validated = $request->validate([
             'book_id' => ['required'],
-            'user_id' => ['required|min:2']
         ]);
-        $late = Late::where('user_id', $validated['user_id'])->where('date','>', now()->toDateTimeString())->exists();
+        $late = Late::where('user_id', Auth::guard('api')->id())->where('date','>', now()->toDateTimeString())->exists();
         if($late){
             return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
         }
@@ -127,7 +126,7 @@ class UserController extends Controller
                 $data->save();
             });
         } catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => 'Simpan data error'], 200);
+            return response()->json(['error' => true, 'message' => $e], 200);
         }
         return response()->json([
             'error' => false, 'message' => 'Permohonam peminjaman sedang diproses oleh Admin, cek sekala berkala status peminjaman anda !'

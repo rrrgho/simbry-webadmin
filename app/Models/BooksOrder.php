@@ -12,7 +12,6 @@ class BooksOrder extends Model
     protected $table = "book_order";
     protected $guarded = [];
     protected $appends = ['book'];
-
     public function book_relation(){
         return $this->belongsTo(Books::class, 'book_id');
     }
