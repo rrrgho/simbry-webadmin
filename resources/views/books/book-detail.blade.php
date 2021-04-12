@@ -173,7 +173,7 @@
                             <input type="hidden" name="examplar" value="{{$data[0]['examplar']}}">
                             <div class="col-6 mt-3">
                                 <label>Judul : </label><br>
-                                <input required class="date form-control"  name="creator" value="{{$data[0]['name']}}" type="text">
+                                <input required class="date form-control"  name="name" value="{{$data[0]['name']}}" type="text">
                             </div>
                             <div class="col-6 mt-3">
                                 <label>Pilih Kategori : </label><br>

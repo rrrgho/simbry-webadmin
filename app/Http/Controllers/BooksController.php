@@ -205,6 +205,7 @@ class BooksController extends Controller
         $data = Books::where('examplar', $examplar)->first();
         if(!$request->all())
             return view('books.book-detail', compact('data','books','item','copy','redy'));
+        $data->name = $request->name;
         $data->category_id = $request->category_id;
         $data->creator = $request->creator;
         $data->locker_id = $request->locker_id;
