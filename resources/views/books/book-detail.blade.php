@@ -172,6 +172,10 @@
                         <div class="row"> 
                             <input type="hidden" name="examplar" value="{{$data[0]['examplar']}}">
                             <div class="col-6 mt-3">
+                                <label>Judul : </label><br>
+                                <input required class="date form-control"  name="creator" value="{{$data[0]['name']}}" type="text">
+                            </div>
+                            <div class="col-6 mt-3">
                                 <label>Pilih Kategori : </label><br>
                                 <select required class="form-control" style="width: 100%" name="category_id">
                                     <option value="" hidden>Pilih Kategori</option>
@@ -190,9 +194,10 @@
                                 <select required class="form-control" style="width: 100%" name="locker_id">
                                     <option value="" hidden>Pilih Loker</option>
                                     @foreach($locker as $item)
-                                        <option @if($data[0]['locker_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
-                                            {{ $item['name'] }}</option>
+                                    <option @if($data[0]['locker_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
+                                        {{ $item['name'] }}</option>
                                     @endforeach
+                                   
                                 </select>
                             </div>
                             <div class="col-6 mt-3">
