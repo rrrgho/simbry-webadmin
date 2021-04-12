@@ -31,7 +31,7 @@ Route::get('add_unit_id', [MigrationController::class, 'add_unit_id']);
 
 Route::post('testing', [MigrationController::class, 'testing']);
 
-Route::namespace('API')->group(function(){
+Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('login', [UserController::class, 'Login']);
     Route::post('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
