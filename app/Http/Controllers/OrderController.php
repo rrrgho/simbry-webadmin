@@ -21,10 +21,11 @@ class OrderController extends Controller
 {
     public function CheckUser(Request $request){
         $user = User::where('user_number', $request->user_number)->first();
-        $data['name'] = $user['name'];
-        $data['id'] = $user['id'];
-        if($user)
+        if($user){
+            $data['name'] = $user['name'];
+            $data['id'] = $user['id'];
             return response()->json(['error' => false, 'message' => 'Success', 'data' => $data], 200);
+        }
         return response()->json(['error' => true, 'message' => 'tidak ada data'], 200);
     }
     public function pemulangan(Request $request)
