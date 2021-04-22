@@ -144,7 +144,7 @@
                         <div class="col-8">
                             <input type="hidden" id="route-check" value="{{ route('check-user') }}">
                             <input type="text" id="user_number_check" class="form-control"
-                                placeholder="Nomor atau nama siswa, guru" aria-label="Recipient's username"
+                                placeholder="Nomor Induk" aria-label="Recipient's username" required
                                 aria-describedby="button-addon2">
                         </div>
                         <div class="col-4">

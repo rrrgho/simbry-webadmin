@@ -25,7 +25,7 @@
                     {{-- <h3>Pengaturan Approved & Declined !!</h3> --}}
                 </div>
                 <div class="card-body">
-                    <table class="ui celled table table-striped" id="peminjaman">
+                    <table class="ui celled table table-striped" id="peminjamanDatatable">
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
@@ -90,7 +90,7 @@
         }
         
         $(document).ready(function() {
-            $('#peminjaman').DataTable();
+            $('#peminjamanDatatable').DataTable();
         } );
     </script>
 @endsection
