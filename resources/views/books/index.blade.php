@@ -117,6 +117,7 @@
                                 <input required class="date form-control"  name="copy_amount" value="1" type="number">
                             </div>                          
                             <div class="col-6 mt-3">
+                                @if($category->count())
                                 <label>Pilih Kategori : </label><br>
                                 <select required class="form-control" style="width: 100%" name="category_id">
                                     <option value="" hidden>Pilih Kategori</option>
@@ -125,12 +126,20 @@
                                             {{ $item['name'] }}</option>
                                     @endforeach
                                 </select>
+                                @else
+                                <select name="" id="" hidden required>
+                                </select>
+                                <div class="alert alert-warning">
+                                    Data kategori buku tidak di temukan ! mohon masukkan data kategori!!
+                                </div>
+                                @endif
                             </div>
                             <div class="col-6 mt-3">
                                 <label>Penulis : </label><br>
                                 <input required class="date form-control"  name="creator" type="text">
                             </div>
                             <div class="col-6 mt-3">
+                                @if($publisher->count())
                                 <label for="">Pilih Penerbit : </label>
                                 <select required class="form-control" style="width: 100%;" name="publisher_id">
                                     <option value="" hidden>Pilih Penerbit</option>
@@ -139,20 +148,36 @@
                                             {{ $item['name'] }}</option>
                                     @endforeach
                                 </select>
+                                @else
+                                <select name="" id="" hidden required>
+                                </select>
+                                <div class="alert alert-warning">
+                                    Data penerbit buku tidak di temukan ! mohon masukkan data penerbit!!
+                                </div>
+                                @endif
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Pilih Edisi : </label>
                                 <input required class="date form-control"  name="edition" value="" type="text">
                             </div>
                             <div class="col-6 mt-3">
-                                <label for="">Pilih Loker : </label>
-                                <select required class="form-control" style="width: 100%" name="locker_id">
-                                    <option value="" hidden>Pilih Loker</option>
-                                    @foreach($locker as $item)
+                                @if($locker->count())
+                                    <label for="">Pilih Loker : </label>
+                                    <select required class="form-control" style="width: 100%" name="locker_id">
+                                        <option value="" hidden>Pilih Loker</option>
+                                        @foreach($locker as $item)                               
                                         <option value="{{ $item['id'] }}">
                                             {{ $item['name'] }}</option>
-                                    @endforeach
-                                </select>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select name="" id="" hidden required>
+                                    </select>
+                                    <div class="alert alert-warning">
+                                        Data loker buku tidak di temukan ! mohon masukkan data loker!!
+                                    </div>
+                                @endif
+                                
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Asal Buku : </label>

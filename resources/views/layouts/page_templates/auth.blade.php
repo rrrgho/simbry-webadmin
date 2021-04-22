@@ -11,14 +11,14 @@
     </div>
     @include('layouts.footers.auth')
   </div>
-<div class="box-peminjaman" style="margin-left: 3%">
+<div class="box-peminjaman" style="margin-left: 75%">
     <div class="navigator">
       <i class="fa fa-shopping-cart"></i>
     </div>
     <div class="peminjaman d-none" data-toggle="modal" data-target="#peminjaman">
       <i class="fa fa-address-book"></i>
     </div>
-    <div class="pengembalian d-none" data-target="#pengembalian" data-toggle="modal">
+    {{-- <div class="pengembalian d-none" data-target="#pengembalian" data-toggle="modal">
       <i class="fa fa-sign-out"></i>
-    </div>
+    </div> --}}
 </div>

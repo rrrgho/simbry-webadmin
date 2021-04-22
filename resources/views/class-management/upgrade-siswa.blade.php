@@ -55,8 +55,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12 col-lg-4">
+                                    <input name="subject_all" class="subject-all mr-3" type="checkbox" checked>Pilih Semua <br>
                                     @foreach ($data as $item)
-                                        <li style="list-style: none"><input type="checkbox" checked name="user_id[]" id="" value="{{$item['id']}}" class="mr-3">{{$item['name']}}</li>
+                                        {{-- <li style="list-style: none"> <input class="subject-list" checked type="checkbox" name="user_id[]" value="{{$item['id']}}" class="mr-3">{{$item['name']}}</li> --}}
+                                        <li style="list-style: none"><input type="checkbox" checked name="user_id[]" value="{{$item['id']}}" class="mr-3 subject-list">{{$item['name']}}</li>
                                     @endforeach
                                 </div>
                                 <div class="col-md-12 col-lg-4">
@@ -86,4 +88,15 @@
         </div>
     </div>
 
+@endsection
+@section('script')
+    <script>
+       $('.subject-all').on('change', function() {
+	    	if(this.checked){
+		    	$('.subject-list').prop('checked', true);  
+	    	}else{
+	    		$('.subject-list').prop('checked', false);
+	    	}
+		});
+    </script>
 @endsection

@@ -27,7 +27,7 @@
                 <div class="card-header bg-light">
                     <h1 class="text-success">Data Seluruh Siswa</h1>
                     <p>Tambah, edit atau hapus data siswa.</p>
-                    <button type="submit" data-toggle="modal" data-target="#passwordall" class="btn btn-danger p-2 mt-3">Reset Password</button>
+                    {{-- <button type="submit" data-toggle="modal" data-target="#passwordall" class="btn btn-danger p-2 mt-3">Reset Password</button> --}}
                     <button class="btn btn-success position-absolute" onclick="getAddStudentComponent()" data-toggle="modal" id="btn-add-student" data-target="#addStudent" style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Siswa</button>
                 </div>
                 <div class="card-body">
@@ -95,12 +95,20 @@
                                         <input type="text" required name="name" placeholder="Nama kelas" class="form-control text-white">
                                     </div>
                                     <div class="col-6 mt-3">
+                                        @if($teacher->count())
                                         <select required name="author_id" class="form-control select2-single">
                                             <option value="" hidden>Penanggung jawab kelas</option>
                                             @foreach ($teacher as $item)
                                                 <option value="{{$item['id']}}">{{$item['name']}}</option>
                                             @endforeach
                                         </select>
+                                        @else
+                                        <select name="" id="" hidden required>
+                                        </select>
+                                        <div class="alert alert-danger">
+                                            Data Guru tidak di temukan ! mohon masukkan data guru!!
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="col-12">
                                         <button class="btn btn-light float-right mt-3" id="btn-add-class" type="submit">Tambah Kelas</button>
