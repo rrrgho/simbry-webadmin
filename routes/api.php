@@ -6,6 +6,7 @@ use App\Http\Controllers\API\MigrationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\BooksController;
+// use App\Http\Controllers\BooksController;
 use App\Http\Controllers\KritikSaranController;
 use App\Http\Controllers\STUDENT\BooksStudentController;
 use App\Models\User;
@@ -30,7 +31,7 @@ Route::get('migrate_unit', [MigrationController::class, 'migrateClassUnit']);
 Route::get('add_unit_id', [MigrationController::class, 'add_unit_id']);
 
 Route::post('testing', [MigrationController::class, 'testing']);
-
+Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('login', [UserController::class, 'Login']);
     Route::post('announcement', [UserController::class, 'announcement']);

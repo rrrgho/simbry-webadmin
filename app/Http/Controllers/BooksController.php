@@ -116,7 +116,21 @@ class BooksController extends Controller
         $locker = Locker::where('deleted_at',null)->get();
         $publisher = Publisher::where('deleted_at',null)->get();
         $category = BooksCategory::where('deleted_at',null)->get();
-        return view('books.book-detail', compact('data','user','locker', 'publisher', 'category'));
+        $qrcode = QrCode::size(150)->generate(env('APP_URL').'/api/book-qr/'.$examplar);
+        return view('books.book-detail', compact('data','user','locker', 'publisher', 'category','qrcode'));
+    }
+    public function bookQrDetail($examplar)
+    {
+        $data = Books::find($examplar);
+        return response()->json([
+            'message' => true,
+            'data' => [
+                'id' => $data->id,
+                'examplar' => $data->examplar,
+                'name' => $data->name,
+                'ready' => $data->ready,
+            ],
+        ]);
     }
     public function booksDelete(Request $request){
         $item = Books::find($request->id);

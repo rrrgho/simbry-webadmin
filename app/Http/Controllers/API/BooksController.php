@@ -9,11 +9,14 @@ use Illuminate\Http\Request;
 use App\Models\Books;
 use App\Models\BooksCategory;
 use App\Models\Locker;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
 {
     public function bookData(){
         $data = Books::paginate(3);
+        // $data = Books::with;
+        // $data['category'] = BooksCategory::find($data['category_id'])['name'];
+        // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
     }
     public function bookDetail($id){
@@ -26,5 +29,18 @@ class BooksController extends Controller
     public function bookSearch(Request $request){
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(50);
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+    }
+    public function bookQrDetail($id)
+    {
+        $data = Books::find($id);
+        return response()->json([
+            'message' => true,
+            'data' => [
+                'id' => $data->id,
+                'examplar' => $data->examplar,
+                'name' => $data->name,
+                'ready' => $data->ready,
+            ],
+        ]);
     }
 }
