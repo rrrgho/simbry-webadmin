@@ -40,6 +40,9 @@ class BooksController extends Controller
                 'examplar' => $data->examplar,
                 'name' => $data->name,
                 'ready' => $data->ready,
+                'link_admin' => asset("/books-management/books-detail/".$data->id),
+                'link_user_unsecure' => "http://ypsimlibrary.com/book-detail/".$data->id,
+                'link_user_secure' => "https://ypsimlibrary.com/book-detail/1".$data->id, 
             ],
         ]);
     }

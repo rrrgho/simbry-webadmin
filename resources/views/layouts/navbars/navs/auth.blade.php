@@ -1,5 +1,15 @@
+<style>
+  @media print {
+      .noPrint{
+          display:none;
+      }
+      .print{
+          display: block;
+      }
+  }
+</style>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top noPrint">
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <div class="col">
