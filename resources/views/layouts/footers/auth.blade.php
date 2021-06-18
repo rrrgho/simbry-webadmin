@@ -1,4 +1,14 @@
-<footer class="footer" style="position: fixed; bottom:0">
+<style>
+  @media print {
+      .noPrint{
+          display:none;
+      }
+      .print{
+          display: block;
+      }
+  }
+</style>
+<footer class="footer noPrint" style="position: fixed; bottom:0">
   <div class="container-fluid">
     <nav class="float-left">
       <ul>

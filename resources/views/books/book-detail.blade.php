@@ -11,7 +11,7 @@
 ])
 
 @section('title')
-<div class="row">
+<div class="row noPrint">
     <div class="col-md-12">
         <div class="col border-bottom pl-0 pb-3">
             <h3>Manajemen Buku</h3>
@@ -21,14 +21,31 @@
 </div>
 @endsection
 @section('content')
+<style>
+    @media print {
+        .noPrint{
+            display:none;
+        }
+        .print{
+            display: block;
+            text-align: left !important;
+            margin-top: -150px;
+        }
+    }
+    @page { size: auto;  margin: 0mm; }
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header bg-light">
+            <div class="card-header bg-light noPrint">
                 <h1 class="text-success">Detail {{$data[0]['name']}}</h1>
                 <p></p>
             </div>
-            <div class="card-body">
+            <div class="card-header text-center pt-5 print">
+                {!! QrCode::size(200)->generate(asset('/api/book-qr/1')); !!} <br>
+                <button class="btn btn-info noPrint" onclick="window.print()"><i class="fa fa-print mr-3" ></i> Cetak QR Code</button>
+            </div>
+            <div class="card-body noPrint">
                 <div class="row">
                     <div class="col-lg-4 col-md-12 pt-5 text-center">
                         <img src="{{$data[0]['cover'] ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsNGGjrfSqqv8UjL18xS4YypbK-q7po_8oVQ&usqp=CAU'}}" class="img-fluid rounded" alt="...">
@@ -80,15 +97,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 mb-5">
-                        <div class="visible-print text-center">
-                            {!! $qrcode !!}
-                            {{-- {!! QrCode::size(100)->generate('http://localhost:8000/api/book-qr/'$data); !!} --}}
-                            <p>Scan me to return to the original page.</p>
                         </div>
                     </div>
                 </div>
