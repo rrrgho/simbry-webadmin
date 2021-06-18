@@ -144,6 +144,30 @@ class UserController extends Controller
         }
 
     }
+    public function historyselesai()
+    {
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','FINISHED')->orderBy('created_at','DESC')->paginate(1);
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            if($data)
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+        }
+    }
+    public function historyberjalan()
+    {
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','APPROVED')->orderBy('created_at','DESC')->paginate(1);
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            if($data)
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+        }
+    }
     public function kritik(Request $request){
         $data = KritikSaran::create([
             'user_id' => Auth::guard('api')->user()->id,

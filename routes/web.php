@@ -135,6 +135,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('books-duplicate', [BooksController::class, 'booksDuplicate'])->name('duplicate-book');
         // Route::get('books-edit/{examplar}', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
+        Route::get('books-qr', [BooksController::class, 'booksQR'])->name('books-qr');
     });
     Route::prefix('management-peminjaman')->group(function(){
         Route::get('masuk', [ManagementPeminjaman::class, 'masuk'])->name('main-management-peminjaman-berjalan');

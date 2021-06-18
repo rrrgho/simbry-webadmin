@@ -96,6 +96,11 @@ class BooksController extends Controller
         })
         ->make(true);
     }
+    public function booksQR(Request $request)
+    {
+        $data = Books::simplePaginate(5);
+        return view('books.qrcode',compact('data'));
+    }
     public function booksDatatableExamplar(){
         $data = Books::where('deleted_at',null)->distinct('examplar')->where('id','<', 100)->get(['name','examplar']);
         return Datatables::of($data)
