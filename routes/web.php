@@ -136,6 +136,10 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         // Route::get('books-edit/{examplar}', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
         Route::get('books-qr', [BooksController::class, 'booksQR'])->name('books-qr');
+
+        // Print QR
+        Route::post('print-qr', [BooksController::class, 'printQR'])->name('print-qr');
+        Route::get('qr-page/{data}', [BooksController::class, 'qrPage'])->name('qr-page');
     });
     Route::prefix('management-peminjaman')->group(function(){
         Route::get('masuk', [ManagementPeminjaman::class, 'masuk'])->name('main-management-peminjaman-berjalan');

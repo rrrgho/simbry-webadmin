@@ -15,7 +15,11 @@ body {
   color: #505458;
   font-size: 14px;
 	font-family: 'Libre Franklin', sans-serif;
+  overflow-y:scroll !important;
 }
+/* .rian{
+  background-color: red;
+} */
 
 .logo {
 	max-width: 148px;

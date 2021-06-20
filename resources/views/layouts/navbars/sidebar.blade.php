@@ -65,12 +65,12 @@
                 <span class="sidebar-normal"> {{ __('Rak Buku') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'qr-data' ? ' active' : '' }}">
+            {{-- <li class="nav-item{{ $activePage == 'qr-data' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('books-qr') }}">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal">{{ __('Print QR') }} </span>
               </a>
-            </li>
+            </li> --}}
           </ul>
         </div>
       </li>

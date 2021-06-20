@@ -1,4 +1,4 @@
-<style>
+{{-- <style>
   @media print {
       .noPrint{
           display:none;
@@ -7,7 +7,7 @@
           display: block;
       }
   }
-</style>
+</style> --}}
 <div class="wrapper position-relative">
   @include('layouts.navbars.sidebar', ['breadcrumbs' => $breadcrumbs])
   <div class="main-panel pl-3 pr-3 " style="min-height:calc(100vh) !important;">
@@ -21,7 +21,7 @@
     </div>
     @include('layouts.footers.auth')
   </div>
-<div class="box-peminjaman noPrint" style="margin-left: 75%">
+<div class="box-peminjaman " style="margin-left: 75%">
     <div class="navigator">
       <i class="fa fa-shopping-cart"></i>
     </div>

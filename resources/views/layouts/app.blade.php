@@ -121,7 +121,7 @@
     @yield('style')
 </head>
 
-<body class="{{ $class ?? '' }}">
+<body>
     @include('layouts.page_templates.auth', ['breadcrumbs' => $breadcrumbs ?? false, 'title' =>  $title ?? false, 'subTitle' => $subTitle ?? false, 'activeMainPage' => $activeMainPage ?? false, 'activePage' => $activePage ?? false])
 
     {{-- Modal Peminjaman --}}

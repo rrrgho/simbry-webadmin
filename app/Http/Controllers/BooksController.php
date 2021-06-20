@@ -234,4 +234,14 @@ class BooksController extends Controller
         return redirect(url('books-management/books-detail/'.$data['examplar']))->with('failed', 'Employee is failed to be edited, contact developer !');
     }
 
+    public function printQR(Request $request){
+        $id = $request->data;
+        return view('books.qr-data', compact('id'));
+    }
+
+    public function qrPage($data){
+        $data =  json_decode($data,true);
+        return view('books.print-qr', compact('data'));
+    }
+
 }

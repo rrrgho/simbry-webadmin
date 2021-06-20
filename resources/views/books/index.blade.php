@@ -10,7 +10,21 @@
 ])
 
 @section('title')
-<div class="row">
+
+{{-- <style>
+    @media print {
+        .noPrint{
+            display:none;
+        }
+        .print{
+            display: block;
+            text-align: left !important;
+            margin-top: -150px;
+        }
+    }
+    @page { size: auto;  margin: 0mm; }
+</style> --}}
+<div class="row noPrint">
     <div class="col-md-12">
         <div class="col border-bottom pl-0 pb-3">
             <h3>Manajemen Buku</h3>
@@ -21,7 +35,7 @@
 @endsection
 @section('content')
 @if(session('success'))
-    <div class="row pb-4" id="flash-message">
+    <div class="row pb-4 noPrint" id="flash-message">
         <div class="col-12">
             <div class="alert alert-success outline alert-dismissible fade show" role="alert"><i
                     data-feather="thumbs-up"></i>
@@ -60,7 +74,11 @@
         </div>
     </div> --}}
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="qrWrapper">
+
+    </div>
+
+    <div class="col-md-12 noPrint">
         <div class="card">
             <div class="card-header bg-light">
                 <h1 class="text-success">Data Seluruh Buku</h1>
@@ -73,7 +91,7 @@
                     <table class="ui celled table table-striped" id="data-buku">
                         <thead>
                             <tr class="text-center">
-                                {{-- <th>#</th> --}}
+                                <th>#</th>
                                 <th>Nama</th>
                                 <th>Nomor Induk</th>
                                 <th>Kode Buku</th>
@@ -82,6 +100,7 @@
                                 <th>Kategori</th>
                                 <th>Loker</th>
                                 <th>Action</th>
+                                <th>List QR</th>
                             </tr>
                         </thead>
                     </table>
@@ -93,7 +112,7 @@
 
 
 {{-- Modal Add Buku --}}
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-example-modal-lg noPrint" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -255,12 +274,15 @@
 
     // Datatable
     $(function(){
-        $('#data-buku').DataTable({
+        let printQR = []
+        let hasListed = []
+        var table = $('#data-buku').DataTable({
             ajax: {
                 url :'{{route('books-datatable')}}',
             },
             columns: [
                 // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},
                 { data: 'book_number', name: 'book_number'},
                 { data: 'code_of_book', name: 'code_of_book'},
@@ -269,6 +291,9 @@
                 { data: 'category_relation.name', name: 'category_relation.name'},
                 { data: 'locker', name: 'locker'},
                 { data: 'action', name: 'action'},
+                { data: null, "searchable": false, defaultContent:
+                `<button id="detail" class="btn btn-success p-1"><i class="fa fa-print"></i></button>`
+                }  
                 
             ],
             language: {
@@ -279,9 +304,13 @@
             },   
             columnDefs:[
                 {
-                    "targets" : [1,2,3,4,5,6,7],
+                    "targets" : [2,3,4,5,6,7,8,9],
                     "className": "text-center"
                 },
+                {
+                    "targets" : [0],
+                    "visible" : false
+                }
             ],            
             
             dom: 'Bfrtip',  
@@ -295,7 +324,41 @@
             "bDestroy": true,
             "processing": true,
             "serverSide": true, 
-        }).fnDestroy();
+        });
+
+
+        $('#data-buku tbody').on('click', '#detail', function(){
+            if(hasListed.length !== 50){
+                var data = table.row( $(this).parents('tr') ).data();
+                let store = {id : data.id, number:data.book_number, title:data.name}
+                
+                printQR.push(store)
+                hasListed.push(data.id)
+                $.ajax({
+                    url : "{{route('print-qr')}}",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    data: {
+                        data : printQR
+                    },
+                    success: function(response){
+                        $('#qrWrapper').html(response)
+                    }
+                })
+                $(this).attr('disabled',true).html("<i class='fa fa-check'> </i>")
+            }else{
+                swal({
+                    title: "Sorry?",
+                    text: "maximal listing hanya 50 QR",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+            }
+        })
+
     });
 
     // $(function(){

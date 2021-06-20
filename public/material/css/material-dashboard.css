@@ -32,6 +32,7 @@ html {
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  overflow-y: scroll;
 }
 
 @-ms-viewport {
@@ -61,6 +62,7 @@ body {
   color: #212529;
   text-align: left;
   background-color: #fafafa;
+  overflow-y: scroll;
 }
 
 [tabindex="-1"]:focus {
