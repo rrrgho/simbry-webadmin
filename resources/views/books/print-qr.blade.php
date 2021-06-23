@@ -32,7 +32,7 @@
         <?php $break = 0; ?>
         @foreach ($data as $item)
             <div class="col @if($break % 6 === 0) pagebreak @endif" >
-                {!! QrCode::size(200)->generate(asset('/api/book-qr/'.$item['id'])); !!} <br>
+                {!! QrCode::size(100)->generate(asset('/api/book-qr/'.$item['id'])); !!} <br>
                 <h3>{{$item['number']}}</h3>
                 <h6>{{$item['title']}}</h6>
             </div>

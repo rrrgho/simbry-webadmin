@@ -37,6 +37,13 @@ class BooksController extends Controller
             $file->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
             $pathCover = asset('book-images/'.$queue_copy.'BIMG-'.$file->getClientOriginalName());
         }
+        if($request->hasFile('link_pdf')){
+            $file = $request->file('link_pdf');
+            $fileName = $file->getClientOriginalName();
+            if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
+            $file->move('pdf/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
+            $pathPdf = asset('pdf/'.$queue_copy.'BIMG-'.$file->getClientOriginalName());
+        }
         for($i=0; $i<$request->copy_amount; $i++){
             $queue = Migrated::find(3);
             if(strlen($examplar) < 1){
@@ -72,6 +79,7 @@ class BooksController extends Controller
                 'call_number' => $request->call_number ?? $examplar.'-'.$queue['value'],
                 'description' => $request->description ?? null,
                 'cover' => $pathCover ?? null,
+                'link_pdf' => $pathPdf ?? null,
             ]);
             if($insert){
                 $number = "";
@@ -198,7 +206,7 @@ class BooksController extends Controller
             'code_of_book' => $examplar_number,
             'call_number' => $request->call_number ?? $data->examplar.'-'.$queue['value'],
             'description' => $request->description ?? null,
-            'cover' => $data->cover ?? null,
+            'link_pdf' => $data->link_pdf ?? null,
         ]);
         $queue->value = $queue['value'] + 1;
         $queue->save();
@@ -222,6 +230,13 @@ class BooksController extends Controller
     // }
     public function booksEditExecute(Request $request, $examplar){
         $data = Books::where('examplar', $examplar)->first();
+        if($request->hasFile('link_pdf')){
+            $file = $request->file('link_pdf');
+            $fileName = $file->getClientOriginalName();
+            if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
+            $file->move('pdf/',$data.'BIMG-'.$file->getClientOriginalName());
+            $pathPdf = asset('pdf/'.$data.'BIMG-'.$file->getClientOriginalName());
+        }
         if(!$request->all())
             return view('books.book-detail', compact('data','books','item','copy','redy'));
         $data->name = $request->name;
@@ -229,6 +244,7 @@ class BooksController extends Controller
         $data->creator = $request->creator;
         $data->locker_id = $request->locker_id;
         $data->origin_book = $request->origin_book;
+        $data->link_pdf = $request->link_pdf;
         if($data->save())
             return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Employee is Edited !');
         return redirect(url('books-management/books-detail/'.$data['examplar']))->with('failed', 'Employee is failed to be edited, contact developer !');
