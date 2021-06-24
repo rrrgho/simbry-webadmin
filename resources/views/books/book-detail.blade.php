@@ -49,6 +49,11 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-12 pt-5 text-center">
                         <img src="{{$data[0]['cover'] ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsNGGjrfSqqv8UjL18xS4YypbK-q7po_8oVQ&usqp=CAU'}}" class="img-fluid rounded" alt="...">
+                        @if($data[0]['link_pdf'])
+                            <h4><a href="{{ $data[0]['link_pdf'] }}">Buku ini memiliki file digital,click disini!!</a></h4>
+                        @else
+                            <p>Buku ini tidak memiliki file digital</p>
+                        @endif
                     </div>
                     <div class="col-md-12 col-lg-8 p-0">
                             <div class="card">
@@ -153,6 +158,10 @@
                                 <label for="">Tahun Pembelian : </label>
                                 <input required class=" form-control" autocomplete="off"  name="buying_year" type="date">
                             </div>
+                            <div class="col-12 mt-4">
+                                <label for="pfgInp">Upload Pdf</label>
+                                <input type='file' name='link_pdf' />
+                            </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Penerbit : </label>
                                 <input required class=" form-control" autocomplete="off"  name="publish_year" type="date">
@@ -217,6 +226,10 @@
                                    
                                 </select>
                             </div>
+                            {{-- <div class="col-6 mt-3">
+                                <label for="pfgInp">Upload Pdf</label>
+                                <input type='file' name='link_pdf' />
+                            </div> --}}
                             <div class="col-6 mt-3">
                                 <label for="">Asal Buku : </label>
                                 <input required class="date form-control"  name="origin_book"  type="text" value="{{$data[0]['origin_book']}}">

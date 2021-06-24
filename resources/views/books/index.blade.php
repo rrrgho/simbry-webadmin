@@ -212,6 +212,10 @@
                                 <input type="date" class="form-control" value="" name="publish_year" required>
                                 {{-- <input required class="form-control" id="publish_year" name="publish_year" type="text"> --}}
                             </div>
+                            <div class="col-12 mt-4">
+                                <label for="pfgInp">Upload Pdf</label>
+                                <input type='file' name='link_pdf' />
+                            </div>
                             <div class="col-12 mt-3">
                                 <label for="">Deskripsi : </label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description"
@@ -220,7 +224,7 @@
                             <div class="col-12 mt-4">
                                 <label for="imgInp">
                                 <input type='file' name="cover" id="imgInp" class="d-none"/>
-                                <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; cursor: pointer;" alt="your image" />
+                                <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
                                 </label>
                             </div>
                         </div>
