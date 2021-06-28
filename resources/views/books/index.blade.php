@@ -334,7 +334,7 @@
         $('#data-buku tbody').on('click', '#detail', function(){
             if(hasListed.length !== 50){
                 var data = table.row( $(this).parents('tr') ).data();
-                let store = {id : data.id, number:data.book_number, title:data.name}
+                let store = {id : data.id, number:data.book_number}
                 
                 printQR.push(store)
                 hasListed.push(data.id)
