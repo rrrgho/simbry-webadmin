@@ -27,7 +27,6 @@
                 <div class="col-3 mt-3 text-center">
                     {!! QrCode::size(100)->generate(asset('/api/book-qr/'.$item['id'])); !!} <br>
                     <h3>{{$item['number']}}</h3>
-                    <h6>{{$item['title']}}</h6>
                 </div>
             @endforeach
         </div>
