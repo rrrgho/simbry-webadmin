@@ -94,6 +94,7 @@
                                 <th>#</th>
                                 <th>Nama</th>
                                 <th>Nomor Induk</th>
+                                <th>Nomor Panggil</th>
                                 <th>Kode Buku</th>
                                 <th>Nomor Panggil</th>
                                 <th>Nomor Examplar</th>
@@ -212,7 +213,12 @@
                                 <input type="date" class="form-control" value="" name="publish_year" required>
                                 {{-- <input required class="form-control" id="publish_year" name="publish_year" type="text"> --}}
                             </div>
-                            <div class="col-12 mt-4">
+                            <div class="col-6 mt-3">
+                                <label for="">Nomor Panggil : </label>
+                                <input type="text" class="form-control" value="" name="no_panggil" required>
+                                {{-- <input required class="form-control" id="publish_year" name="publish_year" type="text"> --}}
+                            </div>
+                            <div class="col-6 mt-3">
                                 <label for="pfgInp">Upload Pdf</label>
                                 <input type='file' name='link_pdf' />
                             </div>
@@ -289,6 +295,7 @@
                 { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},
                 { data: 'book_number', name: 'book_number'},
+                { data: 'no_panggil', name: 'no_panggil'},
                 { data: 'code_of_book', name: 'code_of_book'},
                 { data: 'call_number', name: 'call_number'},
                 { data: 'examplar', name: 'examplar'},

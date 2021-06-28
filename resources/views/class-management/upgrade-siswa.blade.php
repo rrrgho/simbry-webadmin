@@ -72,6 +72,9 @@
                                     </div>
                                     <div class="col">
                                         <button class="btn btn-success">Pindahkan</button>
+                                        <button class="btn btn-danger p-1" onclick="confirm_me_post('Data yang dihapus tidak dapat dikembalikan', {id:{{$item['id']}}} , '{{route('main-delete-siswa')}}')">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

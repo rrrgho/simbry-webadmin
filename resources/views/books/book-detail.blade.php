@@ -70,6 +70,7 @@
                                                     <tr class="text-center">
                                                         <th>#</th>
                                                         <th>Nomor Induk</th>
+                                                        <th>Nomor Panggil</th>
                                                         <th>Judul</th>
                                                         <th>Kode Buku</th>
                                                         <th>Penulis</th>
@@ -82,6 +83,7 @@
                                                         <tr>
                                                             <th class="text-center">{{$loop->iteration}}</th>
                                                             <td class="text-center">{{$item['book_number']}}</td>
+                                                            <td class="text-center">{{$item['no_panggil']}}</td>
                                                             <td>{{$item['name']}}</td>
                                                             <td class="text-center">{{$item['code_of_book']}}</td>
                                                             <td>{{$item['creator']}}</td>

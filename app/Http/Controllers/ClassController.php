@@ -176,6 +176,16 @@ class ClassController extends Controller
         }
        return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
     }
+    public function deleteSiswa(Request $request)
+    {
+        $data = $request->user_id;
+        foreach($data as $item){
+            $query = User::find($item);
+            // $query->class_id = $request->class_id;
+            $query->delete();
+        }
+        return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
+    }
 
 
     // Teacher

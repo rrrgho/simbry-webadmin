@@ -80,6 +80,7 @@ class BooksController extends Controller
                 'description' => $request->description ?? null,
                 'cover' => $pathCover ?? null,
                 'link_pdf' => $pathPdf ?? null,
+                'no_panggil' => $request->no_panggil,
             ]);
             if($insert){
                 $number = "";
@@ -207,6 +208,7 @@ class BooksController extends Controller
             'call_number' => $request->call_number ?? $data->examplar.'-'.$queue['value'],
             'description' => $request->description ?? null,
             'link_pdf' => $data->link_pdf ?? null,
+            'no_panggil' => $request->no_panggil,
         ]);
         $queue->value = $queue['value'] + 1;
         $queue->save();
@@ -245,6 +247,7 @@ class BooksController extends Controller
         $data->locker_id = $request->locker_id;
         $data->origin_book = $request->origin_book;
         $data->link_pdf = $request->link_pdf;
+        $data->no_panggil = $request->no_panggil;
         if($data->save())
             return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Employee is Edited !');
         return redirect(url('books-management/books-detail/'.$data['examplar']))->with('failed', 'Employee is failed to be edited, contact developer !');

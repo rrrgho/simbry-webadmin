@@ -41,8 +41,8 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('slide-banner', [UserController::class, 'slideBanner']);
     Route::post('contact', [UserController::class, 'contact']);
     Route::post('about', [UserController::class, 'about']);
+    Route::get('book-data', [BooksController::class, 'bookData']);
     Route::middleware('auth:api')->group(function(){
-        Route::get('book-data', [BooksController::class, 'bookData']);
         Route::post('search-book', [BooksController::class, 'bookSearch']);
         Route::get('book-detail/{id}', [BooksController::class, 'bookDetail']);
         // Route::post('order-book', [UserController::class, 'orderBook']);
