@@ -10,12 +10,14 @@ use Laravel\Passport\HasApiTokens;
 use App\Models\BooksOrder;
 use App\Models\GameLevel;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use  HasFactory, Notifiable;
     use HasApiTokens;
     protected $table = "user";
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

@@ -51,35 +51,60 @@
                     <span>Silahkan pilih siswa dibawah lalu pilih kelas tujuan</span>
                 </div>
                 @if(isset($data))
-                    <form action="{{route('move-class')}}" method="POST">@csrf
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12 col-lg-4">
-                                    <input name="subject_all" class="subject-all mr-3" type="checkbox" checked>Pilih Semua <br>
-                                    @foreach ($data as $item)
-                                        {{-- <li style="list-style: none"> <input class="subject-list" checked type="checkbox" name="user_id[]" value="{{$item['id']}}" class="mr-3">{{$item['name']}}</li> --}}
-                                        <li style="list-style: none"><input type="checkbox" checked name="user_id[]" value="{{$item['id']}}" class="mr-3 subject-list">{{$item['name']}}</li>
-                                    @endforeach
-                                </div>
-                                <div class="col-md-12 col-lg-4">
-                                    <div class="col">
-                                        <select required name="class_id" id="" class="form-control">
-                                            <option value="" hidden>Pilih Kelas Tujuan</option>
-                                            @foreach ($class as $item)
-                                                <option value="{{$item['id']}}">{{$item['name']}}</option>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <form action="{{route('move-class')}}" method="POST">@csrf
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-4">
+                                            <input name="subject_all" class="subject-all mr-3" type="checkbox" checked>Pilih Semua <br>
+                                            @foreach ($data as $item)
+                                                {{-- <li style="list-style: none"> <input class="subject-list" checked type="checkbox" name="user_id[]" value="{{$item['id']}}" class="mr-3">{{$item['name']}}</li> --}}
+                                                <li style="list-style: none"><input type="checkbox" checked name="user_id[]" value="{{$item['id']}}" class="mr-3 subject-list">{{$item['name']}}</li>
                                             @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <button class="btn btn-success">Pindahkan</button>
-                                        <button class="btn btn-danger p-1" onclick="confirm_me_post('Data yang dihapus tidak dapat dikembalikan', {id:{{$item['id']}}} , '{{route('main-delete-siswa')}}')">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
+                                        </div>
+                                        <div class="col-md-12 col-lg-4">
+                                            <div class="col">
+                                                <select required name="class_id" id="" class="form-control">
+                                                    <option value="" hidden>Pilih Kelas Tujuan</option>
+                                                    @foreach ($class as $item)
+                                                        <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <button class="btn btn-success">Pindahkan</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="col-12 col-lg-6">
+                            <form action="{{route('main-delete-siswa')}}" method="POST">@csrf
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-4">
+                                            <input name="subject_all" class="subject-all-delete mr-3" type="checkbox" checked>Pilih Semua <br>
+                                            @foreach ($data as $item)
+                                                {{-- <li style="list-style: none"> <input class="subject-list" checked type="checkbox" name="user_id[]" value="{{$item['id']}}" class="mr-3">{{$item['name']}}</li> --}}
+                                                <li style="list-style: none"><input type="checkbox" checked name="user_id[]" value="{{$item['id']}}" class="mr-3 subject-list-delete">{{$item['name']}}</li>
+                                            @endforeach
+                                        </div>
+                                        <div class="col-md-12 col-lg-4">
+                                            <div class="col">
+                                                <button class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Delete Siswa
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
                 @else
                     <div class="card-body">
                         <div class="alert alert-warning">
@@ -99,6 +124,13 @@
 		    	$('.subject-list').prop('checked', true);  
 	    	}else{
 	    		$('.subject-list').prop('checked', false);
+	    	}
+		});
+       $('.subject-all-delete').on('change', function() {
+	    	if(this.checked){
+		    	$('.subject-list-delete').prop('checked', true);  
+	    	}else{
+	    		$('.subject-list-delete').prop('checked', false);
 	    	}
 		});
     </script>
