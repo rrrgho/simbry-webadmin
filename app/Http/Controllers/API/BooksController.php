@@ -13,7 +13,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
 {
     public function bookData(){
-        $data = Books::paginate(3);
+        $data = Books::paginate(6);
         // $data = Books::with;
         // $data['category'] = BooksCategory::find($data['category_id'])['name'];
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
@@ -42,7 +42,7 @@ class BooksController extends Controller
                 'ready' => $data->ready,
                 'link_admin' => asset("/books-management/books-detail/".$data->id),
                 'link_user_unsecure' => "http://ypsimlibrary.com/book-detail/".$data->id,
-                'link_user_secure' => "https://ypsimlibrary.com/book-detail/1".$data->id, 
+                'link_user_secure' => "https://ypsimlibrary.com/book-detail/1".$data->id,
             ],
         ]);
     }

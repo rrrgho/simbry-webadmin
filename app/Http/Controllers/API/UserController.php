@@ -49,7 +49,7 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Password is wrong'], 200);
         }
         return response()->json(['error' => true, 'message' => 'Username not found !'], 200);
-    }       
+    }
     public function changePassword(Request $request)
     {
         $input = $request->all();
@@ -82,8 +82,8 @@ class UserController extends Controller
             }
         }
         return response()->json($arr);
-    } 
-      
+    }
+
     public function orderBook(Request $request)
     {
         // Validasi
@@ -98,10 +98,10 @@ class UserController extends Controller
         $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
-        } 
-        
+        }
+
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
-        
+
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
@@ -112,7 +112,7 @@ class UserController extends Controller
                 $userType = Auth::guard('api')->user()->user_type_id;
                 if ($userType == 1) {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
-                    
+
                 } else {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
                 }
@@ -163,8 +163,18 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
         else{
-            if($data)
-                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            if($data){
+                $response = [];
+                foreach($data as $item){
+                    if(Carbon::parse($item['end_date']) < Carbon::now()){
+                        $item['isEnd'] = true;
+                        $dataEnd = Carbon::parse($item['end_date']);
+                        $item['expired'] = $dataEnd->diffInDays(Carbon::now('Asia/Jakarta'));
+                    }
+                    $response[] = $item;
+                }
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $response],200);
+            }
             return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
         }
     }
@@ -175,11 +185,11 @@ class UserController extends Controller
         ]);
         if($data)
             return response()->json(['error' => true, 'message' => 'Terimakasih!', 'data' => $data], 200);
-        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);     
+        return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
     }
     public function rating(Request $request)
     {
-        $data = Books::orderBy('borrowed', 'DESC')->take(10)->get();     
+        $data = Books::orderBy('borrowed', 'DESC')->take(10)->get();
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
