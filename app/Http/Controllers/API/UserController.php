@@ -170,6 +170,10 @@ class UserController extends Controller
                         $item['isEnd'] = true;
                         $dataEnd = Carbon::parse($item['end_date']);
                         $item['expired'] = $dataEnd->diffInDays(Carbon::now('Asia/Jakarta'));
+                    }else{
+                        $item['isEnd'] = false;
+                        $datarun = Carbon::parse($item['end_date']);
+                        $item['batas'] = $datarun->diffInDays(Carbon::now('Asia/Jakarta'));
                     }
                     $response[] = $item;
                 }
