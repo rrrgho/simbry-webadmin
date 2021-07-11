@@ -105,10 +105,6 @@
 @section('script')
     <script>
         $(function(){
-            $('#start_date').datepicker();
-        })
-            //Datatable
-        $(function(){
             $('#data-expired').DataTable({
                 ajax: '{{route('expired-datatable')}}',
                 columns: [
@@ -120,14 +116,14 @@
                     { data: 'action', name: 'action'},
                 ],
                 language: {
-                searchPlaceholder: 'Search Peminjaman..',
+                searchPlaceholder: 'Search Buku..',
                 sSearch: '',
                 lengthMenu: '_MENU_ items/page',
                 destroy: true
                 },  
                 columnDefs:[
                     {
-                        "targets" : [0,3,4,5],
+                        "targets" : [0,1,2,3],
                         "className": "text-center"
                     },
                 ],              
@@ -143,14 +139,6 @@
                 "processing": true,
                 "serverSide": true, 
             });
-        }); 
-
-        // function setIdFinished(id){
-        //         $('#id_finished').val(id)
-        //     }
-        //  $(document).ready(function() {
-        //     $('#data-expired').DataTable();
-        // } );
-
+        });
     </script>
 @endsection

@@ -33,13 +33,19 @@
 <div class="row">
     <div class="col-md-12 col-lg-12">
         <div class="card">
-            <form action="{{route('about-school-post')}}" method="POST">@csrf
+            <form action="{{route('about-school-post')}}" enctype="multipart/form-data" method="POST">@csrf
                 <div class="card-header bg-light">
                     <h3>Tambah Informasi Perpustakaan</h3>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
                         <textarea name="description" class="form-control" id="" placeholder="Ketik Disini..." rows="3"></textarea>                            
+                    </div>
+                    <div class="form-group">
+                        <label for="imgInp">
+                            <input type='file' name="img" id="imgInp" class="d-none"/>
+                            <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; cursor: pointer;" alt="your image" />
+                        </label>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-info btn-block">Simpan</button>
@@ -55,6 +61,7 @@
             <thead>
                 <tr class="text-center">
                     <th width="50">#</th>
+                    <th>Images</th>
                     <th>Deskripsi</th>
                     <th width="100px">Created At</th>
                     <th width="100px">Action</th>
@@ -80,6 +87,7 @@
                 ajax: '{{route('about-school-datatable')}}',
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'image', name: 'image'},
                     { data: 'description', name: 'description'},
                     { data: 'created_at', name: 'created_at'},
                     { data: 'action', name: 'action'},

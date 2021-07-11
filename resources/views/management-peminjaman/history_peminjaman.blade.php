@@ -24,7 +24,7 @@
     <div class="col-md-12 col-lg-12">
         <div class="card">
             <div class="card-header">
-                {{-- <h3>Peminjaman History!!</h3> --}}
+                {{-- <h3>Peminjaman Berjalan Approved!!</h3> --}}
             </div>
             <div class="card-body">
                 <table class="ui celled table table-striped" id="data-history">
@@ -32,6 +32,7 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Nama</th>
+                            {{-- <th>Kelas</th> --}}
                             <th>Nama Buku</th>
                             <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
@@ -43,10 +44,11 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->user->name }}</td>
+                                {{-- <td>{{ $item->user->class_relation->name }}</td> --}}
                                 <td>{{ $item->book->name }}</td>
                                 <td class="text-center">{{ $item->start_date }}</td>
                                 <td class="text-center">{{ $item->end_date }}</td>
-                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>                          
+                                <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>                         
                             </tr>
                         @endforeach
                     </tbody>

@@ -191,10 +191,18 @@ class SettingsController extends Controller
             $insert = $request->validate([
                 'description' => 'required'
             ]);
-            $insert = About::create($request->all());
-            if($insert)
+            $description = $request->description;
+            $file = $request->img;
+            $extension = time().'.'.$file->extension();
+            // $extension = time().$file->getClientOriginalExtension();
+            $file->move(public_path('informasi'),$extension);
+            $insert = new About();
+            $insert->description = $description;
+            $insert->img = asset('informasi/'.$extension);
+            if($insert->save())
                 return redirect(route('about-school'))->with('success' , 'Berhasil Menambahkan Informasi' );
             return redirect(route('about-school'))->with('failed', 'Gagal Menamabhakan Informasi');
+            
         }
     }
     public function aboutDatable(){
@@ -210,10 +218,14 @@ class SettingsController extends Controller
             $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
             return $delete;
         })
+        ->addColumn('image', function($data){
+            $html = '<div class="col"> <img class="image-fluid" alt="" style="width:100px; height:70px" src="'.$data['img'].'"> </ima>  </div>';
+            return $html;
+        })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
         })
-        ->rawColumns(['action'])
+        ->rawColumns(['action','image'])
         ->make(true);
     }
     public function aboutEdit($id)

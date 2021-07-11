@@ -38,13 +38,13 @@ class ManagementPeminjaman extends Controller
             ['end_date','<',Carbon::now('Asia/Jakarta')]
         ])->orderBy('created_at','DESC')->get();
         return Datatables::of($data)
+        ->addIndexColumn()
         ->addColumn('user_id', function($data){
             return $data->user_relation['name'];
         })
         ->addColumn('book_id', function($data){
             return $data->book_relation['name'];
         })
-        ->addIndexColumn()
         ->addColumn('start_date', function($data){
             return Carbon::parse($data['start_date'])->format('F d, y');
         })
@@ -84,7 +84,7 @@ class ManagementPeminjaman extends Controller
             ['deleted_at',null],
             ['status','FINISHED']
         ])->orderBy('created_at','DESC')->get();
-        return view('management-peminjaman.history_peminjaman',compact('data'));
+        return view('management-peminjaman.history_peminjaman', compact('data'));
     }
 
 }
