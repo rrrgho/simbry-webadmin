@@ -34,7 +34,7 @@ Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('login', [UserController::class, 'Login']);
-    Route::post('announcement', [UserController::class, 'announcement']);
+    Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
     Route::get('student-popular/{unit}', [UserController::class, 'studentPopular']);
     Route::get('slide-banner', [UserController::class, 'slideBanner']);
