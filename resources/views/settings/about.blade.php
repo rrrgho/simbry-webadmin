@@ -55,7 +55,6 @@
             <thead>
                 <tr class="text-center">
                     <th width="50">#</th>
-                    <th>Images</th>
                     <th>Deskripsi</th>
                     <th width="100px">Created At</th>
                     <th width="100px">Action</th>
@@ -81,7 +80,6 @@
                 ajax: '{{route('about-school-datatable')}}',
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'image', name: 'image'},
                     { data: 'description', name: 'description'},
                     { data: 'created_at', name: 'created_at'},
                     { data: 'action', name: 'action'},
