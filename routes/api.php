@@ -40,7 +40,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('slide-banner', [UserController::class, 'slideBanner']);
     Route::post('slide-banner', [UserController::class, 'slideBanner']);
     Route::post('contact', [UserController::class, 'contact']);
-    Route::get('about', [UserController::class, 'about']);
+    Route::get('informasi', [UserController::class, 'about']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::middleware('auth:api')->group(function(){
         Route::post('search-book', [BooksController::class, 'bookSearch']);
