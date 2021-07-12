@@ -3,8 +3,8 @@
     [ 'page' => 'Manajemen Settings', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activeMainPage' => 'management-settings', 
-  'activePage' => 'about', 
+  'activeMainPage' => 'management-settings',
+  'activePage' => 'about',
   'title' => __('Tentang Perpustakaan'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
@@ -15,7 +15,7 @@
             <div class="col border-bottom pl-0 pb-3">
                 <h3>Tentang Perpustakaan</h3>
                 <p>Anda dapat menambah, mengedit atau menghapus data Tentang Perpustakaan disini !</p>
-            </div>        
+            </div>
         </div>
     </div>
 @endsection
@@ -39,13 +39,7 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <textarea name="description" class="form-control" id="" placeholder="Ketik Disini..." rows="3"></textarea>                            
-                    </div>
-                    <div class="form-group">
-                        <label for="imgInp">
-                            <input type='file' name="img" id="imgInp" class="d-none"/>
-                            <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; cursor: pointer;" alt="your image" />
-                        </label>
+                        <textarea name="description" class="form-control" id="" placeholder="Ketik Disini..." rows="3"></textarea>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-info btn-block">Simpan</button>
@@ -53,10 +47,10 @@
                 </div>
             </form>
         </div>
-    </div> 
+    </div>
 </div>
 <div class="row">
-    <div class="col-md-12 col-lg-12">                 
+    <div class="col-md-12 col-lg-12">
         <table class="ui celled table table-striped" id="data-about-school">
             <thead>
                 <tr class="text-center">
@@ -67,8 +61,8 @@
                     <th width="100px">Action</th>
                 </tr>
             </thead>
-        </table>   
-    </div>       
+        </table>
+    </div>
 </div>
 {{-- Modal aBOUT --}}
 <div class="modal fade" id="editAboutSchool"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -104,7 +98,7 @@
                     "className": "text-center"
                     },
                 ],
-                dom: 'Bfrtip',  
+                dom: 'Bfrtip',
                 buttons: [
                     {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                     {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -113,7 +107,7 @@
                 ],
                 "bDestroy": true,
                 "processing": true,
-                "serverSide": true,                
+                "serverSide": true,
             })
         });
         editAboutSchool = (link) => {
