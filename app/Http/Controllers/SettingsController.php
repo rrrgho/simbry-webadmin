@@ -192,13 +192,8 @@ class SettingsController extends Controller
                 'description' => 'required'
             ]);
             $description = $request->description;
-            $file = $request->img;
-            $extension = time().'.'.$file->extension();
-            // $extension = time().$file->getClientOriginalExtension();
-            $file->move(public_path('informasi'),$extension);
             $insert = new About();
             $insert->description = $description;
-            $insert->img = asset('informasi/'.$extension);
             if($insert->save())
                 return redirect(route('about-school'))->with('success' , 'Berhasil Menambahkan Informasi' );
             return redirect(route('about-school'))->with('failed', 'Gagal Menamabhakan Informasi');
