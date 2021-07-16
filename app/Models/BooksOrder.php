@@ -11,7 +11,8 @@ class BooksOrder extends Model
     use HasFactory;
     protected $table = "book_order";
     protected $guarded = [];
-    protected $appends = ['book'];
+    // protected $appends = ['book'];
+    protected $appends = ['book','user'];
     // protected $fillable = [
     //     'user_id','book_id','status','start_date','end_date' 
     //  ];

@@ -39,8 +39,9 @@ class User extends Authenticatable
         'password',
         'last_login_at',
         'unit',
-        'point'
+        'point',
     ];
+    protected $hidden = ['password'];
     protected $appends = ['level','class_name','unit_name'];
 
     public function class_relation(){
@@ -48,6 +49,9 @@ class User extends Authenticatable
     }
     public function unit_relation(){
         return $this->belongsTo(Unit::class, 'unit', 'id');
+    }
+    public function order_relation(){
+        return $this->belongsTo(BooksOrder::class, 'user_id', 'id');
     }
     public function order(){
         return $this->hasMany(BooksOrder::class);

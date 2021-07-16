@@ -43,6 +43,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('about', [UserController::class, 'about']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::middleware('auth:api')->group(function(){
+        Route::get('data-user',[UserController::class, 'getAlldataUser']);
         Route::post('search-book', [BooksController::class, 'bookSearch']);
         Route::get('book-detail/{id}', [BooksController::class, 'bookDetail']);
         // Route::post('order-book', [UserController::class, 'orderBook']);

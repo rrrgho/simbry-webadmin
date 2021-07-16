@@ -83,7 +83,13 @@ class UserController extends Controller
         }
         return response()->json($arr);
     }
-
+    public function getAlldataUser()
+    {
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->orderBy('created_at','DESC')->paginate(1);
+        // dd($data);
+        // $data = Auth::user();
+        return response()->json(['data' => $data]);
+    }
     public function orderBook(Request $request)
     {
         // Validasi
