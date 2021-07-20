@@ -77,7 +77,7 @@ class OrderController extends Controller
                         'ready' => 1
                     ]);
                     $user->save();
-                    
+
             });
         } catch (\Exception $e) {
             return redirect()->back()->with('success', [
@@ -113,10 +113,10 @@ class OrderController extends Controller
         $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman siswa sudah melebihi batas'],200);
-        } 
-        
+        }
+
         $data = Books::find($book_id);
-        
+
         if (!$data[0]['ready']) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
@@ -127,7 +127,7 @@ class OrderController extends Controller
                 $userType = User::find($validated['user_id'])->user_type_id;
                 if ($userType == 1) {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
-                    
+
                 } else {
                     $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
                 }
@@ -184,7 +184,7 @@ class OrderController extends Controller
         $userType =  $request->user_type_id;
         if ($userType == 1) {
             $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
-            
+
         } else {
             $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
         }

@@ -10,6 +10,7 @@ use App\Models\BooksOrder;
 use App\Models\Contact;
 use App\Models\KritikSaran;
 use App\Models\Late;
+use App\Models\LogExtends;
 use App\Models\Popular;
 use App\Models\Slide;
 use Illuminate\Http\Request;
@@ -89,6 +90,79 @@ class UserController extends Controller
         // dd($data);
         // $data = Auth::user();
         return response()->json(['data' => $data]);
+    }
+    public function extendsbooks(Request $request)
+    {
+        // Validasi
+        $validated = $request->validate([
+            'book_id' => ['required'],
+            'extend' => ['required']
+        ]);
+
+        $data = Books::where('id', $validated['book_id'])->first();
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        $order = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('book_id', $data->id)->first();
+        if (!$order) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        try {
+            DB::transaction(function () use ($data,$validated,$order,$request) {
+                BooksOrder::where('book_id', $data->id)->update([
+                    'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
+                    'end_date' => Carbon::parse($order->end_date)->addDays($validated['extend'])->toDateTimeString(),
+                ]);
+                LogExtends::create([
+                    'user_id' => Auth::guard('api')->user()->id,
+                    'book_id' => $validated['book_id'],
+                    'jumlah' => $validated['extend'],
+                    'start_date_book' => $order->start_date,
+                ]);
+                $data->save();
+            });
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e], 200);
+        }
+        return response()->json([
+            'error' => false, 'message' => 'Anda berhasil menambahkan perpanjang buku'
+        ], 200);
+    }
+    public function returnbook(Request $request)
+    {
+        $validated = $request->validate([
+            'book_number' => ['required'],
+        ]);
+        $user = Auth::guard('api')->user()->id;
+        // dd($user);
+        $users = User::where('user_number', Auth::guard('api')->user()->user_number)->first();
+        // dd($users);
+        if(!$users)
+        {
+            return response()->json(['error' => true, 'message' => 'Data user tidak di temukan']);
+        }
+        $book = Books::where('book_number',$validated['book_number'])->first();
+        if(!$book)
+        {
+            return response()->json(['error' => true, 'message' => 'Data buku tidak di temukan']);
+        }
+        $order = BooksOrder::where('user_id',$user)->where('book_id',$book->id)->first();
+        if(!$order)
+        {
+            return response()->json(['error' => true, 'message' => 'Peminjaman Tidak ada']);
+        }
+        try{
+            DB::transaction(function () use($users,$user,$book,$order) {
+                $order->update([
+                    'status' => 'RETURN'
+                ]);
+                $book->update(['ready' => 1]);
+                $users->save();
+            });
+        }catch(\Exception $e){
+            return response()->json(['error' => true,'Gagal Simpan data']);
+        }
+        return response()->json(['error' => false, 'message' => 'Buku sudah di kembalikan']);
     }
     public function orderBook(Request $request)
     {
