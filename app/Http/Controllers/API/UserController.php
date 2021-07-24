@@ -131,7 +131,7 @@ class UserController extends Controller
     public function returnbook(Request $request)
     {
         $validated = $request->validate([
-            'book_number' => ['required'],
+            'book_id' => ['required'],
         ]);
         $user = Auth::guard('api')->user()->id;
         // dd($user);
@@ -141,7 +141,7 @@ class UserController extends Controller
         {
             return response()->json(['error' => true, 'message' => 'Data user tidak di temukan']);
         }
-        $book = Books::where('book_number',$validated['book_number'])->first();
+        $book = Books::where('id',$validated['book_id'])->first();
         if(!$book)
         {
             return response()->json(['error' => true, 'message' => 'Data buku tidak di temukan']);
