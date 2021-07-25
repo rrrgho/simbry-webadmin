@@ -91,6 +91,18 @@ class UserController extends Controller
         // $data = Auth::user();
         return response()->json(['data' => $data]);
     }
+    public function noApproved()
+    {
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','PENDING')->orderBy('created_at','DESC')->get();
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            if($data)
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
+        }
+    }
     public function extendsbooks(Request $request)
     {
         // Validasi
