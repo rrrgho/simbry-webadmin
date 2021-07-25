@@ -74,7 +74,7 @@
           </ul>
         </div>
       </li>
-      
+
       {{-- Class Management --}}
       <li class="nav-item {{ ($activeMainPage == 'class-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#class-management" aria-expanded="true">
@@ -158,6 +158,12 @@
                 <span class="sidebar-normal">{{ __('Peminjaman History') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'peminjaman-extends' ? ' active' : '' }}">
+                <a class="nav-link" href="{{route('main-management-peminjaman-extends')}}">
+                  <span class="sidebar-mini"> - </span>
+                  <span class="sidebar-normal">{{ __('Perpanjang Peminjaman') }} </span>
+                </a>
+            </li>
           </ul>
         </div>
       </li>
@@ -170,7 +176,7 @@
           </p>
         </a>
         <div class="collapse {{ ($activeMainPage == 'books') ? ' show' : '' }}" id="add-books">
-          
+
           </ul>
         </div>
       </li> --}}

@@ -121,15 +121,13 @@ class UserController extends Controller
         }
         try {
             DB::transaction(function () use ($data,$validated,$order,$request) {
-                BooksOrder::where('book_id', $data->id)->update([
-                    'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
-                    'end_date' => Carbon::parse($order->end_date)->addDays($validated['extend'])->toDateTimeString(),
-                ]);
                 LogExtends::create([
                     'user_id' => Auth::guard('api')->user()->id,
                     'book_id' => $validated['book_id'],
                     'jumlah' => $validated['extend'],
                     'start_date_book' => $order->start_date,
+                    'end_date_book' => $order->end_date,
+                    'status' => 1,
                 ]);
                 $data->save();
             });

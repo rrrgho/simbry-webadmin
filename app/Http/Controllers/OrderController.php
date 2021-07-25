@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\History;
 use App\Models\Late;
+use App\Models\LogExtends;
 use DataTables;
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -110,7 +113,7 @@ class OrderController extends Controller
         }
         $book_id = Books::select('id')->where('book_number', $validated['book_number'])->first();
         $userType = User::find($validated['user_id'])->user_type_id;
-        $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
+        $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->where('status','==','return')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman siswa sudah melebihi batas'],200);
         }
@@ -196,5 +199,23 @@ class OrderController extends Controller
         if($data->save())
             return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Berhasil Menerima Peminjaman Buku Siswa ');
         return redirect(url('peminjaman-masuk/'.$request->id.'/peminjaman-masuk'))->with('failed','Gagal Menerima Peminjamanan Buku Siswa');
+    }
+    public function extends(Request $request)
+    {
+        $data = LogExtends::find($request->id);
+        if(!$data)
+        {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            BooksOrder::where('book_id', $data->book_id)->update([
+                'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
+                'end_date' => Carbon::parse($data->end_date_book)->addDays($data->jumlah)->toDateTimeString(),
+            ]);
+            $data->status = 0;
+            if($data->save())
+                return redirect(url('management-peminjaman/extends'))->with('success','Berhasil Menerima perpanjang Buku Siswa ');
+            return redirect(url('management-peminjaman/'.$request->id.'/extends'))->with('failed','Gagal Menerima perpanjangan Buku Siswa');
+        }
     }
 }

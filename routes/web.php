@@ -101,7 +101,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('author-delete/{id}', [ManagemetBooksController::class, 'authorDelete']);
         Route::get('/{id}/author-edit', [ManagemetBooksController::class, 'authorEdit'])->name('authorEdit');
         Route::post('authorEditExecute', [ManagemetBooksController::class, 'authorEditExecute']);
-        
+
         // Publisher
         Route::get('publisher', [ManagemetBooksController::class, 'publisher'])->name('main-publisher-management');
         Route::post('publisher', [ManagemetBooksController::class, 'publisherCreate']);
@@ -150,6 +150,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('search', [ManagementPeminjaman::class, 'search'])->name('search');
         Route::post('finished' , [ManagementPeminjaman::class, 'finished'])->name('finished');
         Route::get('history', [ManagementPeminjaman::class, 'history'])->name('main-management-peminjaman-history');
+        Route::get('extends', [ManagementPeminjaman::class, 'extends'])->name('main-management-peminjaman-extends');
     });
     Route::get('pemulangan',[OrderController::class, 'pemulangan'])->name('main-pemulangan-buku');
     Route::post('pemulangan',[OrderController::class, 'savePemulangan'])->name('main-pemulangan-buku');
@@ -195,6 +196,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('peminjaman-masuk')->group(function(){
         Route::get('peminjaman-masuk', [OrderController::class , 'peminjaman'])->name('main-peminjaman-masuk');
         Route::post('approved' , [OrderController::class, 'approved'])->name('approved');
+        Route::post('extends' , [OrderController::class, 'extends'])->name('extends');
     });
     Route::get('announcements',[AnnouncementsController::class, 'announcement'])->name('announcements');
     Route::post('add-announcements', [AnnouncementsController::class, 'announcement_add'])->name('add-annountcements');
@@ -214,7 +216,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
 //     Route::get('/user', [BooksStudentController::class, 'index'])->name('main-user')->middleware('user');
 //     Route::post('/user', [BooksStudentController::class, 'index'])->name('main-user');
 //     Route::get('user/books-detail/{examplar}', [BooksController::class, 'booksDetailUser'])->name('book-detail-user');
-    
+
 
 //     Route::prefix('user')->group(function(){
 //         Route::post('show-book-component', [BooksStudentController::class, 'userShowBookComponent']);

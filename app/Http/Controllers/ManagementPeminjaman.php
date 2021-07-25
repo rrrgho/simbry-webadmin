@@ -6,6 +6,7 @@ use App\Models\Books;
 use Illuminate\Http\Request;
 use App\Models\BooksOrder;
 use App\Models\ClassModel;
+use App\Models\LogExtends;
 use DataTables;
 
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class ManagementPeminjaman extends Controller
         ])->orderBy('created_at','DESC')->get();
         return view('management-peminjaman.peminjaman_berjalan', compact('data'));
     }
-    
+
     public function expired(Request $request){
         $data = $data = BooksOrder::where([
             ['deleted_at',null],
@@ -68,7 +69,7 @@ class ManagementPeminjaman extends Controller
             ->orderBy('end_date', 'DESC')
             ->get();
         dd($data);
-        
+
     }
     public function finished(Request $request)
     {
@@ -86,5 +87,11 @@ class ManagementPeminjaman extends Controller
         ])->orderBy('created_at','DESC')->get();
         return view('management-peminjaman.history_peminjaman', compact('data'));
     }
-
+    public function extends(){
+        $data = LogExtends::where([
+            ['deleted_at',null],
+            ['status',1],
+        ])->orderBy('created_at','DESC')->get();
+        return view('management-peminjaman.peminjaman_extends', compact('data'));
+    }
 }
