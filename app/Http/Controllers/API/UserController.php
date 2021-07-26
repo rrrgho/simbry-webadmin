@@ -10,6 +10,7 @@ use App\Models\BooksOrder;
 use App\Models\Contact;
 use App\Models\KritikSaran;
 use App\Models\Late;
+use App\Models\LogActivity;
 use App\Models\LogExtends;
 use App\Models\Popular;
 use App\Models\Slide;
@@ -138,41 +139,63 @@ class UserController extends Controller
             'error' => false, 'message' => 'Anda berhasil menambahkan perpanjang buku'
         ], 200);
     }
+    // public function returnbook(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'book_id' => ['required'],
+    //     ]);
+    //     $user = Auth::guard('api')->user()->id;
+    //     // dd($user);
+    //     $users = User::where('user_number', Auth::guard('api')->user()->user_number)->first();
+    //     // dd($users);
+    //     if(!$users)
+    //     {
+    //         return response()->json(['error' => true, 'message' => 'Data user tidak di temukan']);
+    //     }
+    //     $book = Books::where('id',$validated['book_id'])->first();
+    //     if(!$book)
+    //     {
+    //         return response()->json(['error' => true, 'message' => 'Data buku tidak di temukan']);
+    //     }
+    //     $order = BooksOrder::where('user_id',$user)->where('book_id',$book->id)->first();
+    //     if(!$order)
+    //     {
+    //         return response()->json(['error' => true, 'message' => 'Peminjaman Tidak ada']);
+    //     }
+    //     try{
+    //         DB::transaction(function () use($users,$user,$book,$order) {
+    //             $order->update([
+    //                 'status' => 'RETURN'
+    //             ]);
+    //             $book->update(['ready' => 1]);
+    //             $users->save();
+    //         });
+    //     }catch(\Exception $e){
+    //         return response()->json(['error' => true,'Gagal Simpan data']);
+    //     }
+    //     return response()->json(['error' => false, 'message' => 'Buku sudah di kembalikan']);
+    // }
     public function returnbook(Request $request)
     {
-        $validated = $request->validate([
-            'book_id' => ['required'],
-        ]);
-        $user = Auth::guard('api')->user()->id;
-        // dd($user);
-        $users = User::where('user_number', Auth::guard('api')->user()->user_number)->first();
-        // dd($users);
-        if(!$users)
+        $data = BooksOrder::find($request->id);
+        // dd($data);
+        if(!$data)
         {
-            return response()->json(['error' => true, 'message' => 'Data user tidak di temukan']);
+            return response()->json(['error' => true, 'message' => 'Data not found']);
         }
-        $book = Books::where('id',$validated['book_id'])->first();
-        if(!$book)
-        {
-            return response()->json(['error' => true, 'message' => 'Data buku tidak di temukan']);
+        else{
+            Books::where('id',$data->book_id)->update([
+                'ready' => 1,
+            ]);
+            LogActivity::create([
+                'user_id' => Auth::guard('api')->user()->id,
+                'status' => 'Cancel Order',
+                'tanggal_pembatalan' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
+            ]);
+            if($data->delete())
+                return response()->json(['error' => false,'message' => 'Buku berhasil di kembalikan']);
+            return response()->json(['error' => true,'message' => 'Data gagal di hapus']);
         }
-        $order = BooksOrder::where('user_id',$user)->where('book_id',$book->id)->first();
-        if(!$order)
-        {
-            return response()->json(['error' => true, 'message' => 'Peminjaman Tidak ada']);
-        }
-        try{
-            DB::transaction(function () use($users,$user,$book,$order) {
-                $order->update([
-                    'status' => 'RETURN'
-                ]);
-                $book->update(['ready' => 1]);
-                $users->save();
-            });
-        }catch(\Exception $e){
-            return response()->json(['error' => true,'Gagal Simpan data']);
-        }
-        return response()->json(['error' => false, 'message' => 'Buku sudah di kembalikan']);
     }
     public function orderBook(Request $request)
     {

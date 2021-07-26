@@ -113,7 +113,7 @@ class OrderController extends Controller
         }
         $book_id = Books::select('id')->where('book_number', $validated['book_number'])->first();
         $userType = User::find($validated['user_id'])->user_type_id;
-        $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->where('status','==','return')->count();
+        $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman siswa sudah melebihi batas'],200);
         }
