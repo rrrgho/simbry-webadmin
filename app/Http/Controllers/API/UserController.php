@@ -395,5 +395,52 @@ class UserController extends Controller
             return response()->json(['error' => true,'message' => 'Buku gagal di berikan like']);
         }
     }
+    public function orderBookWishlist(Request $request)
+    {
+        // Validasi
+        $validated = $request->validate([
+            'book_id' => ['required'],
+        ]);
+        $late = Late::where('user_id', Auth::guard('api')->id())->where('date','>', now()->toDateTimeString())->exists();
+        if($late){
+            return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
+        }
+        $userType = Auth::guard('api')->user()->user_type_id;
+        $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
+        if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
+            return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
+        }
 
+        $data = Books::where('id', $validated['book_id'])->where('ready', false)->orderBy('created_at', 'DESC')->first();
+
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        try {
+            DB::transaction(function () use ($data) {
+                $data->borrowed = $data['borrowed'] + 1;
+                $userType = Auth::guard('api')->user()->user_type_id;
+                if ($userType == 1) {
+                    $endDate = Carbon::now('Asia/Jakarta')->addDays(2)->toDateTimeString();
+
+                } else {
+                    $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
+                }
+                BooksOrder::create([
+                    'user_id' => Auth::guard('api')->user()->id,
+                    'book_id' => $data->id,
+                    'status' => 'WISHLIST',
+                    'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
+                    'end_date' => $endDate,
+                    'wishlist' => 1,
+                ]);
+                $data->save();
+            });
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e], 200);
+        }
+        return response()->json([
+            'error' => false, 'message' => 'Permohonam peminjaman sedang diproses oleh Admin, cek sekala berkala status peminjaman anda !'
+        ], 200);
+    }
 }
