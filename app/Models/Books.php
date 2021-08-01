@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 class Books extends Model
 {
-    
+
     use HasFactory;
     protected $table = "book";
     protected $guarded = [];
-    // protected $appends = ['category','locker','publisher'];
+    // protected $appends = ['komentar_relation'];
     // protected $hidden = ['category_relation','locker_relation','publisher_relation'];
 
     public function category_relation(){
         return $this->belongsTo(BooksCategory::class, 'category_id');
     }
+
     // public function getCategoryAttribute(){
     //     return $this->category_relation->name ?? '-';
     // }

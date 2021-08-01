@@ -44,6 +44,8 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::middleware('auth:api')->group(function(){
         Route::post('return-book',[UserController::class,'returnbook']);
+        Route::post('komentar',[UserController::class,'komentar']);
+        Route::post('like',[UserController::class,'like']);
         Route::get('no-approved',[UserController::class,'noApproved']);
         Route::post('extend-book',[UserController::class, 'extendsbooks']);
         Route::get('data-user',[UserController::class, 'getAlldataUser']);

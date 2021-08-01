@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 // Call Model
 use App\Models\Books;
 use App\Models\BooksCategory;
+use App\Models\Komentar;
+use App\Models\Like;
 use App\Models\Locker;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
@@ -23,6 +25,8 @@ class BooksController extends Controller
         $data = Books::find($id);
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
         $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
+        $data['komentar'] = Komentar::where('book_id',$id)->get();
+        $data['like'] = Like::where('book_id',$id)->get()->count();
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
     }

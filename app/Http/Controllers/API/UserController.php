@@ -8,8 +8,10 @@ use App\Models\Announcement;
 use App\Models\Books;
 use App\Models\BooksOrder;
 use App\Models\Contact;
+use App\Models\Komentar;
 use App\Models\KritikSaran;
 use App\Models\Late;
+use App\Models\Like;
 use App\Models\LogActivity;
 use App\Models\LogExtends;
 use App\Models\Popular;
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
 use DateTime;
+use Exception;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -349,4 +352,48 @@ class UserController extends Controller
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
     }
+    public function komentar(Request $request)
+    {
+        // Validasi
+        $validated = $request->validate([
+            'book_id' => ['required'],
+            'komentar' => ['required'],
+
+        ]);
+        $data = Books::where('id', $validated['book_id'])->first();
+        // dd($data);
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            Komentar::create([
+                'user_id' => Auth::guard('api')->user()->id,
+                'book_id' => $validated['book_id'],
+                'komentar' => $validated['komentar'],
+            ]);
+            if($data->save())
+                return response()->json(['error' => false,'message' => 'Buku berhasil di berikan ulasan atau komentar']);
+            return response()->json(['error' => true,'message' => 'Buku gagal di berikan ulasan atau komentar']);
+        }
+    }
+    public function like(Request $request)
+    {
+        $validated = $request->validate([
+            'book_id' => ['required'],
+        ]);
+        $data = Books::where('id', $validated['book_id'])->first();
+        if (!$data) {
+            return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
+        }
+        else{
+            Like::create([
+                'user_id' => Auth::guard('api')->user()->id,
+                'book_id' => $validated['book_id'],
+            ]);
+            if($data->save())
+                return response()->json(['error' => false,'message' => 'Buku berhasil di berikan like']);
+            return response()->json(['error' => true,'message' => 'Buku gagal di berikan like']);
+        }
+    }
+
 }
