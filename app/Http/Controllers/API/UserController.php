@@ -410,10 +410,10 @@ class UserController extends Controller
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         }
-        $checkwistlist = BooksOrder::where('book_id' , $validated['book_id'])->where('wishlist',true)->get();
+        $checkwistlist = BooksOrder::where('user_id' , Auth::guard('api')->user()->id)->where('wishlist',true)->get();
         if($checkwistlist)
         {
-            return response()->json(['error' => true, 'message' => 'Data Sudah Ada'],200);
+            return response()->json(['error' => true, 'message' => 'Data Sudah Ada di kerjang anda'],200);
         }
         $data = Books::where('id', $validated['book_id'])->where('ready', false)->orderBy('created_at', 'DESC')->first();
 
