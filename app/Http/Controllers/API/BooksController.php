@@ -25,7 +25,7 @@ class BooksController extends Controller
         $data = Books::find($id);
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
         $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
-        $data['komentar'] = Komentar::where('book_id',$id)->get();
+        $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);

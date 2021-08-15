@@ -443,4 +443,11 @@ class UserController extends Controller
             'error' => false, 'message' => 'Permohonam peminjaman sedang diproses oleh Admin, cek sekala berkala status peminjaman anda !'
         ], 200);
     }
+    public function getWishlist()
+    {
+        $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('wishlist',true)->orderBy('created_at', 'DESC')->get();
+        if($data)
+            return response()->json(['error' => false, 'message' => $data]);
+        return response()->json(['error' => true, 'message' => 'Gagal mengambil data']);
+    }
 }
