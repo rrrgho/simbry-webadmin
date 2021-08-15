@@ -47,6 +47,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
         Route::post('komentar',[UserController::class,'komentar']);
         Route::post('like',[UserController::class,'like']);
         Route::post('order-wishlsit',[UserController::class,'orderBookWishlist']);
+        Route::get('get-wishlsit',[UserController::class,'getWishlist']);
         Route::get('no-approved',[UserController::class,'noApproved']);
         Route::post('extend-book',[UserController::class, 'extendsbooks']);
         Route::get('data-user',[UserController::class, 'getAlldataUser']);
