@@ -215,12 +215,8 @@ class UserController extends Controller
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         }
-        $peminjaman_berjalan = BooksOrder::where('user_id', Auth::guard('api')->id())->where('end_date','<', Carbon::now())->first();
-        return response()->json(['error' => true, 'data' => $peminjaman_berjalan]);
-        if($peminjaman_berjalan)
-        {
-            return response()->json(['error' => true, 'message' => 'Anda Belum Memulangkan Buku'],200);
-        }
+        $is_expired = BooksOrder::where('user_id', Auth::guard('api')->id())->where('end_date','<', Carbon::now())->first();
+        if($is_expired) return response()->json(['error' => true, 'message' => 'Anda Belum Memulangkan Buku','expired' => true],200);
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
 
         if (!$data) {
