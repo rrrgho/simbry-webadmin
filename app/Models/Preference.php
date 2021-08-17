@@ -9,6 +9,6 @@ class Preference extends Model
 {
     use HasFactory;
     protected $table = 'category_preference';
-    protected $guaded = [];
+    protected $guarded = [];
 
 }

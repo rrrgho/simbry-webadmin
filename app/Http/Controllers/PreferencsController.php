@@ -39,9 +39,19 @@ class PreferencsController extends Controller
     }
     public function category_buku()
     {
-        $data = BooksCategory::where('deleted_at',null)->get();
-        if($data)
-            return response()->json(['error' => false, 'message' => 'Berhasil mengambil data category', 'data' => $data],200);
-        return response()->json(['error' => true, 'message' => 'Gagal mengambil data'],404);
+        $check_data = Preference::where('user_id',Auth::guard('api')->user()->id)->get();
+        foreach($check_data as $item)
+        {
+            return response()->json(['error' => false, 'message' => $item['category_id']],200);
+
+        }
+        // $data = BooksCategory::where('id','<>',$item['category_id'])->get();
+        // return response()->json(['error' => false, 'message' => $data],200);
+
+    }
+    public function categoryID($id)
+    {
+        $data = BooksCategory::find($id);
+            return response()->json(['error' => false, 'message' => 'Berhasil Mengambil data','data' => $data]);
     }
 }
