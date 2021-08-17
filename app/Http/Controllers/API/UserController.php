@@ -200,6 +200,14 @@ class UserController extends Controller
             return response()->json(['error' => true,'message' => 'Data gagal di hapus']);
         }
     }
+    // public function notifikasi()
+    // {
+    //     if($data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date','>',Carbon::now('Asia/Jakarta'))){
+    //         return response()->json(['error' => false,'message' => 'Peminjaman anda masik tidak melewati batas','data'=> $data]);
+    //         // return $data;
+    //     };
+
+    // }
     public function orderBook(Request $request)
     {
         // Validasi
@@ -437,7 +445,7 @@ class UserController extends Controller
                     'status' => 'WISHLIST',
                     'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
                     'end_date' => $endDate,
-                    'wishlist' => 1,
+                    'wishlist' => $data['examplar'],
                 ]);
                 $data->save();
             });

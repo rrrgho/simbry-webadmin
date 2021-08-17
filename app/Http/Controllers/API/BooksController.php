@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 // Call Model
 use App\Models\Books;
 use App\Models\BooksCategory;
+use App\Models\BooksOrder;
 use App\Models\Komentar;
 use App\Models\Like;
 use App\Models\Locker;
+use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
 {

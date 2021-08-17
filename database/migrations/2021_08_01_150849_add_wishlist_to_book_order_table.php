@@ -14,7 +14,7 @@ class AddWishlistToBookOrderTable extends Migration
     public function up()
     {
         Schema::table('book_order', function (Blueprint $table) {
-            $table->boolean('wishlist')->default(false);
+            $table->string('wishlist')->nullable();
         });
     }
 

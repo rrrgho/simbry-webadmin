@@ -60,7 +60,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
         Route::post('order', [UserController::class, 'orderBook']);
         Route::post('history', [UserController::class, 'historybook']);
         Route::post('kritik',[UserController::class, 'kritik']);
-        Route::post('notifikasi',[UserController::class, 'notifikasi']);
+        Route::get('notifikasi',[UserController::class, 'notifikasi']);
         Route::post('change-password', [UserController::class, 'changePassword']);
     });
 });
