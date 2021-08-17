@@ -200,14 +200,18 @@ class UserController extends Controller
             return response()->json(['error' => true,'message' => 'Data gagal di hapus']);
         }
     }
-    // public function notifikasi()
-    // {
-    //     if($data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date','>',Carbon::now('Asia/Jakarta'))){
-    //         return response()->json(['error' => false,'message' => 'Peminjaman anda masik tidak melewati batas','data'=> $data]);
-    //         // return $data;
-    //     };
+    public function notifikasi()
+    {
+        $is_expired = 0;
+        $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->get();
+        $is_expired = count($data);
+        if($is_expired > 0){
+            return response()->json(['error' => false, 'message' => 'Kamu memiliki '.$is_expired.' buku yang Lewat batas waktu pemulangan, Check menu history peminjaman !', 'expired' => true]);
+        }else{
+            return response()->json(['error' => false, 'message' => 'Tidak ada buku yang expired']);
+        }
 
-    // }
+    }
     public function orderBook(Request $request)
     {
         // Validasi
