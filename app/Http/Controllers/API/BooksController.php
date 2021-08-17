@@ -25,12 +25,13 @@ class BooksController extends Controller
     }
     public function bookDetail($id){
         $data = Books::find($id);
+        $wishlist_order = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('wishlist',$data['examplar'])->first();
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
         $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
-        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false], 200);
     }
     public function bookSearch(Request $request){
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(50);
