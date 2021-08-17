@@ -45,10 +45,10 @@ class UserController extends Controller
                 $data['id'] = $user->id;
                 $data['user_number'] = $user->user_number;
                 $data['name'] = $user->name;
-                // $data['level'] = $user->level;
-                // $user->update([
-                //     'last_login_at' => Carbon::now()->toDateTimeString(),
-                // ]);
+                $data['level'] = $user->level;
+                $user->update([
+                    'last_login_at' => Carbon::now()->toDateTimeString(),
+                ]);
                 return response()->json(['error' => false, 'message' => 'Login success !', 'data' => $data], 200);
             }
             return response()->json(['error' => true, 'message' => 'Password is wrong'], 404);
