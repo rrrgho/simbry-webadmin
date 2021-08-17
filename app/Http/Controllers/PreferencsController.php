@@ -40,7 +40,7 @@ class PreferencsController extends Controller
     }
     public function get_preference()
     {
-        $data = Preference::where('deleted_at',null)->where('user_id',Auth::guard('api')->user()->id)->get();
+        $data = Preference::where('deleted_at',null)->where('user_id',Auth::guard('api')->user()->id)->with('Category')->get();
         if($data)
             return response()->json(['error' => false, 'message' => 'Berhasil mengambil data preference', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal mengambil data'],404);
