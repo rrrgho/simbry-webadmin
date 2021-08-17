@@ -35,7 +35,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
+    public function tesapi()
+    {
+        return 'berhasil';
+    }
     public function Login(Request $request)
     {
         $user = User::where('user_number', $request->user_number)->first();
