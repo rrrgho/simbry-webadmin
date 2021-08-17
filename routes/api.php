@@ -33,7 +33,6 @@ Route::get('add_unit_id', [MigrationController::class, 'add_unit_id']);
 Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::middleware('cors')->namespace('API')->group(function(){
-    Route::get('get_category',[PreferencsController::class,'category_buku']);
     Route::post('login', [UserController::class, 'Login']);
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
@@ -44,6 +43,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('about', [UserController::class, 'about']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::middleware('auth:api')->group(function(){
+        Route::get('get_category',[PreferencsController::class,'category_buku']);
         Route::post('add_preference',[PreferencsController::class,'addPreference']);
         Route::get('get_preference',[PreferencsController::class,'get_preference']);
         Route::post('return-book',[UserController::class,'returnbook']);
