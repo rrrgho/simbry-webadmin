@@ -18,7 +18,6 @@ class BooksController extends Controller
 {
     public function bookData(){
         $data = Books::paginate(6);
-        // $data = Books::with;
         // $data['category'] = BooksCategory::find($data['category_id'])['name'];
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);

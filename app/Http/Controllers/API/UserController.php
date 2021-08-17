@@ -51,9 +51,9 @@ class UserController extends Controller
                 ]);
                 return response()->json(['error' => false, 'message' => 'Login success !', 'data' => $data], 200);
             }
-            return response()->json(['error' => true, 'message' => 'Password is wrong'], 200);
+            return response()->json(['error' => true, 'message' => 'Password is wrong'], 404);
         }
-        return response()->json(['error' => true, 'message' => 'Username not found !'], 200);
+        return response()->json(['error' => true, 'message' => 'Username not found !'], 404);
     }
     public function changePassword(Request $request)
     {
