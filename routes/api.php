@@ -33,7 +33,7 @@ Route::get('add_unit_id', [MigrationController::class, 'add_unit_id']);
 Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::post('login', [UserController::class, 'Login']);
-Route::get('tes', [UserController::class, 'tesapi']);
+Route::post('tes', [UserController::class, 'tesapi']);
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);

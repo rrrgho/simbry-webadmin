@@ -35,9 +35,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function tesapi()
+    public function tesapi(Request $request)
     {
-        return 'berhasil';
+        return $request->tes;
     }
     public function Login(Request $request)
     {
