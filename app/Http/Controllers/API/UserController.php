@@ -206,7 +206,7 @@ class UserController extends Controller
         $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->get();
         $is_expired = count($data);
         if($is_expired > 0){
-            return response()->json(['error' => false, 'message' => 'Kamu memiliki '.$is_expired.' buku yang Lewat batas waktu pemulangan, Check menu history peminjaman !', 'expired' => true]);
+            return response()->json(['error' => false, 'message' => 'Kamu memiliki '.$is_expired.' telah lewat batas waktu !', 'expired' => true]);
         }else{
             return response()->json(['error' => false, 'message' => 'Tidak ada buku yang expired']);
         }
