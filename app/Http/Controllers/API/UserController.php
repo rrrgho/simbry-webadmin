@@ -290,7 +290,7 @@ class UserController extends Controller
     }
     public function historyberjalan()
     {
-        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','APPROVED')->orderBy('created_at','DESC')->paginate(1);
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','APPROVED')->orderBy('created_at','DESC')->paginate(3);
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
