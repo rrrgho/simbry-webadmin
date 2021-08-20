@@ -61,7 +61,7 @@
       <div class="modal-content">
         <form action="{{ route('extends') }}" method="POST">@csrf
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Perpanjang Peminjaman</h5>
             <input type="hidden" name="id" id="id_order">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -71,7 +71,9 @@
                 {{-- <input type="text" name="status" class="form-control" value="SUCCESS" readonly> --}}
                 <label>Pilih Status Peminjaman : </label><br>
                 <select required class="form-control" style="width: 100%" name="status">
-                    <option value="{{ $item->jumlah }}">APPROVED</option>
+                    @foreach ($data as $item)
+                        <option value="{{ $item->jumlah }}">APPROVED</option>
+                    @endforeach
                 </select>
             </div>
             <div class="modal-footer">

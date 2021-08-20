@@ -213,6 +213,7 @@ class OrderController extends Controller
                 'end_date' => Carbon::parse($data->end_date_book)->addDays($data->jumlah)->toDateTimeString(),
             ]);
             $data->status = 0;
+            // dd($data);
             if($data->save())
                 return redirect(url('management-peminjaman/extends'))->with('success','Berhasil Menerima perpanjang Buku Siswa ');
             return redirect(url('management-peminjaman/'.$request->id.'/extends'))->with('failed','Gagal Menerima perpanjangan Buku Siswa');
