@@ -278,7 +278,7 @@ class UserController extends Controller
     }
     public function historyselesai()
     {
-        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','FINISHED')->orderBy('created_at','DESC')->paginate(1);
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','FINISHED')->orderBy('created_at','DESC')->get();
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
