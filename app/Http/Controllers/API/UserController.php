@@ -28,10 +28,8 @@ use Illuminate\Console\Scheduling\Event;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
-
-
-
+use Illuminate\Support\Facades\Log;
+use Predis\Response\Status;
 
 class UserController extends Controller
 {
@@ -205,6 +203,17 @@ class UserController extends Controller
     }
     public function notifikasi()
     {
+        $notifikasi_perpanjang = LogExtends::where('user_id',Auth::guard('api')->user()->id)->first();
+        if($notifikasi_perpanjang)
+        {
+            if($notifikasi_perpanjang['status'] == 1)
+            {
+                return response()->json(['error' => false,'message' => 'Perpanjangan buku belum di setujui']);
+                
+            }else{
+                return response()->json(['error' => false, 'message' => 'Perpanjang buku sudah disetujui']);
+            }
+        }
         $is_expired = 0;
         $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->get();
         $is_expired = count($data);
@@ -213,6 +222,7 @@ class UserController extends Controller
         }else{
             return response()->json(['error' => false, 'message' => 'Tidak ada buku yang expired']);
         }
+    
 
     }
     public function orderBook(Request $request)
@@ -374,6 +384,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'book_id' => ['required'],
             'komentar' => ['required'],
+            'rating' => ['required'],
 
         ]);
         $data = Books::where('id', $validated['book_id'])->first();
@@ -386,6 +397,7 @@ class UserController extends Controller
                 'user_id' => Auth::guard('api')->user()->id,
                 'book_id' => $validated['book_id'],
                 'komentar' => $validated['komentar'],
+                'rating' => $validated['rating'],
             ]);
             if($data->save())
                 return response()->json(['error' => false,'message' => 'Buku berhasil di berikan ulasan atau komentar']);
@@ -426,11 +438,6 @@ class UserController extends Controller
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         }
-        // $checkwistlist = BooksOrder::where('user_id' , Auth::guard('api')->user()->id)->where('wishlist',true)->get();
-        // if($checkwistlist)
-        // {
-        //     return response()->json(['error' => true, 'message' => 'Data Sudah Ada di kerjang anda'],200);
-        // }
         $data = Books::where('id', $validated['book_id'])->where('ready', false)->orderBy('created_at', 'DESC')->first();
 
         if (!$data) {
