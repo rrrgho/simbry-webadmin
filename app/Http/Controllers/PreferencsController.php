@@ -21,12 +21,12 @@ class PreferencsController extends Controller
         {
             return response()->json(['error' => true, 'message' => 'Category not found!!']);
         }else{
-            Preference::create([
-                'user_id' => Auth::guard('api')->user()->id,
-                'category_id' => $validated['category_id'],
-            ]);
+            $insert = new Preference();
+            $insert->user_id = Auth::guard('api')->user()->id;
+            $insert->category_id = $validated['category_id'];
+            $insert->save();
             if($data->save())
-                return response()->json(['error' => false,'message' => 'Data preference berhasil di simpan'],200);
+                return response()->json(['error' => false,'message' => 'Data preference berhasil di simpan', 'id' => $insert->id],200);
             return response()->json(['error' => true,'message' => 'Data preference gagal di simpan'],401);
         }
     }
