@@ -12,6 +12,7 @@ use App\Models\BooksOrder;
 use App\Models\Komentar;
 use App\Models\Like;
 use App\Models\Locker;
+use App\Models\Preference;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
@@ -20,6 +21,12 @@ class BooksController extends Controller
         $data = Books::paginate(6);
         // $data['category'] = BooksCategory::find($data['category_id'])['name'];
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
+        return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+    }
+    public function bookDataM()
+    {
+        $check = Preference::where('user_id',Auth::guard('api')->user()->id)->first();
+        $data = Books::where('category_id',$check['category_id'])->paginate();
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
     }
     public function bookDetail($id){
