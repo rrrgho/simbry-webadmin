@@ -209,7 +209,7 @@ class UserController extends Controller
             if($notifikasi_perpanjang['status'] == 1)
             {
                 return response()->json(['error' => false,'message' => 'Perpanjangan buku belum di setujui']);
-                
+
             }else{
                 return response()->json(['error' => false, 'message' => 'Perpanjang buku sudah disetujui']);
             }
@@ -222,7 +222,7 @@ class UserController extends Controller
         }else{
             return response()->json(['error' => false, 'message' => 'Tidak ada buku yang expired']);
         }
-    
+
 
     }
     public function orderBook(Request $request)
@@ -293,14 +293,20 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
         else{
-            if($data)
-                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            if($data){
+                $response = [];
+                foreach($data as $item)
+                {
+                    $return_pemulangan =  Carbon::parse($item['update_at']);
+                }
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data, 'Pemulangan' => $return_pemulangan],200);
+            }
             return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
         }
     }
     public function historyberjalan()
     {
-        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','APPROVED')->orderBy('created_at','DESC')->paginate(3);
+        $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','APPROVED')->orderBy('created_at','DESC')->get();
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
