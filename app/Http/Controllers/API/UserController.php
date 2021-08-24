@@ -286,6 +286,23 @@ class UserController extends Controller
         }
 
     }
+    public function ratingOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'order_id' => ['required'],
+        ]);
+        // $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$validated['book_id'])->where('status','FINISHED')->first();
+        $data = BooksOrder::find($validated['order_id']);
+        if(!$data)
+        {
+            return response()->json(['error' => true, 'message' => 'Data not found!!'],404);
+        }else{
+            $data->is_rating = true;
+            $data->save();
+                return response()->json(['error' => false, 'message'=>'Berhasil menambahkan rating']);
+        }
+
+    }
     public function historyselesai()
     {
         $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','FINISHED')->orderBy('created_at','DESC')->get();
@@ -293,8 +310,22 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
         else{
-            if($data)
-                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
+            if($data){
+                $response = [];
+                foreach($data as $item)
+                {
+                    // if(Komentar::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$item['book_id'])->where('rating','!=',NULL)->first())
+                    // {
+                    //     $item['Israting'] = true;
+                    // }else{
+                    //     $item['Israting'] = false;
+                    // }
+                    $tanggal_pemulangan = Carbon::parse($item['updated_at']);
+                    $item['tanggal_pemulangan'] = $tanggal_pemulangan->format('M d Y h:m:s');
+                    $response[] = $item;
+                }
+            }
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $response],200);
             return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
         }
     }
