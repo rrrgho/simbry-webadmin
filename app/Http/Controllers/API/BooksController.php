@@ -25,10 +25,13 @@ class BooksController extends Controller
     }
     public function bookDataM()
     {
-
-        $data = Books::paginate(6);
-        // dd($check);
-        return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+        $check_preference = Preference::where('user_id',Auth::guard('api')->user()->id)->first();
+        foreach($check_preference as $item)
+        {
+            $data = Books::where('category_id',$item['category_id'])->paginate(6);
+            // dd($check);
+            return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+        }
     }
     public function bookDetail($id){
         $data = Books::find($id);
@@ -41,7 +44,7 @@ class BooksController extends Controller
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
-        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'jumlah buku sudah di pinjam' => $is_order], 200);
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'your_usage' => $is_order], 200);
     }
     public function bookSearch(Request $request){
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(50);
