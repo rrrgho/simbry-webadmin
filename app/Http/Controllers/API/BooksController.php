@@ -27,7 +27,7 @@ class BooksController extends Controller
     {
         $check = Preference::where('user_id',Auth::guard('api')->user()->id)->first();
         // dd($check);
-        $data = Books::where('category_id',$check['category_id'])->paginate(6);
+        $data = Books::where('category_id',$check['category_id'])->first();
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
     }
     public function bookDetail($id){
