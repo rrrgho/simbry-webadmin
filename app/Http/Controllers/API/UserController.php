@@ -339,6 +339,13 @@ class UserController extends Controller
             if($data){
                 $response = [];
                 foreach($data as $item){
+                    if(LogExtends::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$item['book_id'])->first())
+                    {
+                        $item['status_perpanjang'] = true;
+                    }
+                    else{
+                        $item['status_perpanjang'] = false;
+                    }
                     if(Carbon::parse($item['end_date']) < Carbon::now()){
                         $item['isEnd'] = true;
                         $dataEnd = Carbon::parse($item['end_date']);

@@ -10,7 +10,7 @@ class Komentar extends Model
     use HasFactory;
     protected $table = 'komentars';
     protected $guarded = [];
-    protected $hidden = ['user_id'];
+    // protected $hidden = ['user_id'];
     // public function book_relation(){
     //     return $this->belongsTo(Books::class, 'book_id');
     // }
