@@ -293,15 +293,8 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
         else{
-            if($data){
-                $response = [];
-                foreach($data as $item)
-                {
-                    $return_pemulangan =  Carbon::parse($item['update_at']);
-                    $response[] = $item;
-                }
-                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data, 'Pemulangan' => $response],200);
-            }
+            if($data)
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
             return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
         }
     }
