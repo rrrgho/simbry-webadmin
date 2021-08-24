@@ -298,8 +298,9 @@ class UserController extends Controller
                 foreach($data as $item)
                 {
                     $return_pemulangan =  Carbon::parse($item['update_at']);
+                    $response[] = $item;
                 }
-                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data, 'Pemulangan' => $return_pemulangan],200);
+                return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data, 'Pemulangan' => $response],200);
             }
             return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
         }
