@@ -17,9 +17,9 @@ class Komentar extends Model
     // public function getBookAttribute(){
     //     return $this->book_relation ?? '-';
     // }
-    // public function user_relation(){
-    //     return $this->belongsTo(User::class, 'user_id', 'id');
-    // }
+    public function user_relation(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
     // public function getUserAttribute(){
     //     return $this->user_relation ?? '-';
     // }
