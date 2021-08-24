@@ -30,9 +30,12 @@ class PreferencsController extends Controller
             return response()->json(['error' => true,'message' => 'Data preference gagal di simpan'],401);
         }
     }
-    public function delete_preference($id)
+    public function delete_preference(Request $request)
     {
-        $data = Preference::find($id);
+        $validated = $request->validate([
+            'id_preference' => ['required'],
+        ]);
+        $data = Preference::find($validated['id_preference']);
         if($data->delete())
             return response()->json(['error' => false, 'message' => 'Berhasil mendelete data preference'],200);
         return response()->json(['error' => true, 'message' => 'Gagal mendelete data preference'],401);
