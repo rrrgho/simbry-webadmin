@@ -25,13 +25,17 @@ class BooksController extends Controller
     }
     public function bookDataM()
     {
-        $check_preference = Preference::where('user_id',Auth::guard('api')->user()->id)->first();
-        foreach($check_preference as $item)
-        {
-            $data = Books::where('category_id',$item['category_id'])->paginate(6);
-            // dd($check);
-            return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
-        }
+        $data = Books::paginate(6);
+        // $data['category'] = BooksCategory::find($data['category_id'])['name'];
+        // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
+        return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+        // $check_preference = Preference::where('user_id',Auth::guard('api')->user()->id)->first();
+        // foreach($check_preference as $item)
+        // {
+        //     $data = Books::where('category_id',$item['category_id'])->paginate(6);
+        //     // dd($check);
+        //     return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+        // }
     }
     public function bookDetail($id){
         $data = Books::find($id);
