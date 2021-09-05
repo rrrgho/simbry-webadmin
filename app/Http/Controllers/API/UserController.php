@@ -111,12 +111,19 @@ class UserController extends Controller
     public function extendsbooks(Request $request)
     {
         // Validasi
-        $validated = $request->validate([
-            'book_id' => ['required'],
-            'extend' => ['required']
+        // $validated = $request->validate([
+        //     'book_id' => ['required'],
+        //     'extend' => ['required','max:3'],
+        // ]);
+        $validated = Validator::make($request->all(),[
+            'book_id' => 'required',
+            'extend' => 'required|numeric|min:1|max:3',
         ]);
-
-        $data = Books::where('id', $validated['book_id'])->first();
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 400);
+        }
+        $data = Books::where('id', $request->book_id)->first();
+        // $data = Books::where('id', $validated['book_id'])->first();
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
@@ -128,8 +135,10 @@ class UserController extends Controller
             DB::transaction(function () use ($data,$validated,$order,$request) {
                 LogExtends::create([
                     'user_id' => Auth::guard('api')->user()->id,
-                    'book_id' => $validated['book_id'],
-                    'jumlah' => $validated['extend'],
+                    'book_id' => $request->book_id,
+                    // 'book_id' => $validated['book_id'],
+                    // 'jumlah' => $validated['extend'],
+                    'jumlah' => $request->extend,
                     'start_date_book' => $order->start_date,
                     'end_date_book' => $order->end_date,
                     'status' => 1,
