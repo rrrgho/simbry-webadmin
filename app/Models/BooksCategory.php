@@ -10,4 +10,9 @@ class BooksCategory extends Model
     use HasFactory;
     protected $table = "book_category";
     protected $guarded = [];
+
+    public function book_relation()
+    {
+        return $this->hasMany(Books::class,'category_id');
+    }
 }

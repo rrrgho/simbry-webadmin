@@ -34,7 +34,6 @@ class ManagemetBooksController extends Controller
     }
     public function categoryDatatable(){
         $data = BooksCategory::where('deleted_at',null)->orderBy('created_at','DESC')->get();
-
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($data){
@@ -113,7 +112,7 @@ class ManagemetBooksController extends Controller
         $data = Author::find($id);
         if($data->delete());
             return redirect(url('books-management/author'))->with('success', 'Berhasil menghapus data penulis buku' .$data['name']);
-        return redirect(url('books-management/author'))->with('failed', 'Gagal menghapus data penulis buku' .$data['name']);       
+        return redirect(url('books-management/author'))->with('failed', 'Gagal menghapus data penulis buku' .$data['name']);
     }
     public function authorEdit($id){
         $data = Author::find($id);
@@ -171,7 +170,7 @@ class ManagemetBooksController extends Controller
         $data = Publisher::find($id);
         if($data->delete())
             return redirect(url('books-management/publisher'))->with('success', 'Berhasil menghapus data penerbit buku' .$data['name']);
-        return redirect(url('books-management/publisher'))->with('failed', 'Gagal menghapus data penerbit buku' .$data['name']);       
+        return redirect(url('books-management/publisher'))->with('failed', 'Gagal menghapus data penerbit buku' .$data['name']);
     }
     public function publisherEdit($id){
         $data = Publisher::find($id);
@@ -262,7 +261,7 @@ class ManagemetBooksController extends Controller
             if($insert)
                 return redirect(route('main-locker-management'))->with('success', 'Berhasil menyimpan data rak buku');
             return redirect(route('main-locker-management'))->with('failed', 'Gagal menyimpan data rak buku');
-            
+
         }
     }
     public function lockerDelete($id){
