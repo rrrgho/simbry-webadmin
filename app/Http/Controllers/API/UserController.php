@@ -212,27 +212,23 @@ class UserController extends Controller
     }
     public function notifikasi()
     {
-        $notifikasi_perpanjang = LogExtends::where('user_id',Auth::guard('api')->user()->id)->first();
-        if($notifikasi_perpanjang)
-        {
-            if($notifikasi_perpanjang['status'] == 1)
-            {
-                return response()->json(['error' => false,'message' => 'Perpanjangan buku belum di setujui']);
-
+        $notification = "Kamu tidak memiliki Peminjaman Buku !";
+        $BooksOrderExpired = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->get();
+        $BooksOrderRunning = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status', 'APPROVED')->get();
+        $BooksOrderExtend = LogExtends::where('user_id',Auth::guard('api')->user()->id)->where('status',1)->first();
+        if(!$BooksOrderExpired){
+            if(!$BooksOrderExtend){
+                if($BooksOrderRunning){
+                    $notification = "Kamu Memiliki ".count($BooksOrderRunning)." Peminjaman Berjalan !";
+                }
             }else{
-                return response()->json(['error' => false, 'message' => 'Perpanjang buku sudah disetujui']);
+                $notification = "Pengajuan Perpanjangan Belum Disetujui !";
             }
-        }
-        $is_expired = 0;
-        $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->get();
-        $is_expired = count($data);
-        if($is_expired > 0){
-            return response()->json(['error' => false, 'message' => 'Kamu memiliki '.$is_expired.' telah lewat batas waktu !', 'expired' => true]);
         }else{
-            return response()->json(['error' => false, 'message' => 'Tidak ada buku yang expired']);
+            $notification = "Kamu Memiliki ".count($BooksOrderExpired)." Peminjaman Expired";
         }
-
-
+        
+        return response()->json(['error' => false,'message' => $notification]);
     }
     public function orderBook(Request $request)
     {
