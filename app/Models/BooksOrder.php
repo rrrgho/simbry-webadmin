@@ -11,10 +11,11 @@ class BooksOrder extends Model
     use HasFactory;
     protected $table = "book_order";
     protected $guarded = [];
+    // public $timestamps = false;
     // protected $appends = ['book'];
     protected $appends = ['book','user'];
     // protected $fillable = [
-    //     'user_id','book_id','status','start_date','end_date' 
+    //     'user_id','book_id','status','start_date','end_date'
     //  ];
     public function book_relation(){
         return $this->belongsTo(Books::class, 'book_id');

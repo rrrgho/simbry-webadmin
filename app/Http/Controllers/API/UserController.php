@@ -227,7 +227,7 @@ class UserController extends Controller
         }else{
             $notification = "Kamu Memiliki ".count($BooksOrderExpired)." Peminjaman Expired";
         }
-        
+
         return response()->json(['error' => false,'message' => $notification]);
     }
     public function orderBook(Request $request)
@@ -311,6 +311,7 @@ class UserController extends Controller
     public function historyselesai()
     {
         $data = BooksOrder::where('user_id', Auth::guard('api')->user()->id)->where('status','FINISHED')->orderBy('created_at','DESC')->get();
+        // dd($data);
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }

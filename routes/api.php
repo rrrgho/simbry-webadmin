@@ -12,6 +12,8 @@ use App\Http\Controllers\PreferencsController;
 use App\Http\Controllers\STUDENT\BooksStudentController;
 use App\Models\User;
 use App\Http\Middleware\UserMiddleware;
+use Spatie\Permission\Contracts\Role;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,6 +48,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
     Route::middleware('auth:api')->group(function(){
         Route::get('book-data-mobile', [BooksController::class, 'bookDataM']);
+        Route::get('get-bypreference',[BooksController::class,'getBookbyPreference']);
         Route::post('israting-finished', [UserController::class, 'ratingOrder']);
         Route::get('category/{id}',[PreferencsController::class, 'categoryID']);
         Route::get('get_category',[PreferencsController::class,'category_buku']);

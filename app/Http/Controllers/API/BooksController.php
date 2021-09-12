@@ -14,6 +14,7 @@ use App\Models\Like;
 use App\Models\Locker;
 use App\Models\Preference;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\Foreach_;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
 {
@@ -23,9 +24,33 @@ class BooksController extends Controller
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
     }
+    public function getBookbyPreference()
+    {
+        $preferences = Preference::where('user_id', Auth::guard('api')->user()->id)->get();
+        $query = [
+            ['category_id', $preferences[1]['category_id']]
+        ];
+
+        $i=0;
+        foreach( $preferences as $preference){
+            if($i!=0)
+                $query[] = ['category_id', $preference['category_id']];
+            $i++;
+        }
+        // return $query;
+        return Books::where([
+            [
+                "category_id",
+                $preferences[0]['category_id']
+            ],
+        ])
+        ->orWhere($query)
+        ->paginate(6);
+    }
     public function bookDataM()
     {
         $data = Books::orderBy('created_at', 'DESC')->paginate(6);
+        // return $data['category_id'];
         // $data['category'] = Preference::where('user_id',Auth::guard('api')->user()->id)->with('book_relation')->get();
         // $data['category'] = BooksCategory::find($data['category_id'])['name'];
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
