@@ -20,13 +20,13 @@ class BooksController extends Controller
     public function bookData(){
         // $data = Books::paginate(6);
         $data = Books::orderBy('created_at', 'DESC')->paginate(6);
-        // $data['category'] = BooksCategory::find($data['category_id'])['name'];
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
     }
     public function bookDataM()
     {
-        $data = Books::paginate(6);
+        $data = Books::orderBy('created_at', 'DESC')->paginate(6);
+        // $data['category'] = Preference::where('user_id',Auth::guard('api')->user()->id)->with('book_relation')->get();
         // $data['category'] = BooksCategory::find($data['category_id'])['name'];
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);

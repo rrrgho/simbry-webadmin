@@ -48,6 +48,9 @@ class ManagemetBooksController extends Controller
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
         })
+        ->addColumn('jumlah_buku',function($data){
+            return $data['jumlah_buku'];
+        })
         ->rawColumns(['action'])
         ->make(true);
     }

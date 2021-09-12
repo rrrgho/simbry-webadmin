@@ -3,8 +3,8 @@
     [ 'page' => 'Manajemen Buku', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activeMainPage' => 'books-management', 
-  'activePage' => 'locker-books', 
+  'activeMainPage' => 'books-management',
+  'activePage' => 'locker-books',
   'title' => __('Rak Buku'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
@@ -14,9 +14,9 @@
         <div class="col-md-12 border-bottom mb-3">
             <div class="col border-bottom pl 0 pb-3">
                 <h3>Rak Buku</h3>
-                <p>Anda dapat menambah, mengedit atau menghapus data Rak buku disini !</p>       
+                <p>Anda dapat menambah, mengedit atau menghapus data Rak buku disini !</p>
             </div>
-        </div>    
+        </div>
     </div>
 @endsection
 @section('content')
@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <input type="text" name="name"class="form-control" placeholder="Ketik disini ..." required>                            
+                            <input type="text" name="name"class="form-control" placeholder="Ketik disini ..." required>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-info btn-block">Simpan</button>
@@ -48,18 +48,19 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-12 col-lg-8">                 
+        <div class="col-md-12 col-lg-8">
             <table class="ui celled table table-striped" id="data-locker">
                 <thead>
                     <tr class="text-center">
                         <th width="50">#</th>
                         <th>Nama</th>
+                        <th>Jumlah buku</th>
                         <th width="100px">Created At</th>
                         <th width="100px">Action</th>
                     </tr>
                 </thead>
-            </table>   
-        </div>        
+            </table>
+        </div>
     </div>
     {{-- Modal Rak --}}
     <div class="modal fade" id="editLocker" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,6 +79,7 @@
           columns: [
               { data: 'DT_RowIndex', name: 'DT_RowIndex' },
               { data: 'name', name: 'name'},
+              { data: 'jumlah_buku', name: 'jumlah_buku'},
               { data: 'created_at', name: 'created_at'},
               { data: 'action', name: 'action'},
           ],
@@ -86,15 +88,15 @@
           sSearch: '',
           lengthMenu: '_MENU_ items/page',
           destroy: true
-          },  
+          },
           columnDefs:[
               {
                   "targets" : [0,1,2,3],
                   "className": "text-center"
               },
-          ],              
-          
-          dom: 'Bfrtip',  
+          ],
+
+          dom: 'Bfrtip',
           buttons: [
               {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
               {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -103,7 +105,7 @@
           ],
           "bDestroy": true,
           "processing": true,
-          "serverSide": true, 
+          "serverSide": true,
       });
   });
   // Ajax Edit Locker Data

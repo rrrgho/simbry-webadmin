@@ -14,4 +14,9 @@ class Preference extends Model
     {
         return $this->belongsTo(BooksCategory::class,'category_id','id');
     }
+    public function book_relation()
+    {
+        return $this->hasMany(Books::class,'category_id');
+    }
+
 }

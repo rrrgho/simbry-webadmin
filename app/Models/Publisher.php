@@ -10,4 +10,13 @@ class Publisher extends Model
     use HasFactory;
     protected $table = "book_publisher";
     protected $guarded = [];
+    public function book_relation()
+    {
+        return $this->hasMany(Books::class,'publisher_id');
+    }
+    protected $appends = ['jumlah_buku'];
+    public function getJumlahBukuAttribute()
+    {
+        return count($this->book_relation()->get());
+    }
 }

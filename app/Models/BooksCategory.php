@@ -15,4 +15,10 @@ class BooksCategory extends Model
     {
         return $this->hasMany(Books::class,'category_id');
     }
+
+    protected $appends = ['jumlah_buku'];
+
+    public function getJumlahBukuAttribute(){
+        return count($this->book_relation()->get());
+    }
 }
