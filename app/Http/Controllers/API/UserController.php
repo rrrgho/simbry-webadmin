@@ -477,6 +477,10 @@ class UserController extends Controller
         if($late){
             return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
         }
+        $check_user_ready_wishlist = BooksOrder::where('user_id',Auth::guard('api')->id())->where('book_id',$validated['book_id'])->where('status','PENDING')->orWhere('status','APPROVED')->first();
+        if($check_user_ready_wishlist){
+            return response()->json(['error' => true, 'message' => 'Anda sedang meminjam buku ini dan tidak misak di masukan ke wishlist anda'],200);
+        }
         $userType = Auth::guard('api')->user()->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
