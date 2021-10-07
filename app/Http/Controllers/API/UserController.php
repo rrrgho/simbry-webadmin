@@ -520,7 +520,7 @@ class UserController extends Controller
     }
     public function getWishlist()
     {
-        $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('wishlist',true)->orderBy('created_at', 'DESC')->get();
+        $data = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('wishlist','<>',null)->orderBy('created_at', 'DESC')->get();
         if($data)
             return response()->json(['error' => false, 'message' => $data]);
         return response()->json(['error' => true, 'message' => 'Gagal mengambil data']);
