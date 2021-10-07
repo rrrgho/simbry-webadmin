@@ -75,7 +75,7 @@ class BooksController extends Controller
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->with('user_relation')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
-        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'your_usage' => $is_order,'Pesan' => $check_user_wishlist ? "Buku Sedang anda pinjam" : "Buku Sedang tidak di pinjam"], 200);
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'your_usage' => $is_order,'is_borrowing' => $check_user_wishlist ? true : false], 200);
     }
     public function bookSearch(Request $request){
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(50);
