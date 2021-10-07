@@ -477,7 +477,7 @@ class UserController extends Controller
         if($late){
             return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
         }
-        $check_user_ready_wishlist = BooksOrder::where('user_id',Auth::guard('api')->id())->where('book_id',$validated['book_id'])->where('status','PENDING')->orWhere('status','APPROVED')->first();
+        $check_user_ready_wishlist = BooksOrder::where('user_id',Auth::guard('api')->id())->where('book_id',$validated['book_id'])->first();
         if($check_user_ready_wishlist){
             return response()->json(['error' => true, 'message' => 'Anda sedang meminjam buku ini dan tidak bisa di masukan ke wishlist anda'],200);
         }
