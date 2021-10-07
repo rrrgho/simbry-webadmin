@@ -69,7 +69,7 @@ class BooksController extends Controller
         $is_order = 0;
         $data_order = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status', 'FINISHED')->get();
         $is_order = count($data_order);
-        $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status','PENDING')->orWhere('status','APPROVED')->first();
+        $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status','PENDING')->orWhere('status','APPROVED')->get();
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
         $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->with('user_relation')->get();
