@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Predis\Response\Status;
+// use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -39,7 +40,9 @@ class UserController extends Controller
     }
     public function Login(Request $request)
     {
-        $user = User::where('user_number', $request->user_number)->first();
+        // $user = User::where('user_number',$request->user_number)->first();
+        $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$request->user_number])->first();
+        // dd($user);
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $data['token'] = $user->createToken('nApp')->accessToken;
