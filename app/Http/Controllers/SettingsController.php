@@ -11,7 +11,7 @@ use DataTables;
 use Dotenv\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-
+use Intervention\Image\Facades\Image;
 class SettingsController extends Controller
 {
     // SLIDE BANNER
@@ -20,27 +20,25 @@ class SettingsController extends Controller
         return view('settings.slide-banner', compact('data'));
     }
     public function slideBannerPost(Request $request){
-        $insert = $request->validate([
-            'title' => 'required|unique:slide_banner,title,',
-            'images' => 'required|image|mimes:jpg,png|max:2048|dimensions:min_width=800,min_height=300'
-        ]);
         if($request->hasFile('images'))
         {
-            $title = $request->title;
-            $description = $request->description;
-            $file = $request->images;
-            $extension = time().'.'.$file->extension();
-            // $extension = time().$file->getClientOriginalExtension();
-            $file->move(public_path('slide'),$extension);
-            $insert = new Slide();
-            $insert->title = $title;
-            $insert->description = $description;
-            $insert->images = asset('slide/'.$extension);
-            $insert->active = 1;
-            if($insert->save())
-                return redirect(route('slide-banner'))->with('success' , 'Berhasil menambahkan slide banner gambar' );
-            return redirect(route('slide-banner'))->with('failed', 'Gagal menambahkan sldie banner gambar');
+            $file = $request->file('images');
+            $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
+            if (!in_array($request->file('images')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
+            $resize->save(public_path('slide/'.$request->title.'BIMG-'.$file->getClientOriginalName()));;
+            $pathSlide = asset('slide/'.$request->title.'BIMG-'.$file->getClientOriginalName());
         }
+        $insert = Slide::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'images' => $pathSlide,
+            'active' => 1,
+        ]);
+        if($insert)
+            return redirect(route('slide-banner'))->with('success' , 'Berhasil menambahkan slide banner gambar' );
+        return redirect(route('slide-banner'))->with('failed', 'Gagal menambahkan sldie banner gambar');
     }
     public function slideDatatable(){
         $data = Slide::where('deleted_at',null)->orderBy('created_at','DESC')->get();

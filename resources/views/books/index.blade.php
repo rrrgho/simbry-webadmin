@@ -135,7 +135,7 @@
                             <div class="col-6 mt-3">
                                 <label for="">Jumlah Copy : </label>
                                 <input required class="date form-control"  name="copy_amount" value="1" type="number">
-                            </div>                          
+                            </div>
                             <div class="col-6 mt-3">
                                 @if($category->count())
                                 <label>Pilih Kategori : </label><br>
@@ -185,7 +185,7 @@
                                     <label for="">Pilih Loker : </label>
                                     <select required class="form-control" style="width: 100%" name="locker_id">
                                         <option value="" hidden>Pilih Loker</option>
-                                        @foreach($locker as $item)                               
+                                        @foreach($locker as $item)
                                         <option value="{{ $item['id'] }}">
                                             {{ $item['name'] }}</option>
                                         @endforeach
@@ -197,7 +197,7 @@
                                         Data loker buku tidak di temukan ! mohon masukkan data loker!!
                                     </div>
                                 @endif
-                                
+
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Asal Buku : </label>
@@ -280,7 +280,7 @@
         })
     })
 
-    
+
 
     // Datatable
     $(function(){
@@ -304,15 +304,15 @@
                 { data: 'action', name: 'action'},
                 { data: null, "searchable": false, defaultContent:
                 `<button id="detail" class="btn btn-success p-1"><i class="fa fa-print"></i></button>`
-                }  
-                
+                }
+
             ],
             language: {
             searchPlaceholder: 'Search Buku..',
             sSearch: '',
             lengthMenu: '_MENU_ items/page',
             destroy: true
-            },   
+            },
             columnDefs:[
                 {
                     "targets" : [2,3,4,5,6,7,8,9],
@@ -322,9 +322,9 @@
                     "targets" : [0],
                     "visible" : false
                 }
-            ],            
-            
-            dom: 'Bfrtip',  
+            ],
+
+            dom: 'Bfrtip',
             buttons: [
                 {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                 {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -334,7 +334,7 @@
             retrieve: true,
             "bDestroy": true,
             "processing": true,
-            "serverSide": true, 
+            "serverSide": true,
         });
 
 
@@ -342,7 +342,7 @@
             if(hasListed.length !== 50){
                 var data = table.row( $(this).parents('tr') ).data();
                 let store = {id : data.id, number:data.book_number}
-                
+
                 printQR.push(store)
                 hasListed.push(data.id)
                 $.ajax({
@@ -385,22 +385,22 @@
     //             { data: 'action', name: 'action', 'render': function(data){
     //                 return data
     //             }},
-                
+
     //         ],
     //         language: {
     //         searchPlaceholder: 'Search Buku..',
     //         sSearch: '',
     //         lengthMenu: '_MENU_ items/page',
     //         destroy: true
-    //         },   
+    //         },
     //         columnDefs:[
     //             {
     //                 "targets" : [0,1,2,3,4],
     //                 "className": "text-center"
     //             },
-    //         ],            
-            
-    //         dom: 'Bfrtip',  
+    //         ],
+
+    //         dom: 'Bfrtip',
     //         buttons: [
     //             {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
     //             {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -409,7 +409,7 @@
     //         ],
     //         "bDestroy": true,
     //         "processing": true,
-    //         "serverSide": true, 
+    //         "serverSide": true,
     //     });
     // });
 

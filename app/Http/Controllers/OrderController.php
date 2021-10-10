@@ -43,14 +43,16 @@ class OrderController extends Controller
             'user_number' => ['required'],
             'book_number' => ['required'],
         ]);
-        $user = User::where('user_number', $data['user_number'])->first();
+        $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$data['user_number']])->first();
+        // $user = User::where('user_number', $data['user_number'])->first();
         if (!$user) {
             return redirect()->back()->with('success', [
                 'status' => false,
                 'message' => 'Data User tidak ada'
             ]);
         }
-        $book = Books::where('book_number', $data['book_number'])->first();
+        $book = Books::whereRaw("REPLACE(book_number,'-','') = ?",[$data['book_number']])->first();
+        // $book = Books::where('book_number', $data['book_number'])->first();
         if (!$book) {
             return redirect()->back()->with('success', [
                 'status' => false,
@@ -192,13 +194,23 @@ class OrderController extends Controller
             $endDate = Carbon::now('Asia/Jakarta')->addDays(3)->toDateTimeString();
         }
         $data = BooksOrder::find($request->id);
+        // return $data->book_id;
+        if($request->status == 'CANCELED')
+        {
+            Books::where('id',$data->book_id)->update([
+                'ready' => 1,
+            ]);
+            if($data->delete())
+                return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Admin membatalkan peminjaman siswa');
+        }else{
+            $data->status = $request->status;
+            $data->start_date = Carbon::now('Asia/Jakarta')->toDateTimeString();
+            $data->end_date = $endDate;
+            if($data->save())
+                return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Berhasil Menerima Peminjaman Buku Siswa ');
+            return redirect(url('peminjaman-masuk/'.$request->id.'/peminjaman-masuk'))->with('failed','Gagal Menerima Peminjamanan Buku Siswa');
+        }
         // return $data;
-        $data->status = $request->status;
-        $data->start_date = Carbon::now('Asia/Jakarta')->toDateTimeString();
-        $data->end_date = $endDate;
-        if($data->save())
-            return redirect(url('peminjaman-masuk/peminjaman-masuk'))->with('success','Berhasil Menerima Peminjaman Buku Siswa ');
-        return redirect(url('peminjaman-masuk/'.$request->id.'/peminjaman-masuk'))->with('failed','Gagal Menerima Peminjamanan Buku Siswa');
     }
     public function extends(Request $request)
     {

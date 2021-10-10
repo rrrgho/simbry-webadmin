@@ -16,6 +16,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // Call Service
 use DataTables;
 use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
 
 
 class BooksController extends Controller
@@ -33,8 +34,12 @@ class BooksController extends Controller
         if($request->hasFile('cover')){
             $file = $request->file('cover');
             $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
             if (!in_array($request->file('cover')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
-            $file->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
+            // $resize->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
+            $resize->save(public_path('book-images/'.$queue_copy.'BIMG-'.$file->getClientOriginalName()));
+            // $resize->save($file->getClientOriginalName());
             $pathCover = asset('book-images/'.$queue_copy.'BIMG-'.$file->getClientOriginalName());
         }
         if($request->hasFile('link_pdf')){
@@ -87,7 +92,7 @@ class BooksController extends Controller
                 $queue->value = $queue['value'] + 1;
                 $queue->save();
             }
-        }     
+        }
         return response()->json(['error' => false, 'message' => 'Berhasil menambahkan data buku baru'], 200);
 
     }
@@ -217,7 +222,7 @@ class BooksController extends Controller
     public function booksDetailUser($examplar){
         $data = Books::where('examplar', $examplar)->first();
         $books = Books::select(['examplar','name','cover'])->distinct('examplar')->paginate(2);
-        $copy['copy_amount'] = count(Books::where('examplar', $examplar)->get()); 
+        $copy['copy_amount'] = count(Books::where('examplar', $examplar)->get());
         // $redy = Books::where('examplar');
         $redy['redy'] = count(Books::where('examplar', $examplar)->get());
         $item['category_name'] = $data['category'];
@@ -249,8 +254,8 @@ class BooksController extends Controller
         $data->link_pdf = $request->link_pdf;
         $data->no_panggil = $request->no_panggil;
         if($data->save())
-            return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Employee is Edited !');
-        return redirect(url('books-management/books-detail/'.$data['examplar']))->with('failed', 'Employee is failed to be edited, contact developer !');
+            return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Books is Edited !');
+        return redirect(url('books-management/books-detail/'.$data['examplar']))->with('failed', 'Books is failed to be edited, contact developer !');
     }
 
     public function printQR(Request $request){

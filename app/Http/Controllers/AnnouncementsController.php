@@ -7,7 +7,7 @@ use App\Models\Announcement;
 use DataTables;
 use Dotenv\Validator;
 use Carbon\Carbon;
-
+use Intervention\Image\Facades\Image;
 class AnnouncementsController extends Controller
 {
     public function announcement()
@@ -17,25 +17,24 @@ class AnnouncementsController extends Controller
     }
     public function announcement_add(Request $request)
     {
-        $insert = $request->validate([
-            'name' => 'required|unique:announcements,name,',
-            'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
-        ]);
         if($request->hasFile('images'))
         {
-            $name = $request->name;
-            $description = $request->description;
-            $file = $request->images;
-            $extension = time().'.'.$file->extension();
-            $file->move(public_path('announcement'),$extension);
-            $insert = new Announcement();
-            $insert->name = $name;
-            $insert->description = $description;
-            $insert->images = asset('announcement/'.$extension);
-            if($insert->save())
-                return redirect(route('announcements'))->with('success' , 'Berhasil menambahkan pengumuman infromasi' );
-            return redirect(route('announcements'))->with('failed', 'Gagal menambahkan pengumuman informasi');
+            $file = $request->file('images');
+            $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
+            if (!in_array($request->file('images')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
+            $resize->save(public_path('announcement/'.$request->title.'BIMG-'.$file->getClientOriginalName()));;
+            $pathAnnoun = asset('announcement/'.$request->title.'BIMG-'.$file->getClientOriginalName());
         }
+        $insert = Announcement::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'images' => $pathAnnoun,
+        ]);
+        if($insert)
+            return redirect(route('announcements'))->with('success' , 'Berhasil menambahkan pengumuman infromasi' );
+        return redirect(route('announcements'))->with('failed', 'Gagal menambahkan pengumuman informasi');
     }
     public function annountcementDatatable()
     {

@@ -3,13 +3,13 @@
     [ 'page' => 'Manajemen Peraturan', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activePage' => 'Peminjaman masuk', 
+  'activePage' => 'Peminjaman masuk',
   'title' => __('Peminjaman masuk'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
 @section('title')
 <div class="row">
-    <div class="col-md-12">            
+    <div class="col-md-12">
         <div class="col border-bottom pl-0 pb-3">
             <h3>Management Peminjaman masuk</h3>
             <p>Anda dapat melihat Peminjaman Masuk!!</p>
@@ -29,6 +29,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
+                                <th>Nama</th>
                                 <th>NIP</th>
                                 <th>Nama Buku</th>
                                 <th>Status</th>
@@ -40,6 +41,7 @@
                             @foreach ($data as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
+                                <td class="text-center">{{ $item->user->name }}</td>
                                 <td class="text-center">{{ $item->user->user_number }}</td>
                                 <td>{{ $item->book->name }}</td>
                                 <td class="text-center"><button class="btn-danger">{{ $item->status }}</button></td>
@@ -51,7 +53,7 @@
                     </table>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
     {{-- Modal Approved --}}
     <div class="modal fade" id="editPeminjaman" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,6 +72,7 @@
                     <label>Pilih Status Peminjaman : </label><br>
                     <select required class="form-control" style="width: 100%" name="status">
                         <option value="APPROVED">APPROVED</option>
+                        <option value="CANCELED">CANCELED</option>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -88,7 +91,7 @@
       function setIdOrder(id){
             $('#id_order').val(id)
         }
-        
+
         $(document).ready(function() {
             $('#peminjamanDatatable').DataTable();
         } );
