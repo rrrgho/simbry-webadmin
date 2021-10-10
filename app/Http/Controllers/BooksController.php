@@ -244,6 +244,17 @@ class BooksController extends Controller
             $file->move('pdf/',$data.'BIMG-'.$file->getClientOriginalName());
             $pathPdf = asset('pdf/'.$data.'BIMG-'.$file->getClientOriginalName());
         }
+        if($request->hasFile('cover')){
+            $file = $request->file('cover');
+            $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
+            if (!in_array($request->file('cover')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
+            // $resize->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
+            $resize->save(public_path('book-images/'.$examplar.'BIMG-'.$file->getClientOriginalName()));
+            // $resize->save($file->getClientOriginalName());
+            $pathCover = asset('book-images/'.$examplar.'BIMG-'.$file->getClientOriginalName());
+        }
         if(!$request->all())
             return view('books.book-detail', compact('data','books','item','copy','redy'));
         $data->name = $request->name;
@@ -252,6 +263,7 @@ class BooksController extends Controller
         $data->locker_id = $request->locker_id;
         $data->origin_book = $request->origin_book;
         $data->link_pdf = $request->link_pdf;
+        $data->cover = $pathCover;
         $data->no_panggil = $request->no_panggil;
         if($data->save())
             return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Books is Edited !');

@@ -124,7 +124,7 @@
                         <h4 class="modal-title">Tambah Buku</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="row"> 
+                        <div class="row">
                             <input type="hidden" name="examplar" value="{{$data[0]['examplar']}}">
                             <div class="col-6 mt-3">
                                 <label>Penulis : </label><br>
@@ -192,12 +192,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-content">
-                <form action="{{ url('books-management/'.$data[0]['examplar'].'/edit-books') }}" method="POST">@csrf
+                <form action="{{ url('books-management/'.$data[0]['examplar'].'/edit-books') }}" enctype="multipart/form-data" method="POST">@csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Buku</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="row"> 
+                        <div class="row">
                             <input type="hidden" name="examplar" value="{{$data[0]['examplar']}}">
                             <div class="col-6 mt-3">
                                 <label>Judul : </label><br>
@@ -225,7 +225,7 @@
                                     <option @if($data[0]['locker_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
                                         {{ $item['name'] }}</option>
                                     @endforeach
-                                   
+
                                 </select>
                             </div>
                             {{-- <div class="col-6 mt-3">
@@ -235,6 +235,16 @@
                             <div class="col-6 mt-3">
                                 <label for="">Asal Buku : </label>
                                 <input required class="date form-control"  name="origin_book"  type="text" value="{{$data[0]['origin_book']}}">
+                            </div>
+                            <div class="col-12 mt-1">
+                                <label for="imgInp">
+                                <input type='file' name="cover" id="imgInp" class="d-none"/>
+                                @if($data[0]['cover'] == true)
+                                <img id="image-preview" src="{{ $data[0]['cover'] }}" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
+                                @else
+                                <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
+                                @endif
+                            </label>
                             </div>
                         </div>
                     </div>
@@ -250,7 +260,7 @@
     </div>
 </div>
 @endsection
-@section('script') 
+@section('script')
     <script>
         $('#buying_year, #publish_year').datepicker({
             changeMonth: true,
