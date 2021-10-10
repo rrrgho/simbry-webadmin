@@ -27,25 +27,29 @@ class BooksController extends Controller
     public function getBookbyPreference()
     {
         $preferences = Preference::where('user_id', Auth::guard('api')->user()->id)->get();
-        $query = [
-            ['category_id', $preferences[1]['category_id']]
-        ];
-
-        $i=0;
-        foreach( $preferences as $preference){
-            if($i!=0)
+        // return $preferences;
+        if($preferences == '[]')
+            return Books::orderBy('created_at', 'DESC')->paginate(6);
+        else{
+            $query = [
+                ['category_id', $preferences[0]['category_id']]
+            ];
+            // return $query;
+            $i=0;
+            foreach( $preferences as $preference){
+                if($i!=0)
                 $query[] = ['category_id', $preference['category_id']];
-            $i++;
-        }
-        // return $query;
-        return Books::where([
+                $i++;
+            }
+            return Books::where([
             [
                 "category_id",
                 $preferences[0]['category_id']
             ],
-        ])
-        ->orWhere($query)
-        ->paginate(6);
+            ])
+            ->orWhere($query)
+            ->paginate(6);
+        }
     }
     public function bookDataM()
     {
