@@ -179,12 +179,12 @@
                     </button>
                 </div>
                 <div class="modal-body" id="">
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    
+
 
 
 
@@ -224,9 +224,9 @@
 
     {{-- Select 2 --}}
     <script src="{{ asset('js/peminjaman.js') }}"></script>
-    
+
     <script>
-        
+
         setTimeout(() => {
             $('#flash-message').hide();
         }, 2000)
@@ -360,7 +360,7 @@
             }, 2000)
         }
         function confirm_me_post(message, formData , link) {
-            
+
             swal({
                     title: "Apakah Kamu Yakin??",
                     text: message,
@@ -382,7 +382,7 @@
                                     });
                                     setTimeout(() => {
                                         location.reload()
-                                    }, 200)                                    
+                                    }, 200)
                             }
                         })
                     }
@@ -400,11 +400,11 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+
                 reader.onload = function(e) {
                 $('#image-preview').attr('src', e.target.result);
                 }
-                
+
                 reader.readAsDataURL(input.files[0]); // convert to base64 string
             }
         }

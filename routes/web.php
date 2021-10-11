@@ -20,7 +20,7 @@ use SimpleSoftwareIO\QrCode\Generator;
 use App\Http\Controllers\KritikSaranController;
 use App\Http\Controllers\ManagementPeraturan;
 use App\Http\Controllers\ManagementPeminjaman;
-
+use App\Http\Controllers\PreferencsController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\SettingsController;
 
@@ -51,6 +51,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
     Route::get('change-password', [SettingsController::class, 'changePassword'])->name('change-password');
     Route::post('change-password-post', [SettingsController::class, 'changePasswordPost'])->name('change-password-post');
+
     Route::prefix('class-management')->group(function(){
         // Class Data Student
         Route::get('/student', [ClassController::class, 'index'])->name('main-class-management');
@@ -210,6 +211,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('activity')->group(function(){
         Route::get('log', [ActivityController::class, 'log'])->name('main-activity-log');
     });
+    Route::get('preferensi',[PreferencsController::class,'preferensi'])->name('main-preferensi');
+    Route::get('preferensi-datatable',[PreferencsController::class, 'preferensiDataTable'])->name('preferensi-siswa-datatable');
 });
 // Route Midleware User
 // Route::middleware([UserMiddleware::class])->group(function(){

@@ -198,6 +198,15 @@
           </p>
         </a>
       </li>
+     {{-- Preference dari Siswa --}}
+     <li class="nav-item {{ ($activePage == 'preference') ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('main-preferensi') }}">
+          <i class="material-icons">mail</i>
+            <span class="sidebar-mini"></span>
+            <span class="sidebar-normal">{{ __('Preferensi Siswa') }} </span>
+          </p>
+        </a>
+      </li>
     {{-- Manajemen Peraturan --}}
     {{-- <li class="nav-item {{ ($activePage == 'management-peraturan') ? ' active' : '' }}">
       <a class="nav-link" href="{{ route('main-management-peraturan') }}">

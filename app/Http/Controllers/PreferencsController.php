@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\BooksCategory;
 use Illuminate\Http\Request;
 use App\Models\Preference;
+use App\Models\Preferensi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use DataTables;
+use Carbon\Carbon;
+use Yajra\DataTables\Contracts\DataTable;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -66,5 +71,40 @@ class PreferencsController extends Controller
     {
         $data = BooksCategory::find($id);
             return response()->json(['error' => false, 'message' => 'Berhasil Mengambil data','data' => $data]);
+    }
+    public function preferensi(){
+        $data = Preferensi::all();
+        return view('preferensi.index', compact('data'));
+    }
+    public function preferensiDataTable()
+    {
+        $data = Preferensi::orderBy('created_at','DESC')->get();
+        return DataTables::of($data)
+        ->addIndexColumn()
+        ->addColumn('created_at', function($data){
+            return Carbon::parse($data['created_at'])->format('F d, y');
+        })
+        ->make(true);
+    }
+    public function addPreferensi(Request $request)
+    {
+        $validated = Validator::make($request->all(),[
+            'user_id' => 'required',
+            'category_id' => 'required',
+            'name' => 'required',
+        ]);
+        if($validated->fails())
+        {
+            return response()->json(['error' => true,'message' => $validated->errors()],400);
+        }
+        $insert = Preferensi::create([
+            'user_id' => Auth::guard('api')->user()->id,
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'status' => 1,
+        ]);
+        if($insert)
+            return response()->json(['error' => false,'message' => 'Kamu berhasil memberi preferensi kepada admin','data' => $insert],200);
+        return response()->json(['error' => true,'message' => 'Kamu gagal memberi preferensi kepada admin'],400);
     }
 }
