@@ -23,7 +23,8 @@ use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
     public function CheckUser(Request $request){
-        $user = User::where('user_number', $request->user_number)->first();
+        $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$request->user_number])->first();
+        // $user = User::where('user_number', $request->user_number)->first();
         if($user){
             $data['name'] = $user['name'];
             $data['id'] = $user['id'];
@@ -113,7 +114,7 @@ class OrderController extends Controller
         if($late){
             return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
         }
-        $book_id = Books::select('id')->where('book_number', $validated['book_number'])->first();
+        $book_id = Books::select('id')->whereRaw("REPLACE(book_number,'-','') = ?",[$validated['book_number']])->first();
         $userType = User::find($validated['user_id'])->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
