@@ -76,6 +76,11 @@ class PreferencsController extends Controller
         $data = Preferensi::all();
         return view('preferensi.index', compact('data'));
     }
+    public function getPrefernsi()
+    {
+        $data = Preferensi::where('deleted_at',null)->get();
+            return response()->json(['error' => false,'message' => 'Success get data','data' => $data]);
+    }
     public function preferensiDataTable()
     {
         $data = Preferensi::orderBy('created_at','DESC')->get();
@@ -102,6 +107,7 @@ class PreferencsController extends Controller
             'category_id' => $request->category_id,
             'name' => $request->name,
             'status' => 1,
+            'description' => $request->description,
         ]);
         if($insert)
             return response()->json(['error' => false,'message' => 'Kamu berhasil memberi preferensi kepada admin','data' => $insert],200);

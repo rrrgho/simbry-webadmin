@@ -16,9 +16,8 @@ class CreatePreferensiTable extends Migration
         Schema::create('preferensi', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
-            $table->integer('category_id')->nullable();
-            $table->string('name')->nullable();
-            $table->integer('status')->nullable();
+            $table->string('judul')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
