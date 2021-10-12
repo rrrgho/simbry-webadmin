@@ -17,6 +17,7 @@ class CreatePreferensiTable extends Migration
             $table->id();
             $table->integer('user_id')->nullable();
             $table->string('judul')->nullable();
+            $table->integer('status')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

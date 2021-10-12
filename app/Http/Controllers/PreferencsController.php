@@ -105,6 +105,7 @@ class PreferencsController extends Controller
         $insert = Preferensi::create([
             'user_id' => Auth::guard('api')->user()->id,
             'judul' => $request->judul,
+            'status' => 1,
             'description' => $request->description,
         ]);
         if($insert)
