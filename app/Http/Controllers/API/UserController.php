@@ -216,7 +216,7 @@ class UserController extends Controller
     public function notifikasi()
     {
         $notification = "Kamu tidak memiliki Peminjaman Buku !";
-        $BooksOrderExpired = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->where('status','FINISHED')->get();
+        $BooksOrderExpired = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->where('status','APPROVED')->get();
         $BooksOrderRunning = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status', 'APPROVED')->get();
         $BooksOrderExtend = LogExtends::where('user_id',Auth::guard('api')->user()->id)->where('status',1)->first();
         if(!$BooksOrderExpired){
