@@ -83,7 +83,7 @@ class PreferencsController extends Controller
     }
     public function getPrefernsi()
     {
-        $data = Preferensi::where('user_id',Auth::guard('api')->user()->id)->where('deleted_at',null)->get();
+        $data = Preferensi::where('user_id',Auth::guard('api')->user()->id)->where('deleted_at',null)->orderBy('created_at','DESC')->get();
         if($data == '[]')
             return response()->json(['error' => true,'message' => 'Data not Found!!','data' => $data]);
         return response()->json(['error' => false,'message' => 'Success get data','data' => $data,'isStatus' => $data[0]->status == 1 ? true : false]);
