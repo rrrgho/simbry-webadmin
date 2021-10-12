@@ -82,10 +82,15 @@ class User extends Authenticatable
         {
             $pointVar = 0;
         }
-        $gameLevel = GameLevel::where('amount',$orderTotal ? $orderTotal : $pointVar)->get();
-        foreach($gameLevel as $item)
+        if($this->point >= 30)
         {
-            $level = $item->name;
+            $level = "PLATINUM";
+        }else{
+            $gameLevel = GameLevel::where('amount',$orderTotal ? $orderTotal : $pointVar)->get();
+            foreach($gameLevel as $item)
+            {
+                $level = $item->name;
+            }
         }
         return $level;
         // $thisMonthOrder = BooksOrder::where('user_id',$this->id)->whereMonth('created_at',Carbon::now('Asia/Jakarta')->month)->first();
