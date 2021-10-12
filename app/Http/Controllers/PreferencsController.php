@@ -94,9 +94,7 @@ class PreferencsController extends Controller
     public function addPreferensi(Request $request)
     {
         $validated = Validator::make($request->all(),[
-            'user_id' => 'required',
-            'category_id' => 'required',
-            'name' => 'required',
+            'judul' => 'required',
         ]);
         if($validated->fails())
         {
