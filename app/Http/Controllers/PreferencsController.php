@@ -78,7 +78,7 @@ class PreferencsController extends Controller
     }
     public function preferensiEdit($id)
     {
-        $data = Preference::find($id);
+        $data = Preferensi::find($id);
         return view('preferensi.ajax-preferensi',compact('data'));
     }
     public function getPrefernsi()
@@ -107,7 +107,10 @@ class PreferencsController extends Controller
             $edit_link = "'".url('/'.$data['id'].'/preferensi-edit')."'";
 
             $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editPreferensi" onclick="editPreferensi('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
-            return $edit;
+            $editDisable = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editPreferensi" onclick="editPreferensi('.$edit_link.')" disabled> <i class="fa fa-edit"> </i> </button>';
+            if($data['status'] == 1)
+                return $edit;
+            return $editDisable;
         })
         ->rawColumns(['status','action'])
         ->make(true);
@@ -115,9 +118,17 @@ class PreferencsController extends Controller
     public function preferensiEditExecute(Request $request){
         $data = Preferensi::find($request->id);
         $data->status = $request->status;
+        $data->komentar = $request->komentar;
         if($data->save())
             return redirect(route('main-preferensi'))->with('success', 'Berhasil mengubah data slide banner' .$data['name']);
         return redirect(route('main-preferensi'))->with('failed', 'Gagal menghapus' .$data['name']);
+    }
+    public function deletePrefernsi($id)
+    {
+        $data = Preferensi::find($id);
+        if($data->delete())
+            return response()->json(['error' => false,'message' => 'Preferensi berhasil di delete','data' => $data]);
+        return response()->json(['error' => true,'message' => 'Preferensi gagal di delete','data' => $data]);
     }
     public function addPreferensi(Request $request)
     {

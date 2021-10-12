@@ -63,27 +63,46 @@ class User extends Authenticatable
     {
         return $this->hasMany(ClassModel::class,'name');
     }
-
+    // public function game_relation()
+    // {
+    //     return $this->belongsTo(GameLevel::class,'amount');
+    // }
     // Game Level
+    // public function getLevelAttribute()
+    // {
+    //     return $this->game_relation;
+
+
+    // }
     public function getLevelAttribute(){
         $level = "";
-        $orderTotal = BooksOrder::where('user_id',$this->id)->count();
-        $thisMonthOrder = BooksOrder::where('user_id',$this->id)->whereMonth('created_at',Carbon::now('Asia/Jakarta')->month)->first();
-        $gameLevel = GameLevel::all();
-        for($i=0; $i<count($gameLevel); $i++){
-            if($orderTotal >= $gameLevel[$i]->amount){
-                if($thisMonthOrder)
-                    $level = $gameLevel[$i]->name;
-                else
-                    if($i>0)
-                        $level = $gameLevel[$i-1]->name;
-                    else
-                        $level = $gameLevel[$i]->name;
-            }else{
-                break;
-            }
+        $pointVar = "";
+        $orderTotal = $this->point;
+        if($this->point == null)
+        {
+            $pointVar = 0;
+        }
+        $gameLevel = GameLevel::where('amount',$orderTotal ? $orderTotal : $pointVar)->get();
+        foreach($gameLevel as $item)
+        {
+            $level = $item->name;
         }
         return $level;
+        // $thisMonthOrder = BooksOrder::where('user_id',$this->id)->whereMonth('created_at',Carbon::now('Asia/Jakarta')->month)->first();
+        // $gameLevel = GameLevel::all();
+        // for($i=0; $i<count($gameLevel); $i++){
+        //     if($orderTotal == $gameLevel[$i]->amount){
+        //         if($thisMonthOrder)
+        //             $level = $gameLevel[$i]->name;
+        //         else
+        //             if($i>0)
+        //                 $level = $gameLevel[$i-1]->name;
+        //             else
+        //                 $level = $gameLevel[$i]->name;
+        //     }else{
+        //         break;
+        //     }
+        // }
     }
 
     public function getClassNameAttribute(){
@@ -93,5 +112,5 @@ class User extends Authenticatable
     public function getUnitNameAttribute(){
         return $this->unit_relation->name ?? '-';
     }
-    
+
 }
