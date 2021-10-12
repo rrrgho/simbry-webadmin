@@ -213,6 +213,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     });
     Route::get('preferensi',[PreferencsController::class,'preferensi'])->name('main-preferensi');
     Route::get('preferensi-datatable',[PreferencsController::class, 'preferensiDataTable'])->name('preferensi-siswa-datatable');
+    Route::get('/{id}/preferensi-edit',[PreferencsController::class, 'preferensiEdit'])->name('preferensi-edit');
+    Route::post('preferensi-edit-execute',[PreferencsController::class, 'preferensiEditExecute'])->name('preferensi-edit-execute');
 });
 // Route Midleware User
 // Route::middleware([UserMiddleware::class])->group(function(){

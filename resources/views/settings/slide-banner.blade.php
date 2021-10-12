@@ -3,8 +3,8 @@
     [ 'page' => 'Manajemen Settings', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activeMainPage' => 'management-settings', 
-  'activePage' => 'slide-banner', 
+  'activeMainPage' => 'management-settings',
+  'activePage' => 'slide-banner',
   'title' => __('Slide Banner'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
@@ -15,7 +15,7 @@
             <div class="col border-bottom pl-0 pb-3">
                 <h3>Slide Banner</h3>
                 <p>Anda dapat menambah, mengedit atau menghapus data Slide Gambar disini !</p>
-            </div>        
+            </div>
         </div>
     </div>
 @endsection
@@ -85,7 +85,7 @@
 @section('script')
     <script>
       // Datatable
-      $(function(){
+    $(function(){
       $('#slide-banner').DataTable({
           ajax: '{{route('slide-datatable')}}',
           columns: [
@@ -102,15 +102,15 @@
           sSearch: '',
           lengthMenu: '_MENU_ items/page',
           destroy: true
-          },  
+          },
           columnDefs:[
               {
                   "targets" : [0,3,4,5],
                   "className": "text-center"
               },
-          ],              
-          
-          dom: 'Bfrtip',  
+          ],
+
+          dom: 'Bfrtip',
           buttons: [
               {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
               {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -119,7 +119,7 @@
           ],
           "bDestroy": true,
           "processing": true,
-          "serverSide": true, 
+          "serverSide": true,
       });
   });
   editSlide = (link) => {

@@ -73,23 +73,51 @@ class PreferencsController extends Controller
             return response()->json(['error' => false, 'message' => 'Berhasil Mengambil data','data' => $data]);
     }
     public function preferensi(){
-        $data = Preferensi::all();
+        $data = Preferensi::where('status',1)->get();
         return view('preferensi.index', compact('data'));
+    }
+    public function preferensiEdit($id)
+    {
+        $data = Preference::find($id);
+        return view('preferensi.ajax-preferensi',compact('data'));
     }
     public function getPrefernsi()
     {
-        $data = Preferensi::where('deleted_at',null)->get();
-            return response()->json(['error' => false,'message' => 'Success get data','data' => $data]);
+        $data = Preferensi::where('user_id',Auth::guard('api')->user()->id)->where('deleted_at',null)->get();
+        if($data)
+            return response()->json(['error' => false,'message' => 'Success get data','data' => $data,'isStatus' => $data[0]->status == 1 ? true : false]);
+        return response()->json(['error' => true,'message' => 'Data not Found!!']);
     }
     public function preferensiDataTable()
     {
         $data = Preferensi::orderBy('created_at','DESC')->get();
+        // return $data;
         return DataTables::of($data)
         ->addIndexColumn()
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
         })
+        ->addColumn('status',function($data){
+            $result = $data['status'] == 1 ? 'PENDING' : 'APPROVE';
+            if($result == 'PENDING')
+                return '<button class="btn btn-success p-1 text-white">'.$result.'</button>';
+            return '<button class="btn btn-danger p-1 text-white">'.$result.'</button>';
+        })
+        ->addColumn('action', function($data){
+            $edit_link = "'".url('/'.$data['id'].'/preferensi-edit')."'";
+
+            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editPreferensi" onclick="editPreferensi('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            return $edit;
+        })
+        ->rawColumns(['status','action'])
         ->make(true);
+    }
+    public function preferensiEditExecute(Request $request){
+        $data = Preferensi::find($request->id);
+        $data->status = $request->status;
+        if($data->save())
+            return redirect(route('main-preferensi'))->with('success', 'Berhasil mengubah data slide banner' .$data['name']);
+        return redirect(route('main-preferensi'))->with('failed', 'Gagal menghapus' .$data['name']);
     }
     public function addPreferensi(Request $request)
     {

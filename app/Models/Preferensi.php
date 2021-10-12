@@ -15,6 +15,6 @@ class Preferensi extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
     public function getUserAttribute(){
-        return $this->user_relation ?? '-';
+        return $this->user_relation->name ?? '-';
     }
 }
