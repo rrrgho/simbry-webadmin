@@ -2,38 +2,74 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Models\About;
-use App\Models\Announcement;
-use App\Models\Books;
-use App\Models\BooksOrder;
-use App\Models\Contact;
-use App\Models\Komentar;
-use App\Models\KritikSaran;
-use App\Models\Late;
-use App\Models\Like;
-use App\Models\LogActivity;
-use App\Models\LogExtends;
-use App\Models\Popular;
-use App\Models\Slide;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Models\User;
 use DateTime;
 use Exception;
-use Illuminate\Console\Scheduling\Event;
+use App\Models\Late;
+use App\Models\Like;
+use App\Models\User;
+use App\Models\About;
+use App\Models\Books;
+use App\Models\Slide;
+use App\Models\Contact;
+use App\Models\Popular;
+use App\Models\Komentar;
+use App\Models\BooksOrder;
+use App\Models\LogExtends;
+use App\Models\KritikSaran;
+use App\Models\LogActivity;
+use Predis\Response\Status;
+use App\Models\Announcement;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Predis\Response\Status;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 // use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    public function ChatBot(Request $request)
+    {
+        $validated = Validator::make($request->all(),[
+            'main' => 'required',
+        ]);
+        if($validated->fails())
+        {
+            return response()->json(['error' => true,'message' => $validated->errors()],400);
+        }
+        $dataLevel = User::where('id',Auth::guard()->user()->id)->get();
+        $BooksOrderExpired = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('end_date', '<',Carbon::now('Asia/Jakarta'))->where('status','APPROVED')->get();
+        $BooksOrderRunning = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status', 'APPROVED')->get();
+        if($request->main == 1)
+        {
+            // return $dataLevel;
+            return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki level'.' ' .$dataLevel[0]->level]);
+        }else if($request->main == 2)
+        {
+            if($BooksOrderExpired){
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman telat sebanyak'.' ' .count($BooksOrderExpired).' '.'buku']);
+            }
+            else{
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman telat sebanyak'.' ' .count($BooksOrderExpired).' '.'buku']);
+            }
+        }else if($request->main == 3)
+        {
+            if($BooksOrderRunning){
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman yang sedang sebanyak'.' ' .count($BooksOrderRunning).' '.'buku']);
+            }
+            else{
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman yang sedang sebanyak'.' ' .count($BooksOrderRunning).' '.'buku']);
+            }
+        }else{
+            return response()->json(['error' => false, 'data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu salah menginput data mohon input sesuai data yang ada di list']);
+        }
+    }
     public function tesapi(Request $request)
     {
         return $request->tes;
