@@ -49,25 +49,25 @@ class UserController extends Controller
         if($request->main == 1)
         {
             // return $dataLevel;
-            return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki level'.' ' .$dataLevel[0]->level]);
+            return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RoboSim check di system, kamu memiliki level'.' ' .$dataLevel[0]->level]);
         }else if($request->main == 2)
         {
             if($BooksOrderExpired){
-                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman telat sebanyak'.' ' .count($BooksOrderExpired).' '.'buku']);
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RoboSim check di system, kamu memiliki peminjaman telat sebanyak'.' ' .count($BooksOrderExpired).' '.'buku']);
             }
             else{
-                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman telat sebanyak'.' ' .count($BooksOrderExpired).' '.'buku']);
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RoboSim check di system, kamu memiliki peminjaman telat sebanyak'.' ' .count($BooksOrderExpired).' '.'buku']);
             }
         }else if($request->main == 3)
         {
             if($BooksOrderRunning){
-                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman yang sedang sebanyak'.' ' .count($BooksOrderRunning).' '.'buku']);
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RoboSim check di system, kamu memiliki peminjaman yang sedang sebanyak'.' ' .count($BooksOrderRunning).' '.'buku']);
             }
             else{
-                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu memiliki peminjaman yang sedang sebanyak'.' ' .count($BooksOrderRunning).' '.'buku']);
+                return response()->json(['error' => 'false','data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RoboSim check di system, kamu memiliki peminjaman yang sedang sebanyak'.' ' .count($BooksOrderRunning).' '.'buku']);
             }
         }else{
-            return response()->json(['error' => false, 'data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Setelah RobotSim check di system, kamu salah menginput data mohon input sesuai data yang ada di list']);
+            return response()->json(['error' => false, 'data' => 'Hi,'.' '.$dataLevel[0]->name.'. '.'Maaf, RoboSim tidak mengenali pilihan yang kamu berikan']);
         }
     }
     public function tesapi(Request $request)
