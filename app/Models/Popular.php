@@ -15,8 +15,13 @@ class Popular extends Model
         'unit_id',
         'point'
     ];
-
+    protected $appends = ['kelas'];
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function getKelasAttribute()
+    {
+        return $this->user->unit_relation->name;
+    }
+
 }

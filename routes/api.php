@@ -39,7 +39,7 @@ Route::post('tes', [UserController::class, 'tesapi']);
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
-    Route::get('student-popular/{unit}', [UserController::class, 'studentPopular']);
+    Route::get('student-popular', [UserController::class, 'studentPopular']);
     Route::get('slide-banner', [UserController::class, 'slideBanner']);
     Route::post('slide-banner', [UserController::class, 'slideBanner']);
     Route::post('contact', [UserController::class, 'contact']);
@@ -49,7 +49,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::middleware('auth:api')->group(function(){
         Route::post('preferensi',[PreferencsController::class,'addPreferensi']);
         Route::get('get-preferensi',[PreferencsController::class,'getPrefernsi']);
-        Route::post('delete-prefernsi/{id}',[PreferencsController::class,'deletePrefernsi']);
+        Route::get('delete-prefernsi/{id}',[PreferencsController::class,'deletePrefernsi']);
         Route::get('book-data-mobile', [BooksController::class, 'bookDataM']);
         Route::get('get-bypreference',[BooksController::class,'getBookbyPreference']);
         Route::post('israting-finished', [UserController::class, 'ratingOrder']);

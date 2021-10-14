@@ -400,8 +400,8 @@ class UserController extends Controller
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
     }
-    public function studentPopular($unit){
-        $data = Popular::with('user')->where('deleted_at',null)->where('unit_id', $unit)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
+    public function studentPopular(){
+        $data = Popular::with('user')->where('deleted_at',null)->whereMonth('created_at', Carbon::now('Asia/Jakarta')->month)->orderBy('point','DESC')->get();
         if($data)
             return response()->json(['error' => false, 'message' => 'succes data', 'data' => $data],200);
         return response()->json(['error' => true, 'message' => 'Gagal!'], 401);
