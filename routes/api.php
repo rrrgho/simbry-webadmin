@@ -46,8 +46,8 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('about', [UserController::class, 'about']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
-    Route::get('delete-preferensi/{id}',[PreferencsController::class,'deletePrefernsi']);
     Route::middleware('auth:api')->group(function(){
+        Route::get('delete-preferensi/{id}',[PreferencsController::class,'deletePrefernsi']);
         Route::post('preferensi',[PreferencsController::class,'addPreferensi']);
         Route::get('get-preferensi',[PreferencsController::class,'getPrefernsi']);
         Route::get('book-data-mobile', [BooksController::class, 'bookDataM']);
