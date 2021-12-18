@@ -36,8 +36,9 @@ Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
-Route::get('book-data', [BooksController::class, 'bookData']);
-Route::middleware('cors')->namespace('API')->group(function(){
+Route::group(['middleware' => 'cors'], function(){
+    // Route::middleware('cors')->namespace('API')->group(function(){
+    Route::get('book-data', [BooksController::class, 'bookData']);
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
     Route::get('student-popular', [UserController::class, 'studentPopular']);
