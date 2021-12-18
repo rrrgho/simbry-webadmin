@@ -36,6 +36,7 @@ Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
+Route::get('book-data', [BooksController::class, 'bookData']);
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
@@ -44,7 +45,6 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('slide-banner', [UserController::class, 'slideBanner']);
     Route::post('contact', [UserController::class, 'contact']);
     Route::get('about', [UserController::class, 'about']);
-    Route::get('book-data', [BooksController::class, 'bookData']);
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
     Route::middleware('auth:api')->group(function(){
         Route::post('chat-bot',[UserController::class,'ChatBot']);
