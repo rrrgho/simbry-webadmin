@@ -10,13 +10,16 @@ class Books extends Model
     use HasFactory;
     protected $table = "book";
     protected $guarded = [];
-    // protected $appends = ['komentar_relation'];
+    // protected $appends = ['book_number'];
     // protected $hidden = ['category_relation','locker_relation','publisher_relation'];
 
     public function category_relation(){
         return $this->belongsTo(BooksCategory::class, 'category_id');
     }
-
+    // public function getBookNumbersAttribute()
+    // {
+    //     return $this->book_number.'|'.'NP: '.$this->examplar;
+    // }
     // public function getCategoryAttribute(){
     //     return $this->category_relation->name ?? '-';
     // }

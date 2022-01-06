@@ -171,6 +171,7 @@ class ClassController extends Controller
     public function moveClass(Request $request){
        $data = $request->user_id;
         foreach($data as $item){
+            return $data;
             $query = User::find($item);
             $query->class_id = $request->class_id;
             // dd($query);

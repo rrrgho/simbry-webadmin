@@ -14,6 +14,7 @@ use App\Models\Like;
 use App\Models\Locker;
 use App\Models\Preference;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Foreach_;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class BooksController extends Controller
@@ -27,29 +28,36 @@ class BooksController extends Controller
     public function getBookbyPreference()
     {
         $preferences = Preference::where('user_id', Auth::guard('api')->user()->id)->get();
-        // return $preferences;
         if($preferences == '[]')
             return Books::orderBy('created_at', 'DESC')->paginate(6);
         else{
-            $query = [
-                ['category_id', $preferences[0]['category_id']]
-            ];
-            // return $query;
-            $i=0;
-            foreach( $preferences as $preference){
-                if($i!=0)
-                $query[] = ['category_id', $preference['category_id']];
-                $i++;
-            }
-            return Books::where([
-            [
-                "category_id",
-                $preferences[0]['category_id']
-            ],
-            ])
-            ->orWhere($query)
-            ->paginate(6);
+            //     $query = [
+            //         ['category_id', $preferences[0]['category_id']]
+            //     ];
+            //     $i=0;
+            //     foreach( $preferences as $preference){
+            //         if($i!=0)
+            //         $query[] = ['category_id', $preference['category_id']];
+            //         $i++;
+            //     }
+            //     // return $query;
+            //     return Books::where([
+            //     [
+            //         "category_id",
+            //         $preferences[0]['category_id']
+            //     ],
+            //     ])
+            //     ->orWhere($query)
+            //     ->paginate(6);
+            $data = DB::table('book')
+            ->leftJoin('category_preference',function($join){
+                $join->on('category_preference.category_id','=','book.category_id')
+                ->where('user_id',Auth::user()->id);
+            })->paginate(6);
+            return $data;
         }
+
+
     }
     public function bookDataM()
     {
@@ -76,6 +84,7 @@ class BooksController extends Controller
         $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$id)->first();
         // return $check_user_wishlist ? "ada" : "tidak";
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
+        $data['book_number'] = $data['book_number'].'|NP '.$data['examplar'];
         $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->with('user_relation')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();
