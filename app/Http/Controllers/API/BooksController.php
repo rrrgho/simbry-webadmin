@@ -31,29 +31,29 @@ class BooksController extends Controller
         if($preferences == '[]')
             return Books::orderBy('created_at', 'DESC')->paginate(6);
         else{
-                // $query = [
-                //     ['category_id', $preferences[0]['category_id']]
-                // ];
-                // $i=0;
-                // foreach( $preferences as $preference){
-                //     if($i!=0)
-                //     $query[] = ['category_id', $preference['category_id']];
-                //     $i++;
-                // }
-                // // return $query;
-                // return Books::where([
-                // [
-                //     "category_id",
-                //     $preferences[0]['category_id']
-                // ],
-                // ])
-                // ->orWhere($query)
-                // ->paginate(6);
-            return DB::table('book')
-            ->leftJoin('category_preference',function($join){
-                $join->on('category_preference.category_id','=','book.category_id')
-                ->where('user_id',Auth::user()->id);
-            })->paginate(6);
+                $query = [
+                    ['category_id', $preferences[0]['category_id']]
+                ];
+                $i=0;
+                foreach( $preferences as $preference){
+                    if($i!=0)
+                    $query[] = ['category_id', $preference['category_id']];
+                    $i++;
+                }
+                // return $query;
+                return Books::where([
+                [
+                    "category_id",
+                    $preferences[0]['category_id']
+                ],
+                ])
+                ->orWhere($query)
+                ->paginate(6);
+            // return DB::table('book')
+            // ->leftJoin('category_preference',function($join){
+            //     $join->on('category_preference.category_id','=','book.category_id')
+            //     ->where('user_id',Auth::user()->id);
+            // })->paginate(6);
         }
 
 
