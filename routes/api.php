@@ -46,6 +46,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('contact', [UserController::class, 'contact']);
     Route::get('about', [UserController::class, 'about']);
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
+    Route::post('books-ocr',[BooksController::class,'ocrBooks']);
     Route::middleware('auth:api')->group(function(){
         Route::post('chat-bot',[UserController::class,'ChatBot']);
         Route::get('delete-preferensi/{id}',[PreferencsController::class,'deletePrefernsi']);

@@ -15,10 +15,29 @@ use App\Models\Locker;
 use App\Models\Preference;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\Foreach_;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use thiagoalessio\TesseractOCR\TesseractOCR;
+use Intervention\Image\Facades\Image;
+use File;
 class BooksController extends Controller
 {
+    public function ocrBooks(Request $request)
+    {
+        $request->validate([
+            'image' => 'required',
+        ]);
+        $image = $request->image;
+        $imagePath = Storage::disk('public')->put('ocr',$image);
+        $file = public_path("storage/$imagePath");
+        $teaserOcr = new TesseractOCR($file);
+        $text = $teaserOcr->run();
+        if($text)
+            File::delete($file);
+        return response()->json(['error' => false,'message' => 'Berhasil mendapatkan data','data' => $text],200);
+        
+    }
     public function bookData(){
         // $data = Books::paginate(6);
         $data = Books::orderBy('created_at', 'DESC')->paginate(6);

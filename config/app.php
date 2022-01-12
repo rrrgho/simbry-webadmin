@@ -232,7 +232,6 @@ return [
         'LogActivity' => App\Helpers\LogActivity::class,
         'Image' => Intervention\Image\Facades\Image::class,
 
-
     ],
 
 ];
