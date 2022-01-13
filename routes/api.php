@@ -47,6 +47,7 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('about', [UserController::class, 'about']);
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
     Route::post('books-ocr',[BooksController::class,'ocrBooks']);
+    Route::post('search-book', [BooksController::class, 'bookSearch']);
     Route::middleware('auth:api')->group(function(){
         Route::post('chat-bot',[UserController::class,'ChatBot']);
         Route::get('delete-preferensi/{id}',[PreferencsController::class,'deletePrefernsi']);
@@ -67,7 +68,6 @@ Route::middleware('cors')->namespace('API')->group(function(){
         Route::get('no-approved',[UserController::class,'noApproved']);
         Route::post('extend-book',[UserController::class, 'extendsbooks']);
         Route::get('data-user',[UserController::class, 'getAlldataUser']);
-        Route::post('search-book', [BooksController::class, 'bookSearch']);
         Route::get('book-detail/{id}', [BooksController::class, 'bookDetail']);
         // Route::post('order-book', [UserController::class, 'orderBook']);
         Route::post('history-user', [UserController::class, 'historybook']);
