@@ -37,7 +37,7 @@ Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
 Route::middleware('cors')->namespace('API')->group(function(){
-    Route::post('search-book-web', [BooksController::class, 'bookSearch']);
+    Route::post('search-book-web', [BooksController::class, 'bookSearchWeb']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
