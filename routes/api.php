@@ -37,6 +37,7 @@ Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
 Route::middleware('cors')->namespace('API')->group(function(){
+    Route::post('search-book', [BooksController::class, 'bookSearch']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::get('announcement', [UserController::class, 'announcement']);
     Route::post('rating', [UserController::class, 'rating']);
@@ -47,7 +48,6 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('about', [UserController::class, 'about']);
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
     Route::post('books-ocr',[BooksController::class,'ocrBooks']);
-    Route::post('search-book', [BooksController::class, 'bookSearch']);
     Route::middleware('auth:api')->group(function(){
         Route::post('chat-bot',[UserController::class,'ChatBot']);
         Route::get('delete-preferensi/{id}',[PreferencsController::class,'deletePrefernsi']);
