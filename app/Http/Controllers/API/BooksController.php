@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Books;
 use App\Models\BooksCategory;
 use App\Models\BooksOrder;
+use App\Models\EBooks;
 use App\Models\Komentar;
 use App\Models\Like;
 use App\Models\Locker;
@@ -23,6 +24,17 @@ use Intervention\Image\Facades\Image;
 use File;
 class BooksController extends Controller
 {
+    public function eBooksData()
+    {
+        $data = EBooks::orderBy('created_at', 'DESC')->paginate(6);
+        return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+    }
+    public function eBooksDetail($id)
+    {
+        $data = EBooks::find($id);
+        $data['category'] = BooksCategory::find($data['category_id'])['name'];
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+    }
     public function ocrBooks(Request $request)
     {
         $request->validate([

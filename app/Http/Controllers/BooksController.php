@@ -9,6 +9,7 @@ use App\Models\Locker;
 use App\Models\Publisher;
 use App\Models\Books;
 use App\Models\BooksCategory;
+use App\Models\EBooks;
 use App\Models\Migrated;
 use App\Models\User;
 use SimpleSoftwareIO\QrCode\Generator;
@@ -21,6 +22,99 @@ use Intervention\Image\Facades\Image;
 
 class BooksController extends Controller
 {
+    public function eBooks()
+    {
+        $publisher = Publisher::where('deleted_at',null)->get();
+        $category = BooksCategory::where('deleted_at',null)->get();
+        return view ('books.e-books',compact('publisher','category'));
+    }
+    public function eBooks_add(Request $request)
+    {
+        $request->validate([
+            'link_pdf' => 'required'
+        ]);
+        $pfd = 'PDF-';
+        if($request->hasFile('cover')){
+            $file = $request->file('cover');
+            $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
+            if (!in_array($request->file('cover')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
+            // $resize->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
+            $resize->save(public_path('book-images/'.$pfd.'BIMG-'.$file->getClientOriginalName()));
+            // $resize->save($file->getClientOriginalName());
+            $pathCover = asset('book-images/'.$pfd.'BIMG-'.$file->getClientOriginalName());
+        }
+        if($request->hasFile('link_pdf')){
+            $file = $request->file('link_pdf');
+            $fileName = $file->getClientOriginalName();
+            if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
+            $file->move('pdf/',$pfd.'BIMG-'.$file->getClientOriginalName());
+            $pathPdf = asset('pdf/'.$pfd.'BIMG-'.$file->getClientOriginalName());
+        }
+        $insert = EBooks::create([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'creator' => $request->creator,
+            'publisher_id' => $request->publisher_id,
+            'edition' => $request->edition,
+            'origin_book' => $request->origin_book,
+            'buying_year' => Carbon::parse($request->buying_year)->year,
+            'publish_year' => Carbon::parse($request->publish_year)->year,
+            'description' => $request->description ?? null,
+            'cover' => $pathCover ?? null,
+            'link_pdf' => $pathPdf,
+        ]);
+        if($insert)
+            return response()->json(['error' => false, 'message' => 'Berhasil menambahkan data buku baru'], 200);
+    }
+    public function eBooksEdit($id)
+    {
+        $publisher = Publisher::where('deleted_at',null)->get();
+        $category = BooksCategory::where('deleted_at',null)->get();
+        $data = EBooks::find($id);
+        return view('books.ajax-ebooks',compact('data','publisher','category'));
+    }
+    public function eBooksDelete($id){
+        $data = EBooks::find($id);
+        if($data->delete())
+            return redirect(url('books-management/e-books'))->with('success', 'Berhasil menghapus data kategori buku' .$data['name']);
+        return redirect(url('books-management/e-books'))->with('failed', 'Gagal menghapus data kategori buku' .$data['name']);
+    }
+    public function eBooksEditExecute(Request $request)
+    {
+        $data = 'PDF- ';
+        if($request->hasFile('link_pdf')){
+            $file = $request->file('link_pdf');
+            $fileName = $file->getClientOriginalName();
+            if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
+            $file->move('pdf/',$data.'BIMG-'.$file->getClientOriginalName());
+            $pathPdf = asset('pdf/'.$data.'BIMG-'.$file->getClientOriginalName());
+        }
+        if($request->hasFile('cover')){
+            $file = $request->file('cover');
+            $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
+            if (!in_array($request->file('cover')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
+            // $resize->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
+            $resize->save(public_path('book-images/'.$data.'BIMG-'.$file->getClientOriginalName()));
+            // $resize->save($file->getClientOriginalName());
+            $pathCover = asset('book-images/'.$data.'BIMG-'.$file->getClientOriginalName());
+        }
+        if(!$request->all())
+            return view('books.book-detail', compact('data','books','item','copy','redy'));
+        $data = EBooks::find($request->id);
+        $data->name = $request->name;
+        $data->category_id = $request->category_id;
+        $data->creator = $request->creator;
+        $data->origin_book = $request->origin_book;
+        $data->link_pdf = $request->link_pdf;
+        $data->cover = $pathCover;
+        if($data->save())
+            return redirect(url('books-management/e-books'))->with('success', 'Books is Edited !');
+        return redirect(url('books-management/e-books'))->with('failed', 'Books is failed to be edited, contact developer !');
+    }
     public function books (){
         $locker = Locker::where('deleted_at',null)->get();
         $publisher = Publisher::where('deleted_at',null)->get();
@@ -95,6 +189,27 @@ class BooksController extends Controller
         }
         return response()->json(['error' => false, 'message' => 'Berhasil menambahkan data buku baru'], 200);
 
+    }
+    public function EbooksDatatable(){
+        $data = EBooks::with(['category_relation','publisher_relation'])->orderBy('created_at','DESC');
+        // return $data;
+        return Datatables::eloquent($data)
+        ->addColumn('action', function($data){
+
+            $delete_link = "'".url('books-management/ebooks-delete/'.$data['id'])."'";
+            $delete_message = "'This cannot be undo'";
+            $edit_link = "'".url('books-management/'.$data['id'].'/e-books-edit')."'";
+
+            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editEbooks" onclick="editEbooks('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
+            return $edit.' '.$delete;
+        })
+        ->addColumn('ebooks', function($data){
+            $pdf = '<a href="'.$data['link_pdf'].'" class="btn btn-info p-1 text-white" id="btn-edit"> Link </i> </a>';
+            return $pdf;
+        })
+        ->rawColumns(['ebooks','action'])
+        ->make(true);
     }
     public function booksDatatable(){
         $data = Books::with(['category_relation','locker_relation','publisher_relation'])->where('deleted_at',null)->orderBy('created_at','DESC');

@@ -48,6 +48,8 @@ Route::middleware('cors')->namespace('API')->group(function(){
     Route::get('about', [UserController::class, 'about']);
     Route::post('delete-preference',[PreferencsController::class, 'delete_preference']);
     Route::post('books-ocr',[BooksController::class,'ocrBooks']);
+    Route::get('e-books-data',[BooksController::class,'eBooksData']);
+    Route::get('e-books-detail/{id}',[BooksController::class,'eBooksDetail']);
     Route::middleware('auth:api')->group(function(){
         Route::post('search-book', [BooksController::class, 'bookSearch']);
         Route::post('chat-bot',[UserController::class,'ChatBot']);

@@ -126,6 +126,14 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('locker-delete/{id}', [ManagemetBooksController::class, 'lockerDelete']);
         Route::get('/{id}/locker-edit',[ManagemetBooksController::class, 'lockerEdit'])->name('lockerEdit');
         Route::post('lockerEditExecute', [ManagemetBooksController::class, 'lockerEditExecute']);
+
+        // Add E-Books
+        Route::get('e-books',[BooksController::class,'eBooks'])->name('e-books');
+        Route::post('e-books',[BooksController::class,'eBooks_add']);
+        Route::get('ebooks-datatable', [BooksController::class, 'EbooksDatatable'])->name('ebooks-datatable');
+        Route::get('/{id}/e-books-edit',[BooksController::class,'eBooksEdit'])->name('e-books-edit');
+        Route::post('ebooks-editexecute',[BooksController::class,'eBooksEditExecute']);
+        Route::get('ebooks-delete/{id}',[BooksController::class,'eBooksDelete']);
         // Add Buku
         Route::get('books', [BooksController::class, 'books'])->name('main-books');
         Route::post('books', [BooksController::class, 'books_add']);
