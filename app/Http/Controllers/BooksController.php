@@ -26,7 +26,6 @@ class BooksController extends Controller
     {
         $publisher = Publisher::where('deleted_at',null)->get();
         $category = BooksCategory::where('deleted_at',null)->get();
-        
         return view ('books.e-books',compact('publisher','category'));
     }
     public function eBooks_add(Request $request)
