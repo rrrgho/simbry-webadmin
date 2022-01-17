@@ -30,7 +30,7 @@ Route::get('migrate_book_publisher', [MigrationController::class, 'migrateBookPu
 Route::get('migrate_book', [MigrationController::class, 'migrateBook']);
 Route::get('migrate_book_number', [MigrationController::class, 'migrateBookNumber']);
 Route::get('migrate_unit', [MigrationController::class, 'migrateClassUnit']);
-
+Route::post('upload-image',[BooksController::class,'uploadImg']);
 Route::get('add_unit_id', [MigrationController::class, 'add_unit_id']);
 Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
