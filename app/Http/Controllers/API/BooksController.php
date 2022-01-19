@@ -26,42 +26,6 @@ use Illuminate\Support\Facades\Validator;
 
 class BooksController extends Controller
 {
-    public function uploadImg(Request $request)
-    {
-        /** Validation */
-        $rules = [
-            'image' => 'required|image',
-            'image_type' => 'required|in:identity,selfie',
-        ];
-        $data = $request->all();
-        $validator = Validator::make($data, $rules);
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'message' => $validator->errors()], 200);
-        }
-
-        $image_type = $request->image_type;
-        $original_filename = $request->file('w')->getClientOriginalName();
-        $original_filename_arr = explode('.', $original_filename);
-        $file_ext = end($original_filename_arr);
-        $destination_path = './upload/' . $image_type . '/';
-        $image = 'I-' . time() . '.' . $file_ext;
-
-        if ($request->file('image')->move($destination_path, $image)) {
-            $url = url('/') . '/upload/' . $image_type . '/' . $image;
-
-            return response()->json([
-                'status' => true,
-                'message' => 'file uploaded',
-                'data' => (object) ['url' => $url]
-            ], 201);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'upload file failed',
-                'data' => ''
-            ], 406);
-        }
-    }
     public function eBooksData()
     {
         $data = EBooks::orderBy('created_at', 'DESC')->paginate(6);
