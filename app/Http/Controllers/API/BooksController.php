@@ -35,7 +35,8 @@ class BooksController extends Controller
     {
         $data = EBooks::find($id);
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
-        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+        // return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => "", 'your_usage' => "",'is_borrowing' => ""], 200);
     }
     public function ocrBooks(Request $request)
     {
