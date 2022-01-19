@@ -151,6 +151,10 @@ class BooksController extends Controller
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(6);
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
     }
+    public function EbookSearch(Request $request){
+        $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(6);
+        return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+    }
     public function bookSearchWeb(Request $request){
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(6);
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
