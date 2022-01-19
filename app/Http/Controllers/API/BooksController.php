@@ -29,7 +29,7 @@ class BooksController extends Controller
     public function eBooksData()
     {
         $data = EBooks::orderBy('created_at', 'DESC')->paginate(6);
-        return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
+        return $data;
     }
     public function eBooksDetail($id)
     {
