@@ -29,35 +29,36 @@ class BooksController extends Controller
     public function eBooksData()
     {
         $data = EBooks::orderBy('created_at', 'DESC')->paginate(6);
-        $data['year_in'] = null;
-        $data['publisher_id'] = null;
-        $data['locker_id'] = null;
-        $data['book_number'] = null;
-        $data['queue_of_examplar'] = null;
-        $data['examplar'] = null;
-        $data['code_of_book'] = null;
-        $data['call_number'] = null;
-        $data['ready'] = null;
-        $data['borrowed'] = null;
-        $data['no_panggil'] = null;
+        foreach($data as $item){
+            $item['publisher_id'] = "";
+            $item['publisher_id'] = "";
+            $item['locker_id'] = "";
+            $item['book_number'] = "";
+            $item['queue_of_examplar'] = "";
+            $item['examplar'] = "";
+            $item['code_of_book'] = "";
+            $item['call_number'] = "";
+            $item['ready'] = "";
+            $item['borrowed'] = "";
+            $item['no_panggil'] = "";
+        }
         return $data;
     }
     public function eBooksDetail($id)
     {
         $data = EBooks::find($id);
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
-        $data['year_in'] = null;
-        $data['publisher_id'] = null;
-        $data['locker_id'] = null;
-        $data['book_number'] = null;
-        $data['queue_of_examplar'] = null;
-        $data['examplar'] = null;
-        $data['code_of_book'] = null;
-        $data['call_number'] = null;
-        $data['ready'] = null;
-        $data['borrowed'] = null;
-        $data['no_panggil'] = null;
-        // return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
+        $data['publisher_id'] = "";
+        $data['publisher_id'] = "";
+        $data['locker_id'] = "";
+        $data['book_number'] = "";
+        $data['queue_of_examplar'] = "";
+        $data['examplar'] = "";
+        $data['code_of_book'] = "";
+        $data['call_number'] = "";
+        $data['ready'] = "";
+        $data['borrowed'] = "";
+        $data['no_panggil'] = "";
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => "", 'your_usage' => "",'is_borrowing' => ""], 200);
     }
     public function ocrBooks(Request $request)
