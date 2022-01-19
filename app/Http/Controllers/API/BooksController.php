@@ -29,12 +29,34 @@ class BooksController extends Controller
     public function eBooksData()
     {
         $data = EBooks::orderBy('created_at', 'DESC')->paginate(6);
+        $data['year_in'] = null;
+        $data['publisher_id'] = null;
+        $data['locker_id'] = null;
+        $data['book_number'] = null;
+        $data['queue_of_examplar'] = null;
+        $data['examplar'] = null;
+        $data['code_of_book'] = null;
+        $data['call_number'] = null;
+        $data['ready'] = null;
+        $data['borrowed'] = null;
+        $data['no_panggil'] = null;
         return $data;
     }
     public function eBooksDetail($id)
     {
         $data = EBooks::find($id);
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
+        $data['year_in'] = null;
+        $data['publisher_id'] = null;
+        $data['locker_id'] = null;
+        $data['book_number'] = null;
+        $data['queue_of_examplar'] = null;
+        $data['examplar'] = null;
+        $data['code_of_book'] = null;
+        $data['call_number'] = null;
+        $data['ready'] = null;
+        $data['borrowed'] = null;
+        $data['no_panggil'] = null;
         // return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => "", 'your_usage' => "",'is_borrowing' => ""], 200);
     }
