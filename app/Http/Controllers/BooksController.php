@@ -355,8 +355,10 @@ class BooksController extends Controller
         if($request->hasFile('link_pdf')){
             $file = $request->file('link_pdf');
             $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(300,300);
             if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
-            $file->move('pdf/',$data.'BIMG-'.$file->getClientOriginalName());
+            $resize->session_save_path('pdf/',$data.'BIMG-'.$file->getClientOriginalName());
             $pathPdf = asset('pdf/'.$data.'BIMG-'.$file->getClientOriginalName());
         }
         if($request->hasFile('cover')){
