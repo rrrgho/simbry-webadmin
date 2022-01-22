@@ -140,7 +140,7 @@ class BooksController extends Controller
         $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$id)->first();
         // return $check_user_wishlist ? "ada" : "tidak";
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
-        $data['book_number'] = $data['book_number'].'|NP '.$data['call_number'];
+        $data['book_number'] = $data['book_number'].' | NP '.$data['no_panggil'];
         $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->with('user_relation')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();

@@ -378,7 +378,7 @@ class BooksController extends Controller
         $data->locker_id = $request->locker_id;
         $data->origin_book = $request->origin_book;
         $data->link_pdf = $request->link_pdf;
-        $data->cover = $pathCover;
+        $data->cover = $pathCover ?? $data->cover;
         $data->no_panggil = $request->no_panggil;
         if($data->save())
             return redirect(url('books-management/books-detail/'.$data['examplar']))->with('success', 'Books is Edited !');

@@ -236,6 +236,10 @@
                                 <label for="">Asal Buku : </label>
                                 <input required class="date form-control"  name="origin_book"  type="text" value="{{$data[0]['origin_book']}}">
                             </div>
+                            <div class="col-6 mt-3">
+                                <label for="">Nomor Panggil : </label>
+                                <input required class="date form-control"  name="no_panggil"  type="text" value="{{$data[0]['no_panggil']}}">
+                            </div>
                             <div class="col-12 mt-1">
                                 <label for="imgInp">
                                 <input type='file' name="cover" id="imgInp" class="d-none"/>
