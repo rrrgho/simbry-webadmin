@@ -65,9 +65,9 @@
                     <label for="">Asal Buku : </label>
                     <input value="{{$data['origin_book']}}" required class="date form-control"  name="origin_book"  type="text">
                 </div>
-                <div class="col-6 mt-3">
-                    <label for="pfgInp">Upload Pdf</label>
-                    <input required type='file' name='link_pdf' />
+                <div class="col-12 mt-3">
+                    <label for="">Link PDF : </label>
+                    <input type="text" class="form-control" value="" name="link_pdf" required>
                 </div>
                 <div class="col-12 mt-3">
                     <label for="">Deskripsi : </label>

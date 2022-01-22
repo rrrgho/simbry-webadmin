@@ -78,13 +78,6 @@ class BooksController extends Controller
     public function eBooksEditExecute(Request $request)
     {
         $data = 'PDF- ';
-        if($request->hasFile('link_pdf')){
-            $file = $request->file('link_pdf');
-            $fileName = $file->getClientOriginalName();
-            if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
-            $file->move('pdf/',$data.'BIMG-'.$file->getClientOriginalName());
-            $pathPdf = asset('pdf/'.$data.'BIMG-'.$file->getClientOriginalName());
-        }
         if($request->hasFile('cover')){
             $file = $request->file('cover');
             $fileName = $file->getClientOriginalName();
@@ -104,7 +97,7 @@ class BooksController extends Controller
         $data->creator = $request->creator;
         $data->origin_book = $request->origin_book;
         $data->link_pdf = $request->link_pdf;
-        $data->cover = $pathCover;
+        $data->cover = $pathCover ?? $data->cover;
         if($data->save())
             return redirect(url('books-management/e-books'))->with('success', 'Books is Edited !');
         return redirect(url('books-management/e-books'))->with('failed', 'Books is failed to be edited, contact developer !');
