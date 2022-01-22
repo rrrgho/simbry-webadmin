@@ -42,27 +42,12 @@
             <h3 class="text-center">Menu Pemulangan Buku</h3>
           </div>
           <div class="card-body">
-            {{-- <input type="text" name="test" id="test"> --}}
-            {{-- <div class="form-group">
-              <label for="">Nama Peminjaman</label>
-              <select class="form-control" id="select-peminjam" name="user_id">
-                @foreach ($data as $item)                  
-                  <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="">Pilih Buku</label>
-              <select class="form-control" id="select-buku-peminjam" name="book_id">
-              </select>
-            </div>
-          </div> --}}
           <div class="form-group">
-            <label for="user-id">No induk siswa</label>
+            <label for="user-id">No Induk Siswa/ No Induk Guru</label>
             <input type="text" name="user_number" id="user-id" class="form-control" required>
           </div>
           <div class="form-group">
-            <label for="book-id">No induk buku</label>
+            <label for="book-id">No Induk Buku</label>
             <input type="text" name="book_number" id="book-id" class="form-control" required>
           </div>
           <div class="card-footer">

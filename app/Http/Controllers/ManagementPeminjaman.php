@@ -20,6 +20,7 @@ class ManagementPeminjaman extends Controller
             ['status','APPROVED'],
             ['end_date','>=',Carbon::now('Asia/Jakarta')]
         ])->orderBy('created_at','DESC')->get();
+        // return $data;
         return view('management-peminjaman.peminjaman_berjalan', compact('data'));
     }
 

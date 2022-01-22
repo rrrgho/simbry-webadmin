@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="col border-bottom pl-0 pb-3">
-            <h3>Manajemen Siswa</h3>
+            <h3>Manajemen Guru</h3>
             <p>Anda dapat menambah, mengedit atau menghapus data disini !</p>
         </div>
     </div>
@@ -27,11 +27,11 @@
             <div class="card-header">
                 <h5 class="text-center">{{ $data[0]['name'] }}</h5>
             </div>
-            <form action="{{ route('detail-siswa-execute') }} " method="POST">@csrf
+            <form action="{{ route('detail-guru-execute') }} " method="POST">@csrf
                 <div class="card-body">
                     <input type="text" name="id" hidden value="{{ $data[0]['id'] }}">
                     <div class="form-group">
-                        <label for="">Nomor Induk Siswa</label>
+                        <label for="">Nomor Induk Guru</label>
                         <input type="text" name="user_number" class="form-control" value="{{ $data[0]['user_number'] }}">
                     </div>
                     <div class="form-group">

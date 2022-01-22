@@ -146,9 +146,9 @@
                                 <input type="date" class="form-control" value="" name="publish_year" required>
                                 {{-- <input required class="form-control" id="publish_year" name="publish_year" type="text"> --}}
                             </div>
-                            <div class="col-6 mt-3">
-                                <label for="pfgInp">Upload Pdf</label>
-                                <input type='file' name='link_pdf' />
+                            <div class="col-12 mt-3">
+                                <label for="">Link PDF : </label>
+                                <input type="text" class="form-control" value="" name="link_pdf" required>
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="">Deskripsi : </label>

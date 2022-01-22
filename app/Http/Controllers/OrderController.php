@@ -91,10 +91,19 @@ class OrderController extends Controller
                 'message' => 'Gagal simpan data'
             ]);
         }
-        return redirect()->back()->with('success', [
-            'status' => true,
-            'message' => 'Siswa Sudah Memulangkan Buku'
-        ]);
+        if($user->user_type_id == 2)
+        {
+            return redirect()->back()->with('success', [
+                'status' => true,
+                'message' => 'Guru Sudah Memulangkan Buku'
+            ]);
+            
+        }else{
+            return redirect()->back()->with('success', [
+                'status' => true,
+                'message' => 'Siswa Sudah Memulangkan Buku'
+            ]);
+        }
     }
     public function getBookByUserId(Request $request)
     {

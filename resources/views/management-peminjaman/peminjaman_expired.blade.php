@@ -123,7 +123,7 @@
                 },  
                 columnDefs:[
                     {
-                        "targets" : [0,1,2,3],
+                        "targets" : [0,1,2,3,5],
                         "className": "text-center"
                     },
                 ],              

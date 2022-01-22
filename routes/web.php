@@ -85,6 +85,8 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('add-teacher', [ClassController::class , 'addTeacher'])->name('add-teacher');
         Route::post('edit-teacher', [ClassController::class, 'editTeacher'])->name('edit-teacher');
         Route::post('delete-teacher', [ClassController::class, 'deleteTeacher'])->name('delete-teacher');
+        Route::get('detail-guru/{id}', [ClassController::class, 'detailGuru'])->name('detail-guru');
+        Route::post('detail-guru-execute', [ClassController::class, 'detailGuruExecute'])->name('detail-guru-execute');
     });
     Route::prefix('books-management')->group(function(){
         // Category

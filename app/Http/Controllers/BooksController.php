@@ -45,13 +45,7 @@ class BooksController extends Controller
             // $resize->save($file->getClientOriginalName());
             $pathCover = asset('book-images/'.$pfd.'BIMG-'.$file->getClientOriginalName());
         }
-        if($request->hasFile('link_pdf')){
-            $file = $request->file('link_pdf');
-            $fileName = $file->getClientOriginalName();
-            if (!in_array($request->file('link_pdf')->getClientOriginalExtension(), array('pdf', 'pdf', 'pdf'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only Pdf!'], 200);
-            $file->move('pdf/',$pfd.'BIMG-'.$file->getClientOriginalName());
-            $pathPdf = asset('pdf/'.$pfd.'BIMG-'.$file->getClientOriginalName());
-        }
+       
         $insert = EBooks::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -63,7 +57,7 @@ class BooksController extends Controller
             'publish_year' => Carbon::parse($request->publish_year)->year,
             'description' => $request->description ?? null,
             'cover' => $pathCover ?? null,
-            'link_pdf' => $pathPdf,
+            'link_pdf' => $request->link_pdf,
         ]);
         if($insert)
             return response()->json(['error' => false, 'message' => 'Berhasil menambahkan data buku baru'], 200);

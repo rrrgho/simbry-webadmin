@@ -82,6 +82,25 @@ class ClassController extends Controller
             return redirect(route('main-class-management'))->with('success', 'Berhasil mengubah data Kontak' .$data['name']);
         return redirect(route('main-class-management'))->with('failed', 'Gagal menghapus' .$data['name']);
     }
+    public function detailGuru($id)
+    {
+        $data = User::where('id', $id)->where('deleted_at',null)->get();
+        // $order = BooksOrder::where('user_id', $id)->where('status','APPROVED')->get();
+        return view('class-management.teacher-detail',compact('data'));
+    }
+    public function detailGuruExecute(Request $request){
+        $data = $request->validate([
+            'user_number' => 'required',
+            'name' => 'required'
+        ]);
+        $data = User::find($request->id);
+        $data->user_number = $request->user_number;
+        $data->name = $request->name;
+        $data->password = Hash::make($request->password);
+        if($data->save())
+            return redirect(route('main-teacher-management'))->with('success', 'Berhasil mengubah data Kontak' .$data['name']);
+        return redirect(route('main-teacher-management'))->with('failed', 'Gagal menghapus' .$data['name']);
+    }
     public function teacher(){
         return view('class-management.teacher');
     }
@@ -101,10 +120,10 @@ class ClassController extends Controller
             $delete_link = "'".url('class-management/teacher-delete/'.$data['id'])."'";
             $delete_message = "'This cannot be undo'";
             $edit_link = "'".url('books-management/'.$data['id'].'/category-edit')."'";
-
+            $editDetail = '<a href="'.route('detail-guru', [$data['id']]).'" class="btn btn-info p-1 text-white" id="btn-edit"> <i class="fa fa-sign-out"> </i> </a>';
             $edit = '<button  key="'.$data['id'].'" data-toggle="modal" data-target="#addTeacher"  class="btn btn-info p-1 text-white" onclick="getEditTeacherComponent('.$data['id'].')" id="btn-edit"> <i class="fa fa-edit"> </i> </button>';
             $delete = '<button onClick="deleteTeacherData('.$data['id'].')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
-            return $edit.' '.$delete;
+            return $edit.' '.$delete.''.$editDetail;
         })
         ->addColumn('created_at', function($data){
             return Carbon::parse($data['created_at'])->format('F d, y');
