@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\Models\Edition;
@@ -18,10 +19,14 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use DataTables;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class BooksController extends Controller
 {
+    public function booksExport()
+    {
+        return Excel::download(new BooksExport,'books.xlsx');
+    }
     public function eBooks()
     {
         $publisher = Publisher::where('deleted_at',null)->get();

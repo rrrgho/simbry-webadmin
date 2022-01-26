@@ -8,7 +8,6 @@
 'title' => __('Menambahkan Buku'),
 'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
-
 @section('title')
 
 {{-- <style>
@@ -85,6 +84,7 @@
                 <p>Anda hanya bisa mengedit data !</p>
                 <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
                     style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Buku</button>
+                    <a class="btn btn-success" href="{{ route('books-export') }}">Export Books</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4" id="data-book">
@@ -252,6 +252,10 @@
 
 @endsection
 @section('script')
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script>
     $( function() {
         $('#buying_year').datepicker();
@@ -324,14 +328,14 @@
                 }
             ],
 
-            dom: 'Bfrtip',
+            dom: 'Bfrtip',  
             buttons: [
                 {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                 {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
                 {extend:'pdf', className: 'bg-danger text-white rounded-pill border border-white'},
                 {extend:'print', className: 'bg-warning text-white rounded-pill border border-white'},
             ],
-            retrieve: true,
+            // retrieve: true,
             "bDestroy": true,
             "processing": true,
             "serverSide": true,

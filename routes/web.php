@@ -89,6 +89,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::post('detail-guru-execute', [ClassController::class, 'detailGuruExecute'])->name('detail-guru-execute');
     });
     Route::prefix('books-management')->group(function(){
+        Route::get('books-export', [BooksController::class, 'booksExport'])->name('books-export');
         // Category
         Route::get('category', [ManagemetBooksController::class, 'category'])->name('main-category-management');
         Route::post('category', [ManagemetBooksController::class, 'categoryCreate']);
