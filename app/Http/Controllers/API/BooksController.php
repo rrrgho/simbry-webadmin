@@ -148,7 +148,7 @@ class BooksController extends Controller
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'your_usage' => $is_order,'is_borrowing' => $check_user_wishlist ? true : false], 200);
     }
     public function bookSearch(Request $request){
-        $data = Books::where('name', 'like', '%' . $request->judul . '%')->paginate(6);
+        $data = Books::where('name', 'like', '%' . $request->judul . '%')->orderBy('created_at','DESC')->paginate(6);
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data], 200);
     }
     public function EbookSearch(Request $request){
