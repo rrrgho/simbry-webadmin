@@ -85,6 +85,7 @@
                 <button class="btn btn-success position-absolute" data-toggle="modal" data-target=".bd-example-modal-lg"
                     style="right: 10px; top:10px"><i class="fa fa-plus"></i> Tambah Buku</button>
                     <a class="btn btn-success" href="{{ route('books-export') }}">Export Books</a>
+                    <a class="btn btn-success" href="{{ route('books-peryear') }}">Laporan Buku</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4" id="data-book">

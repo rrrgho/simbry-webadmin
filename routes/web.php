@@ -90,6 +90,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     });
     Route::prefix('books-management')->group(function(){
         Route::get('books-export', [BooksController::class, 'booksExport'])->name('books-export');
+        Route::get('books-peryear', [BooksController::class, 'booksPeryear'])->name('books-peryear');
         // Category
         Route::get('category', [ManagemetBooksController::class, 'category'])->name('main-category-management');
         Route::post('category', [ManagemetBooksController::class, 'categoryCreate']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\BooksExport;
+use App\Exports\LaporanExport;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\Models\Edition;
@@ -18,11 +19,16 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // Call Service
 use DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BooksController extends Controller
 {
+    public function booksPeryear()
+    {
+        return Excel::download(new LaporanExport,'laporan.xlsx');
+    }
     public function booksExport()
     {
         return Excel::download(new BooksExport,'books.xlsx');
