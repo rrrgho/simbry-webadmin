@@ -8,7 +8,7 @@
       }
   }
 </style>
-<footer class="footer noPrint" style="position: fixed; bottom:0">
+{{-- <footer class="footer noPrint" style="position: fixed; bottom:0">
   <div class="container-fluid">
     <nav class="float-left">
       <ul>
@@ -25,4 +25,4 @@
       </ul>
     </nav>
   </div>
-</footer>
+</footer> --}}

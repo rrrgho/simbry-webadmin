@@ -53,7 +53,7 @@
                     <table class="ui celled table table-striped" id="data-buku">
                         <thead>
                             <tr class="text-center">
-                                <th>#</th>
+                                <th>Id</th>
                                 <th>Nama</th>
                                 <th>Kategori</th>
                                 <th>E-Books</th>
@@ -239,7 +239,7 @@
             },
             columnDefs:[
                 {
-                    "targets" : [1,2,3,4],
+                    "targets" : [3,4],
                     "className": "text-center"
                 },
                 {
