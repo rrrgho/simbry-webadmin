@@ -287,7 +287,10 @@ class UserController extends Controller
         $is_expired = BooksOrder::where('user_id', Auth::guard('api')->id())->where('end_date','<', Carbon::now())->first();
         if($is_expired) return response()->json(['error' => true, 'message' => 'Anda Belum Memulangkan Buku','expired' => true],200);
         $data = Books::where('id', $validated['book_id'])->where('ready', true)->orderBy('created_at', 'DESC')->first();
-
+        $check_wishlist = BooksOrder::where('book_id',$validated['book_id'])->where('status','WISHLIST')->first();
+        if($check_wishlist){
+            $check_wishlist->delete();
+        }
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
