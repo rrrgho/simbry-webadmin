@@ -281,7 +281,6 @@ class UserController extends Controller
         }
         $userType = Auth::guard('api')->user()->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', Auth::guard('api')->id())->where('status', '<>', 'FINISHED')->where('status','<>','WISHLIST')->count();
-        return $unfinishedOrder;
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
             return response()->json(['error' => true, 'message' => 'Peminjaman sudah melebihi batas'],200);
         }
