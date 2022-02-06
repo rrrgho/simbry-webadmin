@@ -137,10 +137,7 @@ class BooksController extends Controller
         $is_order = 0;
         $data_order = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status', 'FINISHED')->get();
         $is_order = count($data_order);
-        if($data['ready'] == 0)
-        {
-            $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$id)->where('status','WISHLIST')->first();
-        }
+        $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$id)->where('status','WISHLIST')->first();
         // return $check_user_wishlist ? "ada" : "tidak";
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
         $data['book_number'] = $data['book_number'].' | NP '.$data['no_panggil'];
@@ -148,7 +145,10 @@ class BooksController extends Controller
         $data['komentar'] = Komentar::where('book_id',$id)->orderBy('created_at','DESC')->with('user_relation')->get();
         $data['like'] = Like::where('book_id',$id)->get()->count();
         $data['stock'] = Books::where('examplar',$data['examplar'])->where('ready',true)->get()->count();
+        if($data['ready'] == 0)
+            return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'your_usage' => $is_order,'is_borrowing' => false], 200);
         return response()->json(['error' => false, 'message' => 'Success get data', 'data' => $data, 'wishlisted' => $wishlist_order ? true : false, 'your_usage' => $is_order,'is_borrowing' => $check_user_wishlist ? true : false], 200);
+        
     }
     public function bookSearch(Request $request){
         $data = Books::where('name', 'like', '%' . $request->judul . '%')->orderBy('created_at','DESC')->paginate(6);
