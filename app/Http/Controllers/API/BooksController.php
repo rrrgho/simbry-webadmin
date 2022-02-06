@@ -137,7 +137,10 @@ class BooksController extends Controller
         $is_order = 0;
         $data_order = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('status', 'FINISHED')->get();
         $is_order = count($data_order);
-        $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$id)->where('status','WISHLIST')->first();
+        if($data['ready'] == 0)
+        {
+            $check_user_wishlist = BooksOrder::where('user_id',Auth::guard('api')->user()->id)->where('book_id',$id)->where('status','WISHLIST')->first();
+        }
         // return $check_user_wishlist ? "ada" : "tidak";
         $data['category'] = BooksCategory::find($data['category_id'])['name'];
         $data['book_number'] = $data['book_number'].' | NP '.$data['no_panggil'];
