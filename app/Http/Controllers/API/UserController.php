@@ -469,15 +469,14 @@ class UserController extends Controller
         // Validasi
         $validated = $request->validate([
             'book_id' => ['required'],
-            'komentar' => ['required'],
             'rating' => ['required'],
 
         ]);
         $data = Books::where('id', $validated['book_id'])->first();
         // dd($data);
-        if($validated['komentar'] == null)
+        if($request->komentar == null)
         {
-            $default = 'User tidak memberikan tanggapan';
+            $request->komentar = 'User tidak memberikan tanggapan';
         }
         if (!$data) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
@@ -486,7 +485,7 @@ class UserController extends Controller
             Komentar::create([
                 'user_id' => Auth::guard('api')->user()->id,
                 'book_id' => $validated['book_id'],
-                'komentar' => $validated['komentar'] ?? $default,
+                'komentar' => $request->komentar,
                 'rating' => $validated['rating'],
             ]);
             if($data->save())
