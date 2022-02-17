@@ -156,15 +156,19 @@ class ClassController extends Controller
     }
     public function addStudent(Request $request){
         $requestData = $request->all();
+        $class_user = ClassModel::find($request->class_id)['unit_id'];
+        $unit_id = Unit::find($class_user)['name'];
+        $requestData['name'] = $request->name;
+        $requestData['user_number'] = $unit_id."SIM".$request->user_number;
         $requestData['user_type_id'] = 1;
         $requestData['password'] = bcrypt($request->password);
-        $requestData['unit'] = ClassModel::find($request->class_id)['unit_id'];
+        $requestData['unit'] = $class_user;
         $insert = User::create($requestData);
         if($insert)
             return response()->json(['error' => false, 'message' => 'Berhasil menambahkan Siswa '.$request->name], 200);
         return response()->json(['error' => true, 'message' => 'Gagal menambahkan kelas'], 200);
     }
-    public function editStudent(Request $request){
+    public function editStudent(Request $request){  
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->class_id = $request->class_id;

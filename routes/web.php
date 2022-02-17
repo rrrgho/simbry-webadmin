@@ -51,7 +51,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
     Route::get('change-password', [SettingsController::class, 'changePassword'])->name('change-password');
     Route::post('change-password-post', [SettingsController::class, 'changePasswordPost'])->name('change-password-post');
-
+    Route::get('job-class',[AuthController::class,'jobuser']);
     Route::prefix('class-management')->group(function(){
         // Class Data Student
         Route::get('/student', [ClassController::class, 'index'])->name('main-class-management');

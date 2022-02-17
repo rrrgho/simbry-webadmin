@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Events\ActionEvent;
+use App\Models\ClassModel;
+use App\Models\Unit;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -53,5 +56,18 @@ class AuthController extends Controller
         $actionData = array("team1_score" => 46);
         event(new ActionEvent($actionId, $actionData));
     }
-   
+    public function jobuser()
+    {
+        $data = User::where('user_type_id',1)->orderBy('created_at', 'DESC')->paginate(300);
+        foreach($data as $item){
+            // return $item['class_id'];
+            $class_user = ClassModel::find($item['class_id'])['unit_id'];
+            $unit_id = Unit::find($class_user)['name'];
+            $tmp = $item['user_number'];
+            $item->user_number = $unit_id."SIM".$tmp;
+            $tes = $unit_id."SIM".$tmp;
+            $item->save();
+        }
+        return "Berhasil Change";
+    }
 }
