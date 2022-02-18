@@ -61,17 +61,11 @@ class AuthController extends Controller
         $data = User::where('user_type_id',1)->orderBy('created_at', 'DESC')->paginate(300);
         $array = [];
         foreach($data as $item){
-            // return $item['class_id'];
-            $class_user = ClassModel::find($item['class_id'])['unit_id'];
-            $array[] = $class_user;
-            $unit_id = Unit::find($class_user)['name'];
-            $array[] = $unit_id;
+            $angkatan =  $item['unit_relation']->name;
             $tmp = $item['user_number'];
-            // $item->user_number = $unit_id."SIM".$tmp;
-            $array[] = $unit_id."SIM".$tmp;
-            // $item->save();
+            $item->user_number = $angkatan."SIM".$tmp;
+            $item->save();
         }
-        return $array;
         return "Berhasil Change";
     }
 }
