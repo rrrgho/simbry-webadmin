@@ -64,6 +64,7 @@ class AuthController extends Controller
             // return $item['class_id'];
             $class_user = ClassModel::find($item['class_id'])['unit_id'];
             $unit_id = Unit::find($class_user)['name'];
+            $array[] = $unit_id;
             $tmp = $item['user_number'];
             // $item->user_number = $unit_id."SIM".$tmp;
             $array[] = $unit_id."SIM".$tmp;
