@@ -59,12 +59,15 @@ class AuthController extends Controller
     public function jobuser()
     {
         $data = User::where('user_type_id',1)->orderBy('created_at', 'DESC')->paginate(300);
+        $array = [];
         foreach($data as $item){
-            $angkatan =  $item['unit_relation']->name;
-            $tmp = $item['user_number'];
-            $item->user_number = $angkatan."SIM".$tmp;
-            $item->save();
+            $array[] = $item;
+            // $angkatan =  $item['unit_relation']->name;
+            // $tmp = $item['user_number'];
+            // $item->user_number = $angkatan."SIM".$tmp;
+            // $item->save();
         }
+        return $array;
         return "Berhasil Change";
     }
 }
