@@ -59,7 +59,6 @@ class AuthController extends Controller
     public function jobuser()
     {
         $data = User::where('user_type_id',1)->orderBy('created_at', 'DESC')->paginate(300);
-        $array = [];
         foreach($data as $item){
             $angkatan =  $item['unit_relation']->name;
             $tmp = $item['user_number'];
