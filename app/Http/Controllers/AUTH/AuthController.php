@@ -65,8 +65,6 @@ class AuthController extends Controller
             $unit_id = Unit::find($class_user)['name'];
             $tmp = $item['user_number'];
             $item->user_number = $unit_id."SIM".$tmp;
-            $tes = $unit_id."SIM".$tmp;
-            return $tes;
             $item->save();
         }
         return "Berhasil Change";
