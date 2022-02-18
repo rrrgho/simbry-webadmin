@@ -62,8 +62,8 @@ class AuthController extends Controller
         foreach($data as $item){
             // return $item['class_id'];
             $class_user = ClassModel::find($item['class_id'])['unit_id'];
-            return $class_user;
             $unit_id = Unit::find($class_user)['name'];
+            return $unit_id;
             $tmp = $item['user_number'];
             $item->user_number = $unit_id."SIM".$tmp;
             $tes = $unit_id."SIM".$tmp;
