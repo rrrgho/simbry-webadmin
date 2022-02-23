@@ -57,8 +57,10 @@ class ClassController extends Controller
         $password_new = $request->password;
         $user = User::query()->update(['password' => bcrypt($password_new)]);
         if($user)
-            return redirect(route('main-class-management'))->with('success','Berhasil Ganti Password User');
-        return redirect(route('main-class-management'))->with('failed','Gagal Ganti Password User');
+            return "Berhasil Ganti Password";
+        // if($user)
+        //     return redirect(route('main-class-management'))->with('success','Berhasil Ganti Password User');
+        // return redirect(route('main-class-management'))->with('failed','Gagal Ganti Password User');
     }
     public function ResetPassword(Request $request){
 
