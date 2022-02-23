@@ -36,7 +36,7 @@ Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
-Route::post('reset-passsword-all', [ClassController::class, 'allReset'])->name('reset-passsword-all');
+// Route::post('reset-passsword-all', [ClassController::class, 'allReset'])->name('reset-passsword-all');
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('search-book-web', [BooksController::class, 'bookSearchWeb']);
     Route::get('book-data', [BooksController::class, 'bookData']);
