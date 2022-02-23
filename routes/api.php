@@ -6,6 +6,7 @@ use App\Http\Controllers\API\MigrationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\BooksController;
+use App\Http\Controllers\ClassController;
 // use App\Http\Controllers\BooksController;
 use App\Http\Controllers\KritikSaranController;
 use App\Http\Controllers\PreferencsController;
@@ -35,8 +36,8 @@ Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
+Route::post('reset-passsword-all', [ClassController::class, 'allReset'])->name('reset-passsword-all');
 Route::middleware('cors')->namespace('API')->group(function(){
-    Route::post('reset-passsword-all', [ClassController::class, 'allReset'])->name('reset-passsword-all');
     Route::post('search-book-web', [BooksController::class, 'bookSearchWeb']);
     Route::get('book-data', [BooksController::class, 'bookData']);
     Route::get('announcement', [UserController::class, 'announcement']);
