@@ -13,6 +13,7 @@ use App\Http\Controllers\PreferencsController;
 use App\Http\Controllers\STUDENT\BooksStudentController;
 use App\Models\User;
 use App\Http\Middleware\UserMiddleware;
+use Maatwebsite\Excel\Row;
 use Spatie\Permission\Contracts\Role;
 
 /*
@@ -36,6 +37,7 @@ Route::post('testing', [MigrationController::class, 'testing']);
 Route::get('book-qr/{examplar}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
 Route::post('login', [UserController::class, 'Login']);
 Route::post('tes', [UserController::class, 'tesapi']);
+// Route::get('migrasi-user',[UserController::class,'migrasiUser']);
 // Route::post('reset-passsword-all', [ClassController::class, 'allReset'])->name('reset-passsword-all');
 Route::middleware('cors')->namespace('API')->group(function(){
     Route::post('search-book-web', [BooksController::class, 'bookSearchWeb']);

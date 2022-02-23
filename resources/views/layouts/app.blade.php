@@ -396,6 +396,9 @@
         function infoSuccess(message) {
             swal("Good job!", message, "success");
         }
+        function infoFailed(message) {
+            swal("Failed!", message, "warning");
+        }
         // Image Preview
         function readURL(input) {
             if (input.files && input.files[0]) {

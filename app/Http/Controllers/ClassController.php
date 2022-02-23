@@ -219,12 +219,19 @@ class ClassController extends Controller
     // Teacher
     public function addTeacher(Request $request){
         $requestData = $request->all();
-        $requestData['user_type_id'] = 2;
-        $requestData['password'] = bcrypt($request->password);
-        $insert = User::create($requestData);
-        if($insert)
-            return response()->json(['error' => false, 'message' => 'Berhasil menambahkan guru ' .$request->name], 200);
-        return response()->json(['error' => true, 'message' => 'Gagal menambahkan guru'], 401);
+        $check_teacher = User::where('user_number',$request->user_number)->first();
+        if($check_teacher)
+        {
+            return response()->json(['error' => true, 'message' => 'User number already exist!!'], 401);
+        }else{
+
+            $requestData['user_type_id'] = 2;
+            $requestData['password'] = bcrypt($request->password);
+            $insert = User::create($requestData);
+            if($insert)
+                return response()->json(['error' => false, 'message' => 'Berhasil menambahkan guru ' .$request->name], 200);
+            return response()->json(['error' => true, 'message' => 'Gagal menambahkan guru'], 401);
+        }
     }
     public function editTeacher(Request $request){
         $user = User::find($request->id);

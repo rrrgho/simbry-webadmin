@@ -96,6 +96,11 @@
                                 clearInput();
                                 getTeacherDatatableComponent();
                             },
+                            error: (response) => {
+                                if (response.status === 401){
+                                    infoFailed(response.responseJSON.message)
+                                }
+                            }
                         })
                     })
                 }

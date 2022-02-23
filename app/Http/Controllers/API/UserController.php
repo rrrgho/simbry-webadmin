@@ -24,6 +24,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -34,6 +35,23 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class UserController extends Controller
 {
+    public function migrasiUser(){
+        $path = public_path('user.json');
+        $json = json_decode(file_get_contents($path), true);
+        foreach($json as $item){
+            $unit = Unit::find($item['unit'])['name'];
+            // return bcrypt($item['password']);
+            User::create([
+                'user_number' => $unit."SIM".$item['user_number'],
+                'class_id' => $item['class_id'],
+                'user_type_id' => $item['user_type_id'],
+                'name' => $item['name'],
+                'password' => '$2y$10$q5pLkS1X.j2IjoD40u3w0OY6KB/LUMP3iH.qKFQ7.Xwk00PRcJgKm',
+                'unit' => $item['unit'],
+            ]);
+        }
+        return "BERHASIL MIGRASI";
+    }
     public function ChatBot(Request $request)
     {
         $validated = Validator::make($request->all(),[
