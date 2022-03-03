@@ -68,7 +68,7 @@ class BooksController extends Controller
         ]);
         $image = $request->image;
         $imagePath = Storage::disk('public')->put('ocr',$image);
-        // return $imagePath;
+        return Storage::disk('public/ocr');
         $teaserOcr = new TesseractOCR(Storage::disk("public/ocr/$imagePath"));
         // $file = public_path("storage/$imagePath");
         $text = $teaserOcr->run();
