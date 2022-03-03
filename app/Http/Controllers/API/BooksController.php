@@ -71,7 +71,6 @@ class BooksController extends Controller
         $file = public_path("storage/$imagePath");
         $teaserOcr = new TesseractOCR($file);
         $text = $teaserOcr->run();
-        return $text;
         if($text)
             File::delete($file);
         return response()->json(['error' => false,'message' => 'Berhasil mendapatkan data','data' => $text],200);
