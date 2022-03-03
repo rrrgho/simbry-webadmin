@@ -64,12 +64,12 @@ class BooksController extends Controller
     public function ocrBooks(Request $request)
     {
         $request->validate([
-            'image' => 'required|mimes:png,jpg,jpeg|max:10000',
+            'image' => 'required',
         ]);
         $image = $request->image;
         $imagePath = Storage::disk('public')->put('ocr',$image);
-        $teaserOcr = new TesseractOCR(public_path("storage/$imagePath"));
         $file = public_path("storage/$imagePath");
+        $teaserOcr = new TesseractOCR($file);
         $text = $teaserOcr->run();
         if($text)
             File::delete($file);
