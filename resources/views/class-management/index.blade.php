@@ -68,7 +68,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Tambah Siswa</h5>
+            <h5 class="modal-title" id="titleSiswa">Tambah Siswa</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -160,16 +160,18 @@
                 url: '{{route('component-add-student')}}',
                 success:function(response){
                     $('#add-student-box').html(response)
+                    $('#titleSiswa').html('Tambah Siswa');
                     $('#form-add-student').submit(function(event){
                         event.preventDefault();
+                        $('#btn-tambah-siswa').text('Loading...').attr('disabled', true)
                         var formData = new FormData(this);
                         $.ajax({
                             type: 'POST', cache: false, contentType: false, processData: false,
                             url: "{{ route('add-student') }}",
                             data: formData,
                             success: (response) => {
+                                $('#btn-tambah-siswa').text('Tambah Kelas').attr('disabled', false)
                                 infoSuccess(response.message)
-                                $('#btn-add-class').text('Tambah Kelas').attr('disabled', false)
                                 getAddStudentComponent();
                                 clearInput();
                                 getStudentDatatableComponent();
@@ -184,6 +186,7 @@
             callEditComponent = true;
             editStudentId = id;
             $('#add-student-box').html('Sedang memuat ...')
+            $('#titleSiswa').html('Edit Siswa');
             $.ajax({
                 url: "{{route('component-edit-student')}}",
                 type: "POST",
@@ -202,7 +205,7 @@
                             data: formData,
                             success: (response) => {
                                 infoSuccess(response.message)
-                                $('#btn-add-class').text('Tambah Kelas').attr('disabled', false)
+                                $('#btn-tambah-siswa').text('Tambah Kelas').attr('disabled', false)
                                 getEditStudentComponent(editStudentId);
                                 clearInput();
                                 getStudentDatatableComponent();
@@ -278,7 +281,7 @@
                         
                     ],
                     language: {
-                    searchPlaceholder: 'Search Buku..',
+                    searchPlaceholder: 'Search Siswa..',
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
                     destroy: true
