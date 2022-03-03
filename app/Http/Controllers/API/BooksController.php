@@ -72,7 +72,7 @@ class BooksController extends Controller
         $file = public_path("storage/$imagePath");
         $text = $teaserOcr->run();
         if($text)
-            File::delete($file);
+            // File::delete($file);
         return response()->json(['error' => false,'message' => 'Berhasil mendapatkan data','data' => $text],200);
         
     }
