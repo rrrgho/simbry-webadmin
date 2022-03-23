@@ -71,6 +71,12 @@
                 <span class="sidebar-normal"> {{ __('Rak Buku') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'sub-cetegory-books' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('main-sub-category-management') }}">
+                <span class="sidebar-mini"> - </span>
+                <span class="sidebar-normal"> {{ __('Sub Kategori Buku') }} </span>
+              </a>
+            </li>
             {{-- <li class="nav-item{{ $activePage == 'qr-data' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('books-qr') }}">
                 <span class="sidebar-mini"> - </span>

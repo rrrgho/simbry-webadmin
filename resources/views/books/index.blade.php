@@ -140,7 +140,7 @@
                             <div class="col-6 mt-3">
                                 @if($category->count())
                                 <label>Pilih Kategori : </label><br>
-                                <select required class="form-control" style="width: 100%" name="category_id">
+                                <select required class="form-control" style="width: 100%" name="category_id" id="category">
                                     <option value="" hidden>Pilih Kategori</option>
                                     @foreach($category as $item)
                                         <option value="{{ $item['id'] }}">
@@ -154,6 +154,10 @@
                                     Data kategori buku tidak di temukan ! mohon masukkan data kategori!!
                                 </div>
                                 @endif
+                                <input type="text" id="sub_value" name="sub_category" hidden/>
+                                <div class="alert alert-warning mt-2">
+                                    <p id="name_sub">Sub Category Tidak Di temukan!!</p>
+                                </div>
                             </div>
                             <div class="col-6 mt-3">
                                 <label>Penulis : </label><br>
@@ -228,6 +232,24 @@
                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description"
                                     rows="3"></textarea>
                             </div>
+                            {{-- <div class="col-6 mt-3">
+                                @if($category->count())
+                                <label>Pilih Sub Kategori : </label><br>
+                                <select required class="form-control" style="width: 100%" name="category_id">
+                                    <option value="" hidden>Pilih Kategori</option>
+                                    @foreach($category as $item)
+                                        <option value="{{ $item['id'] }}">
+                                            {{ $item['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                @else
+                                <select name="" id="" hidden required>
+                                </select>
+                                <div class="alert alert-warning">
+                                    Data kategori buku tidak di temukan ! mohon masukkan data kategori!!
+                                </div>
+                                @endif
+                            </div> --}}
                             <div class="col-12 mt-4">
                                 <label for="imgInp">
                                 <input type='file' name="cover" id="imgInp" class="d-none"/>
@@ -261,6 +283,16 @@
     $( function() {
         $('#buying_year').datepicker();
     } );
+    $(document).ready(function(){
+        $('#category').change(function(){
+            let sub_category = this.value;
+            // console.log(sub_category)
+            $.get('/books-management/category/'+sub_category,function(data){
+                document.getElementById("name_sub").innerHTML = "Name Sub Category: "+data.sub_category_name;
+                $('#sub_value').val(data.id_sub);
+            })
+        })
+    });
     let callEditComponent = false;
     let editBooksId;
     // Add

@@ -91,6 +91,15 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('books-management')->group(function(){
         Route::get('books-export', [BooksController::class, 'booksExport'])->name('books-export');
         Route::get('books-peryear', [BooksController::class, 'booksPeryear'])->name('books-peryear');
+
+        //SUB Category
+        Route::get('sub-category',[ManagemetBooksController::class,'sub_category'])->name('main-sub-category-management');
+        Route::post('sub-category',[ManagemetBooksController::class,'subCategoryCreate']);
+        Route::get('sub-category-datatable',[ManagemetBooksController::class, 'SubcategoryDatatable'])->name('sub-category-datatable');
+        Route::get('sub-category-delete/{id}', [ManagemetBooksController::class, 'SubcategoryDelete']);
+        Route::get('/{id}/sub-category-edit', [ManagemetBooksController::class, 'SubcategoryEdit'])->name('SubcategoryEdit');
+        Route::post('subcategoryEditExecute',[ManagemetBooksController::class, 'SubcategoryEditExecute']);
+
         // Category
         Route::get('category', [ManagemetBooksController::class, 'category'])->name('main-category-management');
         Route::post('category', [ManagemetBooksController::class, 'categoryCreate']);
@@ -98,7 +107,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('category-delete/{id}', [ManagemetBooksController::class, 'categoryDelete']);
         Route::get('/{id}/category-edit', [ManagemetBooksController::class, 'categoryEdit'])->name('categoryEdit');
         Route::post('categoryEditExecute',[ManagemetBooksController::class, 'categoryEditExecute']);
-
+        Route::get('category/{id_category}',[ManagemetBooksController::class,'subcategoryBooks']);
         // author
         Route::get('author',[ManagemetBooksController::class, 'author'])->name('main-author-management');
         Route::post('author',[ManagemetBooksController::class, 'authorCreate']);

@@ -117,6 +117,7 @@ class BooksController extends Controller
         $locker = Locker::where('deleted_at',null)->get();
         $publisher = Publisher::where('deleted_at',null)->get();
         $category = BooksCategory::where('deleted_at',null)->get();
+        // return $category;
         return view ('books.index', compact('locker', 'publisher', 'category'));
     }
     public function books_add(Request $request){
@@ -178,6 +179,7 @@ class BooksController extends Controller
                 'cover' => $pathCover ?? null,
                 'link_pdf' => $pathPdf ?? null,
                 'no_panggil' => $request->no_panggil,
+                'sub_category' => $request->sub_category,
             ]);
             if($insert){
                 $number = "";

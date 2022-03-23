@@ -15,6 +15,32 @@
                     <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
             </div>
+            <div class="form-group">
+                @if($data->sub_category == NULL)
+                <label>Pilih Sub Kategori : </label><br>
+                <select required class="form-control" style="width: 100%" name="sub_category">
+                    <option value="" hidden>Pilih Sub Kategori</option>
+                    @foreach($sub_category as $item)
+                        <option value="{{ $item['id'] }}">
+                            {{ $item['name'] }}</option>
+                    @endforeach
+                </select>
+                @else
+                {{-- <select name="" id="" hidden required>
+                </select>
+                <div class="alert alert-warning">
+                    Data kategori buku tidak di temukan ! mohon masukkan data kategori!!
+                </div> --}}
+                <label>Pilih Sub Kategori : </label><br>
+                <select required class="form-control" style="width: 100%" name="sub_category">
+                    <option value="{{$data['sub_category']}}">{{$data['sub_category_name']}}</option>
+                    @foreach($sub_category as $item)
+                        <option value="{{ $item['id'] }}">
+                            {{ $item['name'] }}</option>
+                    @endforeach
+                </select>
+                @endif
+            </div>
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

@@ -5,18 +5,88 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\BooksCategory;
 use App\Models\Author;
+use App\Models\Books;
 use App\Models\Publisher;
 use App\Models\Edition;
 use App\Models\Locker;
+use App\Models\SubCategory;
 use DataTables;
 use Dotenv\Validator;
 use Carbon\Carbon;
 
 class ManagemetBooksController extends Controller
 {
+    //SUB CATEGORY
+    public function sub_category()
+    {
+        return view('books-management.sub-category');
+    }
+    public function subcategoryBooks($id_category)
+    {
+        $data = BooksCategory::where('id',$id_category)->first();
+        return $data;
+    }
+    public function subCategoryCreate(Request $request)
+    {
+        if(!$request->all())
+            return view('books-management.sub-category');
+        else{
+            $insert = $request->validate([
+                'name' => 'required|unique:book_category,name,'
+            ]);
+            $insert = SubCategory::create($request->all());
+            if($insert)
+                return redirect(route('main-sub-category-management'))->with('success', 'Berhasil menyimpan data kategori buku baru');
+            return redirect(route('main-sub-category-management'))->with('failed', 'Gagal menyimpan data kategori buku baru');
+        }
+    }
+    public function SubcategoryDatatable()
+    {
+        $data = SubCategory::orderBy('created_at','DESC')->get();
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($data){
+            $delete_link = "'".url('books-management/sub-category-delete/'.$data['id'])."'";
+            $delete_message = "'This cannot be undo'";
+            $edit_link = "'".url('books-management/'.$data['id'].'/sub-category-edit')."'";
+
+            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editCategory" onclick="editCategory('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
+            return $edit.' '.$delete;
+        })
+        ->addColumn('created_at', function($data){
+            return Carbon::parse($data['created_at'])->format('F d, y');
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+    }
+    public function SubcategoryDelete($id)
+    {
+        $data = SubCategory::find($id);
+        if($data->delete())
+            return redirect(url('books-management/sub-category'))->with('success', 'Berhasil menghapus data kategori buku' .$data['name']);
+        return redirect(url('books-management/sub-category'))->with('failed', 'Gagal menghapus data kategori buku' .$data['name']);
+    }
+    public function SubcategoryEdit($id)
+    {
+        $data = SubCategory::find($id);
+        return view('books-management.ajax-sub-category-edit', compact('data'));
+    }
+    public function SubcategoryEditExecute(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|max:30|min:2,'
+        ]);
+        $data = SubCategory::find($request->id);
+        $data->name = $request->name;
+        if($data->save())
+            return redirect(url('books-management/sub-category'))->with('success','Berhasil mengubah kategori Buku ' .$data['name']);
+        return redirect(url('books-management/'.$request->id.'/category'))->with('failed','Gagal mengubah kategori Buku' .$data['name']);
+    }
     // Category
     public function category(){
-        return view('books-management.category');
+        $sub_category = SubCategory::orderBy('created_at','DESC')->get();
+        return view('books-management.category',compact('sub_category'));
     }
     public function categoryCreate(Request $request){
         $data = BooksCategory::where('deleted_at',null)->get();
@@ -61,15 +131,18 @@ class ManagemetBooksController extends Controller
         return redirect(url('books-management/category'))->with('failed', 'Gagal menghapus data kategori buku' .$data['name']);
     }
     public function categoryEdit($id){
+        $sub_category = SubCategory::orderBy('created_at','DESC')->get();
         $data = BooksCategory::find($id);
-        return view('books-management.ajax-category-edit', compact('data'));
+        return view('books-management.ajax-category-edit', compact('data','sub_category'));
     }
     public function categoryEditExecute(Request $request){
         $data = $request->validate([
-            'name' => 'required|max:30|min:2,'
+            'name' => 'required|max:30|min:2,',
+            'sub_category' => 'required',
         ]);
         $data = BooksCategory::find($request->id);
         $data->name = $request->name;
+        $data->sub_category = $request->sub_category;
         if($data->save())
             return redirect(url('books-management/category'))->with('success','Berhasil mengubah kategori Buku ' .$data['name']);
         return redirect(url('books-management/'.$request->id.'/category'))->with('failed','Gagal mengubah kategori Buku' .$data['name']);

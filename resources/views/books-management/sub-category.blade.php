@@ -4,8 +4,8 @@
 ],
   'class' => 'off-canvas-sidebar',
   'activeMainPage' => 'books-management',
-  'activePage' => 'cetegory-books',
-  'title' => __('Kategori Buku'),
+  'activePage' => 'sub-cetegory-books',
+  'title' => __('Sub Kategori Buku'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
 
@@ -13,8 +13,8 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <div class="col border-bottom pl-0 pb-3">
-                <h3>Buku Kategori</h3>
-                <p>Anda dapat menambah, mengedit atau menghapus data Buku Kategori disini !</p>
+                <h3>Sub Kategori</h3>
+                <p>Anda dapat menambah, mengedit atau menghapus data Buku Sub Kategori disini !</p>
             </div>
         </div>
     </div>
@@ -33,31 +33,13 @@
     <div class="row">
         <div class="col-md-12 col-lg-4">
             <div class="card">
-                <form action="{{url('books-management/category')}}" method="POST">@csrf
+                <form action="{{url('books-management/sub-category')}}" method="POST">@csrf
                     <div class="card-header bg-light">
-                        <h3>Tambah Kategori Buku</h3>
+                        <h3>Tambah Sub Kategori Buku</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             <input type="text" name="name"class="form-control" placeholder="Ketik disini ..." required>
-                        </div>
-                        <div class="form-group">
-                            @if($sub_category->count())
-                            <label>Pilih Sub Kategori : </label><br>
-                            <select required class="form-control" style="width: 100%" name="category_id">
-                                <option value="" hidden>Pilih Sub Kategori</option>
-                                @foreach($sub_category as $item)
-                                    <option value="{{ $item['id'] }}">
-                                        {{ $item['name'] }}</option>
-                                @endforeach
-                            </select>
-                            @else
-                            <select name="" id="" hidden required>
-                            </select>
-                            <div class="alert alert-warning">
-                                Data kategori buku tidak di temukan ! mohon masukkan data kategori!!
-                            </div>
-                            @endif
                         </div>
                         <div class="form-group">
                             <button class="btn btn-info btn-block">Simpan</button>
@@ -72,7 +54,6 @@
                     <tr class="text-center">
                         <th width="50">#</th>
                         <th>Nama</th>
-                        <th>Jumlah buku</th>
                         <th width="100px">Created At</th>
                         <th width="100px">Action</th>
                     </tr>
@@ -83,7 +64,7 @@
     {{-- Modal Category --}}
     <div class="modal fade" id="editCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content" id="box_edit_category">
+        <div class="modal-content" id="box_edit_sub_category">
         </div>
         </div>
     </div>
@@ -93,11 +74,10 @@
         // Datatable
         $(function(){
             $('#data-kategori').DataTable({
-                ajax: '{{route('category-datatable')}}',
+                ajax: '{{route('sub-category-datatable')}}',
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'name', name: 'name'},
-                    { data: 'jumlah_buku', name: 'jumlah_buku'},
                     { data: 'created_at', name: 'created_at'},
                     { data: 'action', name: 'action'},
                 ],
@@ -131,7 +111,7 @@
             $.ajax({
                 url: link,
                 success: function(response){
-                    $('#box_edit_category').html(response)
+                    $('#box_edit_sub_category').html(response)
                 }
             })
         }
