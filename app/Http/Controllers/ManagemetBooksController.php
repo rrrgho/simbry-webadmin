@@ -94,7 +94,8 @@ class ManagemetBooksController extends Controller
             return view('books-management.category');
         else{
             $insert = $request->validate([
-                'name' => 'required|unique:book_category,name,'
+                'name' => 'required|unique:book_category,name,',
+                'sub_category' => 'required'
             ]);
             $insert = BooksCategory::create($request->all());
             if($insert)
