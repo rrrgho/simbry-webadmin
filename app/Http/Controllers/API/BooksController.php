@@ -133,7 +133,7 @@ class BooksController extends Controller
     //         }
     //     }
     // }
-    public function getBookbyPreference(Request $request)
+    public function getBookbyPreference()
     {
         $check_user = Auth::guard('api')->user()->unit_name;
         $preferences = Preference::where('user_id', Auth::guard('api')->user()->id)->get();
