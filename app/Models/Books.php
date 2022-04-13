@@ -11,7 +11,7 @@ class Books extends Model
     protected $table = "book";
     protected $guarded = [];
     // protected $hidden = ['category_relation','locker_relation','publisher_relation'];
-
+    protected $hidden = ['sub_category'];
     public function category_relation(){
         return $this->belongsTo(BooksCategory::class, 'category_id');
     }
