@@ -82,35 +82,69 @@ class BooksController extends Controller
         // $data['locker'] = Locker::find($data['locker_id'])['name'] ?? '-';
         return response()->json(['error'=>false, 'message'=>'Success retrived data', 'data' => $data], 200);
     }
+    // public function getBookbyPreference(Request $request)
+    // {
+    //     $category_req = $request->category_req;
+    //     $sub_category_req = $request->sub_category;
+    
+    //     $check_user = Auth::guard('api')->user()->unit_name;
+    //     // dd($check_user);
+    //     $preferences = Preference::where('user_id', Auth::guard('api')->user()->id)->get();
+    //     if($check_user == 'TK')
+    //     {
+    //         $check_categoryTK = BooksCategory::where('name','TK')->first();
+    //         if($preferences == '[]'){
+    //             if($category_req == NULL && $sub_category_req == NULL)
+    //             {
+    //                 return Books::where('category_id',$check_categoryTK->id)->orderBy('created_at', 'DESC')->paginate(6);
+    //             }
+    //         }else{
+    //             return Books::where('category_id',$check_categoryTK->id)->orderBy('created_at', 'DESC')->paginate(6);
+    //         }
+    //     }else{
+    //         if($preferences == '[]'){
+    //             if($category_req == NULL && $sub_category_req == NULL)
+    //             {
+    //                 return Books::orderBy('created_at', 'DESC')->paginate(6);
+    //             }else if($category_req !== NULL && $sub_category_req == NULL){
+    //                 return Books::where('category_id',$category_req)->orderBy('created_at', 'DESC')->paginate(6);
+    //             }else{
+    //                 return Books::where('category_id',$category_req)->where('sub_category',$sub_category_req)->orderBy('created_at', 'DESC')->paginate(6);
+    //             }
+    //         }else{
+    //             $query = [
+    //                 ['category_id', $preferences[0]['category_id']]
+    //             ];
+    //             $i=0;
+    //             foreach( $preferences as $preference){
+    //                 if($i!=0)
+    //                 $query[] = ['category_id', $preference['category_id']];
+    //                 $i++;
+    //             }
+    //             // return $query;
+    //             return Books::where([
+    //             [
+    //                 "category_id",
+    //                 $preferences[0]['category_id']
+    //             ],
+    //             ])
+    //             ->orWhere($query)
+    //             ->paginate(6);
+    //         }
+    //     }
+    // }
     public function getBookbyPreference(Request $request)
     {
-        $category_req = $request->category_req;
-        $sub_category_req = $request->sub_category;
-    
         $check_user = Auth::guard('api')->user()->unit_name;
-        // dd($check_user);
         $preferences = Preference::where('user_id', Auth::guard('api')->user()->id)->get();
         if($check_user == 'TK')
         {
             $check_categoryTK = BooksCategory::where('name','TK')->first();
-            if($preferences == '[]'){
-                if($category_req == NULL && $sub_category_req == NULL)
-                {
-                    return Books::where('category_id',$check_categoryTK->id)->orderBy('created_at', 'DESC')->paginate(6);
-                }
-            }else{
+            if($preferences == '[]')
                 return Books::where('category_id',$check_categoryTK->id)->orderBy('created_at', 'DESC')->paginate(6);
-            }
         }else{
             if($preferences == '[]'){
-                if($category_req == NULL && $sub_category_req == NULL)
-                {
-                    return Books::orderBy('created_at', 'DESC')->paginate(6);
-                }else if($category_req !== NULL && $sub_category_req == NULL){
-                    return Books::where('category_id',$category_req)->orderBy('created_at', 'DESC')->paginate(6);
-                }else{
-                    return Books::where('category_id',$category_req)->where('sub_category',$sub_category_req)->orderBy('created_at', 'DESC')->paginate(6);
-                }
+                return Books::orderBy('created_at', 'DESC')->paginate(6);
             }else{
                 $query = [
                     ['category_id', $preferences[0]['category_id']]
