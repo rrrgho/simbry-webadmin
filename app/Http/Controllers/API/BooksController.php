@@ -93,8 +93,14 @@ class BooksController extends Controller
         if($check_user == 'TK')
         {
             $check_categoryTK = BooksCategory::where('name','TK')->first();
-            if($preferences == '[]')
+            if($preferences == '[]'){
+                if($category_req == NULL && $sub_category_req == NULL)
+                {
+                    return Books::where('category_id',$check_categoryTK->id)->orderBy('created_at', 'DESC')->paginate(6);
+                }
+            }else{
                 return Books::where('category_id',$check_categoryTK->id)->orderBy('created_at', 'DESC')->paginate(6);
+            }
         }else{
             if($preferences == '[]'){
                 if($category_req == NULL && $sub_category_req == NULL)
