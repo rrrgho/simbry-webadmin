@@ -66,20 +66,23 @@
                                     <div class="row mt-4">
                                         <div class="col-12">
                                             <div class="table-responsive">
-                                                <table class="table table-striped">
-                                                    <tr class="text-center">
-                                                        <th>#</th>
-                                                        <th>Nomor Induk</th>
-                                                        <th>Nomor Panggil</th>
-                                                        <th>Judul</th>
-                                                        <th>Kode Buku</th>
-                                                        <th>Penulis</th>
-                                                        <th>Edisi</th>
-                                                        <th>Asal Buku</th>
-                                                        <th>Kategori</th>
-                                                        <th>:</th>
-                                                    </tr>
-                                                    @foreach ($data as $item)
+                                                <input type="hidden" value="{{$data[0]['examplar']}}" name="examplar" id="id_examplar">
+                                                <table class="table table-striped" id="data-examplar-books">
+                                                    <thead>
+                                                        <tr class="text-center">
+                                                            <th>Nomor Induk</th>
+                                                            <th>Nomor Panggil</th>
+                                                            <th>Judul</th>
+                                                            <th>Kode Buku</th>
+                                                            <th>Nomor Panggil</th>
+                                                            <th>Penulis</th>
+                                                            <th>Edisi</th>
+                                                            <th>Asal Buku</th>
+                                                            <th>Kategori</th>
+                                                            <th>:</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {{-- @foreach ($data as $item)
                                                         <tr>
                                                             <th class="text-center">{{$loop->iteration}}</th>
                                                             <td class="text-center">{{$item['book_number']}}</td>
@@ -97,7 +100,7 @@
                                                                 <button type="button" class="btn btn-primary p-1" data-toggle="modal"  data-target=".bd-edit-modal-lg"> <i class="fa fa-edit"> </i> </button>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 </table>
                                             </div>
                                         </div>
@@ -160,7 +163,11 @@
                                 <label for="">Tahun Pembelian : </label>
                                 <input required class=" form-control" autocomplete="off"  name="buying_year" type="date">
                             </div>
-                            <div class="col-12 mt-4">
+                            <div class="col-6 mt-3">
+                                <label for="">Nomor Panggil : </label>
+                                <input type="text" class="form-control" value="" name="no_panggil" required>
+                            </div>
+                            <div class="col-6 mt-4">
                                 <label for="pfgInp">Upload Pdf</label>
                                 <input type='file' name='link_pdf' />
                             </div>
@@ -187,78 +194,11 @@
     </div>
 </div>
 {{-- Modal Edit --}}
-<div class="modal fade bd-edit-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-edit-modal-lg" id="editExamplaBooks" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-content">
-                <form action="{{ url('books-management/'.$data[0]['examplar'].'/edit-books') }}" enctype="multipart/form-data" method="POST">@csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit Buku</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <input type="hidden" name="examplar" value="{{$data[0]['examplar']}}">
-                            <div class="col-6 mt-3">
-                                <label>Judul : </label><br>
-                                <input required class="date form-control"  name="name" value="{{$data[0]['name']}}" type="text">
-                            </div>
-                            <div class="col-6 mt-3">
-                                <label>Pilih Kategori : </label><br>
-                                <select required class="form-control" style="width: 100%" name="category_id">
-                                    <option value="" hidden>Pilih Kategori</option>
-                                    @foreach($category as $item)
-                                        <option value="{{ $item['id'] }}">
-                                            {{ $item['name'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6 mt-3">
-                                <label>Penulis : </label><br>
-                                <input required class="date form-control"  name="creator" value="{{$data[0]['creator']}}" type="text">
-                            </div>
-                            <div class="col-6 mt-3">
-                                <label for="">Pilih Loker : </label>
-                                <select required class="form-control" style="width: 100%" name="locker_id">
-                                    <option value="" hidden>Pilih Loker</option>
-                                    @foreach($locker as $item)
-                                    <option @if($data[0]['locker_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
-                                        {{ $item['name'] }}</option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            {{-- <div class="col-6 mt-3">
-                                <label for="pfgInp">Upload Pdf</label>
-                                <input type='file' name='link_pdf' />
-                            </div> --}}
-                            <div class="col-6 mt-3">
-                                <label for="">Asal Buku : </label>
-                                <input required class="date form-control"  name="origin_book"  type="text" value="{{$data[0]['origin_book']}}">
-                            </div>
-                            <div class="col-6 mt-3">
-                                <label for="">Nomor Panggil : </label>
-                                <input required class="date form-control"  name="no_panggil"  type="text" value="{{$data[0]['no_panggil']}}">
-                            </div>
-                            <div class="col-12 mt-1">
-                                <label for="imgInp">
-                                <input type='file' name="cover" id="imgInp" class="d-none"/>
-                                @if($data[0]['cover'] == true)
-                                <img id="image-preview" src="{{ $data[0]['cover'] }}" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
-                                @else
-                                <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
-                                @endif
-                            </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="form-group text-center">
-                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                            <button class="btn btn-success" id="btn-tambah-books" type="submit">Tambah Buku</button>
-                        </div>
-                    </div>
-                </form>
+            <div class="modal-content" id="box_examplar_edit">
             </div>
         </div>
     </div>
@@ -270,8 +210,59 @@
             changeMonth: true,
             changeYear: true
         });
-        function setIdBooks(id){
-            $('#id_books').val(id)
+        var examplar = $('#id_examplar').val()
+        $('#data-examplar-books').DataTable({
+            ajax: {
+                url : `{{url('books-management/books-examplar-datatable/${examplar}')}}`,
+            },
+            columns: [
+                { data: 'book_number', name: 'book_number'},
+                { data: 'no_panggil', name: 'no_panggil'},
+                { data: 'name', name: 'name'},
+                { data: 'code_of_book', name: 'code_of_book'},
+                { data: 'call_number', name: 'call_number'},
+                { data: 'creator', name: 'creator'},
+                { data: 'edition', name: 'edition'},
+                { data: 'origin_book', name: 'origin_book'},
+                { data: 'category', name: 'category'},
+                { data: 'action', name: 'action'},
+            ],
+            language: {
+            searchPlaceholder: 'Search Buku..',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+            destroy: true
+            },
+            columnDefs:[
+                {
+                    "targets" : [2,3,4,5,6,7,8],
+                    "className": "text-center"
+                },
+                {
+                    "targets" : [0],
+                    "visible" : false
+                }
+            ],
+
+            dom: 'Bfrtip',  
+            buttons: [
+                {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
+                {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
+                {extend:'pdf', className: 'bg-danger text-white rounded-pill border border-white'},
+                {extend:'print', className: 'bg-warning text-white rounded-pill border border-white'},
+            ],
+            // retrieve: true,
+            "bDestroy": true,
+            "processing": true,
+            "serverSide": true,
+        })
+        editEbooks = (link) => {
+            $.ajax({
+                url: link,
+                success: function(response){
+                    $('#box_examplar_edit').html(response)
+                }
+            })
         }
     </script>
 @endsection

@@ -253,6 +253,23 @@ class BooksController extends Controller
         $qrcode = QrCode::size(150)->generate(env('APP_URL').'/api/book-qr/'.$examplar);
         return view('books.book-detail', compact('data','user','locker', 'publisher', 'category','qrcode'));
     }
+    public function BooksExamplarDatatable($examplar)
+    {
+        $data = Books::where('examplar', $examplar)->where('deleted_at',null)->get();
+        return Datatables::of($data)
+        ->addColumn('action', function($data){
+
+            $delete_link = "'".url('books-management/books-delete/'.$data['id'])."'";
+            $delete_message = "'This cannot be undo'";
+            $edit_link = "'".url('books-management/books-edit/'.$data['id'])."'";
+
+            $edit = '<button  key="'.$data['id'].'"  class="btn btn-info p-1 text-white" data-toggle="modal" data-target="#editExamplaBooks" onclick="editEbooks('.$edit_link.')"> <i class="fa fa-edit"> </i> </button>';
+            $delete = '<button onclick="confirm_me('.$delete_message.','.$delete_link.')" class="btn btn-danger p-1 text-white"> <i class="fa fa-trash"> </i> </button>';
+            return $edit.' '.$delete;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+    }
     public function bookQrDetail($examplar)
     {
         $data = Books::find($examplar);
@@ -266,9 +283,11 @@ class BooksController extends Controller
             ],
         ]);
     }
-    public function booksDelete(Request $request){
-        $item = Books::find($request->id);
+    public function booksDelete(Request $request,$id){
+        // $item = Books::find($request->id);
+        $item = Books::find($id);
         $sameBook = Books::where('examplar', $item->examplar)->where('deleted_at',null)->get();
+        // return $sameBook;
         $queue_on_same_book = 1;
         foreach($sameBook as $book){
             $code = "";
@@ -283,7 +302,8 @@ class BooksController extends Controller
         }
         $item->deleted_at = Carbon::now('Asia/Jakarta');
         $item->save();
-        return response()->json(['error' => false], 200);
+        // return response()->json(['error' => false], 200);
+        return redirect(url("books-management/books-detail/$item->examplar"))->with('success','Berhasil delete menduplikasi buku');
     }
     public function booksDuplicate(Request $request){
         $sameBook = Books::where('examplar', $request->examplar)->where('deleted_at',null)->get();
@@ -346,10 +366,15 @@ class BooksController extends Controller
         $item['edition_name'] = $data['edition'];
         return view('books.book-detail-user', compact('data','books','item','copy','redy'));
     }
-    // public function booksEdit(){
-    //     $data = Books::where('deleted_at',null)->get();
-    //     return view('books.ajax-books-edit', compact('data'));
-    // }
+    public function booksEdit($id){
+        $category = BooksCategory::where('deleted_at',null)->get();
+        $user = User::where('deleted_at',null)->get();
+        $locker = Locker::where('deleted_at',null)->get();
+        $publisher = Publisher::where('deleted_at',null)->get();
+        $data = Books::find($id);
+        // return $data;
+        return view('books.ajax-examplar-books-edit', compact('data','category','locker'));
+    }
     public function booksEditExecute(Request $request, $examplar){
         $data = Books::where('examplar', $examplar)->first();
         if($request->hasFile('link_pdf')){

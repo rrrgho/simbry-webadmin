@@ -336,7 +336,7 @@
                 { data: 'code_of_book', name: 'code_of_book'},
                 { data: 'call_number', name: 'call_number'},
                 { data: 'examplar', name: 'examplar'},
-                { data: 'category_relation.name', name: 'category_relation.name'},
+                { data: 'category', name: 'category'},
                 { data: 'locker', name: 'locker'},
                 { data: 'action', name: 'action'},
                 { data: null, "searchable": false, defaultContent:

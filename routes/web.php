@@ -46,7 +46,6 @@ Route::middleware('cors')->group(function(){
     Route::get('socket.io',[AuthController::class, 'Redis']);
 });
 // Route Midleware Admin
-
 Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('/', [DashboardController::class, 'adminHome'])->name('main')->middleware('admin');
     Route::get('change-password', [SettingsController::class, 'changePassword'])->name('change-password');
@@ -154,10 +153,11 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('books-datatable-examplar', [BooksController::class, 'booksDatatableExamplar'])->name('books-datatable-examplar');
         Route::get('books-detail/{examplar}', [BooksController::class, 'booksDetail'])->name('book-detail');
         Route::get('book-qr/{id}', [BooksController::class, 'bookQrDetail'])->name('qrcode');
-        Route::post('books-delete', [BooksController::class, 'booksDelete'])->name('book-delete');
+        Route::get('books-delete/{id}', [BooksController::class, 'booksDelete'])->name('book-delete');
         Route::post('books-duplicate', [BooksController::class, 'booksDuplicate'])->name('duplicate-book');
-        // Route::get('books-edit/{examplar}', [BooksController::class, 'booksEdit'])->name('books-edit');
+        Route::get('books-edit/{id}', [BooksController::class, 'booksEdit'])->name('books-edit');
         Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
+        Route::get('books-examplar-datatable/{examplar}',[BooksController::class,'BooksExamplarDatatable'])->name('books-examplar-datatable');
         Route::get('books-qr', [BooksController::class, 'booksQR'])->name('books-qr');
 
         // Print QR
