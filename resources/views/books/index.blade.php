@@ -99,7 +99,7 @@
                                 <th>Kode Buku</th>
                                 <th>Nomor Panggil</th>
                                 <th>Nomor Examplar</th>
-                                <th>Kategori</th>
+                                {{-- <th>Kategori</th> --}}
                                 <th>Loker</th>
                                 <th>Action</th>
                                 <th>List QR</th>
@@ -328,15 +328,15 @@
                 url :'{{route('books-datatable')}}',
             },
             columns: [
-                // { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'id', name: 'id'},
+                {data: 'DT_RowIndex', searchable: false, orderable: false},
+                // { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},
                 { data: 'book_number', name: 'book_number'},
                 { data: 'no_panggil', name: 'no_panggil'},
                 { data: 'code_of_book', name: 'code_of_book'},
                 { data: 'call_number', name: 'call_number'},
                 { data: 'examplar', name: 'examplar'},
-                { data: 'category', name: 'category'},
+                // { data: 'category', name: 'category'},
                 { data: 'locker', name: 'locker'},
                 { data: 'action', name: 'action'},
                 { data: null, "searchable": false, defaultContent:
@@ -373,7 +373,6 @@
             "processing": true,
             "serverSide": true,
         });
-
 
         $('#data-buku tbody').on('click', '#detail', function(){
             if(hasListed.length !== 50){

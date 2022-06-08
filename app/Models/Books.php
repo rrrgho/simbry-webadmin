@@ -11,7 +11,7 @@ class Books extends Model
     protected $table = "book";
     protected $guarded = [];
     // protected $hidden = ['category_relation','locker_relation','publisher_relation'];
-    protected $hidden = ['sub_category','category_relation','locker_relation'];
+    protected $hidden = ['category_relation','locker_relation','publisher_relation'];
     protected $appends = ['category','locker'];
     public function category_relation(){
         return $this->belongsTo(BooksCategory::class, 'category_id');
@@ -30,7 +30,7 @@ class Books extends Model
     public function publisher_relation(){
         return $this->belongsTo(Publisher::class, 'publisher_id');
     }
-    // public function getPublisherAttribute(){
-    //     return $this->publisher_relation->name ?? '-';
-    // }
+    public function getPublisherAttribute(){
+        return $this->publisher_relation->name ?? '-';
+    }
 }

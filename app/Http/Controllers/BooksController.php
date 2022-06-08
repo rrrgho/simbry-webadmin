@@ -212,10 +212,10 @@ class BooksController extends Controller
         ->make(true);
     }
     public function booksDatatable(){
-        $data = Books::with(['category_relation','locker_relation','publisher_relation'])->where('deleted_at',null)->orderBy('created_at','DESC')->get();
+        $data = Books::with(['category_relation','locker_relation','publisher_relation'])->where('deleted_at',null)->orderBy('created_at','DESC');
         // return $data;
-        // return Datatables::eloquent($data)
-        return Datatables::of($data)
+        return Datatables::eloquent($data)
+        // return Datatables::of($data)
         ->addColumn('action', function($data){
 
             $edit = '<a href="'.route('book-detail', [$data['examplar']]).'" class="btn btn-info p-1 text-white" id="btn-edit"> <i class="fa fa-sign-out"> </i> </a>';
