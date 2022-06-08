@@ -328,8 +328,8 @@
                 url :'{{route('books-datatable')}}',
             },
             columns: [
-                {data: 'DT_RowIndex', searchable: false, orderable: false},
-                // { data: 'id', name: 'id'},
+                // {data: 'DT_RowIndex', searchable: false, orderable: false},
+                { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},
                 { data: 'book_number', name: 'book_number'},
                 { data: 'no_panggil', name: 'no_panggil'},
