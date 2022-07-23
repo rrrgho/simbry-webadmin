@@ -156,7 +156,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
         Route::get('books-delete/{id}', [BooksController::class, 'booksDelete'])->name('book-delete');
         Route::post('books-duplicate', [BooksController::class, 'booksDuplicate'])->name('duplicate-book');
         Route::get('books-edit/{id}', [BooksController::class, 'booksEdit'])->name('books-edit');
-        Route::post('/{examplar}/edit-books', [BooksController::class, 'booksEditExecute']);
+        Route::post('/{id}/edit-books', [BooksController::class, 'booksEditExecute']);
         Route::get('books-examplar-datatable/{examplar}',[BooksController::class,'BooksExamplarDatatable'])->name('books-examplar-datatable');
         Route::get('books-qr', [BooksController::class, 'booksQR'])->name('books-qr');
 

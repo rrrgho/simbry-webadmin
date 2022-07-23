@@ -56,7 +56,7 @@ class BooksController extends Controller
             // $resize->save($file->getClientOriginalName());
             $pathCover = asset('book-images/'.$pfd.'BIMG-'.$file->getClientOriginalName());
         }
-       
+
         $insert = EBooks::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -376,8 +376,8 @@ class BooksController extends Controller
         // return $data;
         return view('books.ajax-examplar-books-edit', compact('data','category','locker'));
     }
-    public function booksEditExecute(Request $request, $examplar){
-        $data = Books::where('examplar', $examplar)->first();
+    public function booksEditExecute(Request $request, $id){
+        $data = Books::where('id', $id)->first();
         if($request->hasFile('link_pdf')){
             $file = $request->file('link_pdf');
             $fileName = $file->getClientOriginalName();
