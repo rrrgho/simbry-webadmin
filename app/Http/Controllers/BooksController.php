@@ -394,9 +394,9 @@ class BooksController extends Controller
             $resize->resize(300,300);
             if (!in_array($request->file('cover')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
             // $resize->move('book-images/',$queue_copy.'BIMG-'.$file->getClientOriginalName());
-            $resize->save(public_path('book-images/'.$examplar.'BIMG-'.$file->getClientOriginalName()));
+            $resize->save(public_path('book-images/'.$id.'BIMG-'.$file->getClientOriginalName()));
             // $resize->save($file->getClientOriginalName());
-            $pathCover = asset('book-images/'.$examplar.'BIMG-'.$file->getClientOriginalName());
+            $pathCover = asset('book-images/'.$id.'BIMG-'.$file->getClientOriginalName());
         }
         if(!$request->all())
             return view('books.book-detail', compact('data','books','item','copy','redy'));
