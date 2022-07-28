@@ -76,7 +76,6 @@
     <div class="col-md-12" id="qrWrapper">
 
     </div>
-
     <div class="col-md-12 noPrint">
         <div class="card">
             <div class="card-header bg-light">
@@ -114,7 +113,7 @@
 
 
 {{-- Modal Add Buku --}}
-<div class="modal fade bd-example-modal-lg noPrint" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-example-modal-lg noPrint" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -166,7 +165,7 @@
                             <div class="col-6 mt-3">
                                 @if($publisher->count())
                                 <label for="">Pilih Penerbit : </label>
-                                <select required class="form-control" style="width: 100%;" name="publisher_id">
+                                <select required class="form-control" style="width: 100%;" name="publisher_id" id="publisher">
                                     <option value="" hidden>Pilih Penerbit</option>
                                     @foreach($publisher as $item)
                                         <option value="{{ $item['id'] }}">
@@ -188,7 +187,7 @@
                             <div class="col-6 mt-3">
                                 @if($locker->count())
                                     <label for="">Pilih Loker : </label>
-                                    <select required class="form-control" style="width: 100%" name="locker_id">
+                                    <select required class="form-control" style="width: 100%" name="locker_id" id="locker">
                                         <option value="" hidden>Pilih Loker</option>
                                         @foreach($locker as $item)
                                         <option value="{{ $item['id'] }}">
@@ -292,6 +291,9 @@
                 $('#sub_value').val(data.id_sub);
             })
         })
+        $('#category').select2()
+        $('#publisher').select2()
+        $('#locker').select2()
     });
     let callEditComponent = false;
     let editBooksId;
@@ -361,7 +363,7 @@
                 }
             ],
 
-            dom: 'Bfrtip',  
+            dom: 'Bfrtip',
             buttons: [
                 {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                 {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},

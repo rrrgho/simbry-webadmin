@@ -35,7 +35,7 @@
                 <span class="sidebar-normal">{{ __('Data Buku') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'e-books' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'E-Books' ? ' active' : '' }}">
               <a class="nav-link" href="{{route('e-books')}}">
                 <span class="sidebar-mini"> - </span>
                 <span class="sidebar-normal">{{ __('E-Books') }} </span>

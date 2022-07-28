@@ -39,6 +39,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
+                            @if (!$item->user->deleted_at)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td class="text-center">{{ $item->user->name }}</td>
@@ -48,6 +49,7 @@
                                 <td class="text-center">{{ $item->created_at }}</td>
                                 <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdOrder('{{ $item['id'] }}')" data-target="#editPeminjaman"><i class="fa fa-check"></i></button></td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>

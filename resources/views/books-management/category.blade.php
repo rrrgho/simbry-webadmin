@@ -44,7 +44,7 @@
                         <div class="form-group">
                             @if($sub_category->count())
                             <label>Pilih Sub Kategori : </label><br>
-                            <select required class="form-control" style="width: 100%" name="sub_category">
+                            <select required class="form-control" style="width: 100%" name="sub_category" id="sub_category">
                                 <option value="" hidden>Pilih Sub Kategori</option>
                                 @foreach($sub_category as $item)
                                     <option value="{{ $item['id'] }}">
@@ -90,6 +90,7 @@
 @endsection
 @section('script')
     <script>
+        $('#sub_category').select2()
         // Datatable
         $(function(){
             $('#data-kategori').DataTable({

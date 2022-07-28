@@ -91,7 +91,7 @@
                             <div class="col-6 mt-3">
                                 @if($category->count())
                                 <label>Pilih Kategori : </label><br>
-                                <select required class="form-control" style="width: 100%" name="category_id">
+                                <select required class="form-control" style="width: 100%" name="category_id" id="category">
                                     <option value="" hidden>Pilih Kategori</option>
                                     @foreach($category as $item)
                                         <option value="{{ $item['id'] }}">
@@ -113,7 +113,7 @@
                             <div class="col-6 mt-3">
                                 @if($publisher->count())
                                 <label for="">Pilih Penerbit : </label>
-                                <select required class="form-control" style="width: 100%;" name="publisher_id">
+                                <select required class="form-control" style="width: 100%;" name="publisher_id" id="publisher">
                                     <option value="" hidden>Pilih Penerbit</option>
                                     @foreach($publisher as $item)
                                         <option value="{{ $item['id'] }}">
@@ -175,8 +175,9 @@
     </div>
 </div>
 {{-- Modal Edit Buku --}}
-<div class="modal fade" id="editEbooks" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div  class="modal fade bd-example-modal-lg noPrint" id="editEbooks" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog lg">
     <div class="modal-content" id="box_edit_ebooks">
     </div>
     </div>
@@ -185,6 +186,8 @@
 @endsection
 @section('script')
 <script>
+    $('#category').select2()
+    $('#publisher').select2()
     $( function() {
         $('#buying_year').datepicker();
     } );

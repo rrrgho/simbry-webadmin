@@ -32,6 +32,19 @@ class OrderController extends Controller
         }
         return response()->json(['error' => true, 'message' => 'tidak ada data'], 200);
     }
+    public function CheckBook(Request $request){
+        $validasi = Validator::make($request->all(),[
+            'data_book' => 'required'
+        ]);
+        if($validasi->fails()){
+            return response()->json(['error' => true, 'message' => $validasi->errors()->first()], 200);
+        }
+        $book = Books::where('name', 'like', '%' . $request->data_book . '%')->orderBy('created_at','DESC')->get();
+        if($book){
+            return response()->json(['error' => false, 'message' => 'Success', 'data' => $book], 200);
+        }
+        return response()->json(['error' => true, 'message' => 'tidak ada data'], 200);
+    }
     public function pemulangan(Request $request)
     {
         $data = User::has('order')->get();
@@ -97,7 +110,7 @@ class OrderController extends Controller
                 'status' => true,
                 'message' => 'Guru Sudah Memulangkan Buku'
             ]);
-            
+
         }else{
             return redirect()->back()->with('success', [
                 'status' => true,
@@ -123,7 +136,11 @@ class OrderController extends Controller
         if($late){
             return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
         }
-        $book_id = Books::select('id')->whereRaw("REPLACE(book_number,'-','') = ?",[$validated['book_number']])->first();
+        // $book_id = Books::select('id')->whereRaw("REPLACE(book_number,'-','') = ?",[$validated['book_number']])->first();
+        $book_id = Books::select('id')->where('book_number',$validated['book_number'])->first();
+        if (!$book_id) {
+            return response()->json(['error' => true, 'message' => 'Book not found!'], 200);
+        }
         $userType = User::find($validated['user_id'])->user_type_id;
         $unfinishedOrder = BooksOrder::where('user_id', User::find($validated['user_id'])->id)->where('status', '<>', 'finished')->count();
         if (($userType == 1 && $unfinishedOrder > 1) || ($userType == 2 && $unfinishedOrder > 2))  {
@@ -131,7 +148,6 @@ class OrderController extends Controller
         }
 
         $data = Books::find($book_id);
-
         if (!$data[0]['ready']) {
             return response()->json(['error' => true, 'message' => 'Data not found!'], 200);
         }
@@ -193,6 +209,7 @@ class OrderController extends Controller
             ['deleted_at',null],
             ['status','PENDING'],
         ])->get();
+        // return $data;
         return view('peminjaman-masuk.index', compact('data'));
     }
     public function approved(Request $request){

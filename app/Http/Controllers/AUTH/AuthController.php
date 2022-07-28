@@ -16,35 +16,39 @@ class AuthController extends Controller
 {
     use AuthenticatesUsers;
     protected $redirectTo = '/home';
-    public function Login (Request $request){
+    public function LoginAuth(Request $request){
+        $data = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
         if(!$request->all())
-            return view('auth.login');
+        {
+            return view('login');
+        }
         else{
-            $rules = [
-                'user_number'=> 'required|user_number',
-                'password'   => 'required|string'
-            ];
-            $data= [
-                'user_number'  => $request->input('username'),
-                'password'  => $request->input('password'),
+            $data = [
+                'user_number' => $request->input('username'),
+                'password' => $request->input('password'),
             ];
             Auth::attempt($data);
-            if (Auth::check()) {
+            if(Auth::check())
+            {
                 if(Auth()->user()->user_type_id == 3){
                     return redirect()->route('main');
                 }
                 else{
                     return 'ANDA TIDAK MEMEILIK AKSES KE HALAMAN ADMIN!!!!';
                 }
-    
-            } else { // false
-    
-                //Login Fail
+            }else{
                 return redirect(route('login'))->with('success' , 'Username Dan Password Salah' );
             }
         }
-        
-        
+    }
+    public function Login (Request $request){
+        if(Auth::check()){
+            return redirect(route('main'));
+        }
+        return view('auth.login');
     }
     public function Logout (){
         Session::flush();

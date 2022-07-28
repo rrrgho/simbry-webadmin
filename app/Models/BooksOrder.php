@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Hashids;
 class BooksOrder extends Model
 {
     use HasFactory;
@@ -24,7 +25,7 @@ class BooksOrder extends Model
         return $this->book_relation ?? '-';
     }
     public function user_relation(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id')->withTrashed();
     }
     public function getUserAttribute(){
         return $this->user_relation ?? '-';

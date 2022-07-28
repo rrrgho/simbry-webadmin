@@ -1,5 +1,6 @@
 let user_number;
 let book_number = $('#book_number').val();
+let data_book;
 $('#btn-check-user').click(function(){
     $.ajax({
         url: $('#route-check').val(),
@@ -20,12 +21,35 @@ $('#btn-check-user').click(function(){
         }
     })
 })
-
+$('#btn-check-book').click(function(){
+    $.ajax({
+        url: $('#route-check-book').val(),
+        type: "POST",
+        headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+        data: {
+            data_book : $('#data_book_check').val()
+        },
+        success:function(response){
+            if(response.error == false){
+                $.each(response.data,function(i,item){
+                    var newOption = new Option((response.data[i].name + " - "+ response.data[i].book_number), response.data[i].book_number, false, false);
+                    $('#book_number').append(newOption).trigger('change');
+                })
+            }else{
+                var newOption = new Option("Buku Tidak ada !!",null, false, false);
+                    $('#book_number').append(newOption).trigger('change');
+            }
+        }
+    })
+})
+$('#book_number').on('change',function(){
+    book_number = this.value
+})
 $('#form-pinjam-buku').submit(function(event){
     event.preventDefault()
     var formData = new FormData(this)
     formData.append('user_id', user_number)
-    formData.append('book_number', $('#book_number').val())
+    formData.append('book_number', book_number)
     $.ajax({
         url: $('#route-pinjam').val(),
         type: 'POST', cache: false, contentType: false, processData: false,

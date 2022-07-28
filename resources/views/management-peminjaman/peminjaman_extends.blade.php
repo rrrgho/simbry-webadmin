@@ -40,14 +40,16 @@
                     </thead>
                     <tbody>
                         @foreach ($data as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->user->name }}</td>
-                                {{-- <td>{{ $item->user->class_relation->name }}</td> --}}
-                                <td>{{ $item->book->name }}</td>
-                                <td>{{ $item->jumlah }}</td>
-                                <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdOrder('{{ $item['id'] }}')" data-target="#editPeminjaman"><i class="fa fa-check"></i></button></td>
-                            </tr>
+                        @if (!$item->user->deleted_at)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->user->name }}</td>
+                            {{-- <td>{{ $item->user->class_relation->name }}</td> --}}
+                            <td>{{ $item->book->name }}</td>
+                            <td>{{ $item->jumlah }}</td>
+                            <td class="text-center"><button type="submit" class="btn-primary" data-toggle="modal" onclick="setIdOrder('{{ $item['id'] }}')" data-target="#editPeminjaman"><i class="fa fa-check"></i></button></td>
+                        </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

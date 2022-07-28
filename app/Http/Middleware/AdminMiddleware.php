@@ -19,15 +19,8 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // if (!Session::get('admin')) {
-        //     return redirect(route('login'));
-        // }
-        // return $next($request);
-        // if(Auth::check() && Auth::user()->user_type_id == 2){
-        //     return $next($request);
-        // }
-        // return redirect('home')->with('error',"You don't have admin access.");
-        if(auth()->user()->user_type_id == 3){
+
+        if(Auth::check() && auth()->user()->user_type_id == 3){
             return $next($request);
         }
         return redirect('login')->with('error',"You don't have admin access.");

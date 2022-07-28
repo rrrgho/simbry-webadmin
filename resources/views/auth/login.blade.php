@@ -65,7 +65,7 @@ form{
 }
 .form__input:focus{
 	border-bottom-color: #008080;
-	box-shadow: 0 0 5px rgba(0,80,80,.4); 
+	box-shadow: 0 0 5px rgba(0,80,80,.4);
 	border-radius: 4px;
 }
 .btn{
@@ -112,7 +112,7 @@ form{
 							</div>
 						</div>
 						@endif
-						<form action="{{ route('login') }}" class="form-group" method="POST">@csrf
+						<form action="{{ route('login-auth') }}" class="form-group" method="POST">@csrf
 							<div class="row">
 								<input type="text" name="username" id="username" class="form__input" placeholder="Username">
 							</div>
@@ -132,10 +132,10 @@ form{
 			</div>
 		</div>
   </div>
-  
+
   <script src="{{asset('out-template/jquery.js')}}"></script>
 </body>
 <script>
-  
+
 </script>
 </html>

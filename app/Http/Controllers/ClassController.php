@@ -19,6 +19,23 @@ use Illuminate\Support\Facades\Hash;
 
 class ClassController extends Controller
 {
+    public function deleteClass(Request $request){
+        $check_data = User::where('class_id',$request->class_id)->where('deleted_at',null)->first();
+        if(!$check_data){
+            $query = ClassModel::find($request->class_id);
+            $query->delete();
+            return redirect()->back()->with('success', [
+                'status' => false,
+                'message' => 'Kelas berhasil di hapus'
+            ]);
+        }else{
+            return redirect()->back()->with('failed', [
+                'status' => false,
+                'message' => 'Kelas gagal di hapus, check kembali kelas apakah masik ada siswa yang aktif atau tidak'
+            ]);
+        }
+        // dd($request->class_id);
+    }
     public function index(){
         $teacher = User::where('deleted_at',null)->where('user_type_id',2)->get();
         $unit = Unit::all();
@@ -165,12 +182,16 @@ class ClassController extends Controller
         $requestData['user_type_id'] = 1;
         $requestData['password'] = bcrypt($request->password);
         $requestData['unit'] = $class_user;
+        $check_student = User::where('user_number',$requestData['user_number'])->first();
+        if($check_student){
+            return response()->json(['error' => true, 'message' => 'NIS Sudah terdaftar mohon di check kembali!!'], 200);
+        }
         $insert = User::create($requestData);
         if($insert)
             return response()->json(['error' => false, 'message' => 'Berhasil menambahkan Siswa '.$request->name], 200);
         return response()->json(['error' => true, 'message' => 'Gagal menambahkan kelas'], 200);
     }
-    public function editStudent(Request $request){  
+    public function editStudent(Request $request){
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->class_id = $request->class_id;
@@ -186,11 +207,13 @@ class ClassController extends Controller
         return response()->json(['error' => true, 'message' => 'Gagal menghapus data siswa'], 200);
     }
     public function upgradeSiswa(Request $request){
+        // dd($request->class_id);
         $class = ClassModel::where('deleted_at',null)->get();
         // dd($class);
         if(!$request->all())
             return view('class-management.upgrade-siswa', compact('class'));
         $data = User::where('class_id',$request->class_id)->where('deleted_at',null)->get();
+        // return $data;
         return view('class-management.upgrade-siswa', compact('class','data'));
     }
     public function moveClass(Request $request){
@@ -210,9 +233,11 @@ class ClassController extends Controller
         foreach($data as $item){
             $query = User::find($item);
             // $query->class_id = $request->class_id;
+            // $query->deleted_at = Carbon::now('Asia/Jakarta');
+            // $query->save();
             $query->delete();
         }
-        return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
+        return redirect(route('main-upgrade-siswa'))->with('success','Berhasil menghapus siswa, silahkan liat data siswa di menu data siswa');
     }
 
 

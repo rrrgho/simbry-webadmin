@@ -35,7 +35,6 @@
 
     {{-- Select 2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('css')
     <style>
         .dataTables_filter {
@@ -125,7 +124,7 @@
     @include('layouts.page_templates.auth', ['breadcrumbs' => $breadcrumbs ?? false, 'title' =>  $title ?? false, 'subTitle' => $subTitle ?? false, 'activeMainPage' => $activeMainPage ?? false, 'activePage' => $activePage ?? false])
 
     {{-- Modal Peminjaman --}}
-    <div class="modal fade" id="peminjaman" tabindex="-1" role="dialog" aria-labelledby="peminjamanLabel"
+    <div class="modal fade" id="peminjaman" role="dialog" aria-labelledby="peminjamanLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -152,12 +151,38 @@
                                 Data</button>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-success d-none text-white" id="book-found">
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <input type="hidden" id="route-check-book" value="{{ route('check-book') }}">
+                            <input type="text" id="data_book_check" class="form-control"
+                                placeholder="Nama Buku" aria-label="Recipient's username" required
+                                aria-describedby="button-addon2">
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-outline-secondary" type="button" id="btn-check-book">Cari Buku</button>
+                        </div>
+                    </div>
                     <form id="form-pinjam-buku">@csrf
-                        <div class="row mt-3">
+                        {{-- <div class="row mt-3">
                             <input type="hidden" id="route-pinjam" value="{{ route('new-order') }}">
                             <div class="col-12">
                                 <label for="">Nomor induk Buku</label>
                                 <input type="text" name="book_number" id="book_number" class="form-control">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success btn-block" id="btn-pinjam"
+                                    disabled>Proses</button>
+                            </div>
+                        </div> --}}
+                        <div class="row mt-3">
+                            <input type="hidden" id="route-pinjam" value="{{ route('new-order') }}">
+                            <div class="col-12">
+                                <label for="">Pilih Buku</label>
+                                <select class="form-control" style="width: 100%" name="book_number" id="book_number">
+                                </select>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success btn-block" id="btn-pinjam"
                                     disabled>Proses</button>
@@ -224,9 +249,9 @@
 
     {{-- Select 2 --}}
     <script src="{{ asset('js/peminjaman.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-
+        $('#book_number').select2()
         setTimeout(() => {
             $('#flash-message').hide();
         }, 2000)
@@ -412,7 +437,7 @@
             }
         }
         $("#imgInp").change(function() {
-        readURL(this);
+            readURL(this);
         });
     </script>
     @yield('script')

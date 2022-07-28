@@ -3,15 +3,15 @@
     [ 'page' => 'Manajemen Kelas', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activeMainPage' => 'class-management', 
-  'activePage' => 'class-data', 
+  'activeMainPage' => 'class-management',
+  'activePage' => 'class-data',
   'title' => __('Manajemen Kelas'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
 
 @section('title')
     <div class="row">
-        <div class="col-md-12">            
+        <div class="col-md-12">
             <div class="col border-bottom pl-0 pb-3">
                 <h3>Manajemen Pengguna dan Kelas</h3>
                 <p>Anda dapat menambah, mengedit atau menghapus data disini !</p>
@@ -74,7 +74,7 @@
             </button>
             </div>
             <div class="modal-body" id="add-student-box">
-                
+
             </div>
             <div class="modal-footer">
                 <div class="row mt-4">
@@ -117,7 +117,7 @@
                             </form>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -147,7 +147,7 @@
                         alert('aku')
                     }
                     // Edit Student Button Modal
-                    
+
                 }
             })
         }
@@ -170,11 +170,16 @@
                             url: "{{ route('add-student') }}",
                             data: formData,
                             success: (response) => {
-                                $('#btn-tambah-siswa').text('Tambah Kelas').attr('disabled', false)
-                                infoSuccess(response.message)
-                                getAddStudentComponent();
-                                clearInput();
-                                getStudentDatatableComponent();
+                                if(response.error == true){
+                                    infoFailed(response.message)
+                                    $('#btn-tambah-siswa').text('Tambah Kelas').attr('disabled', false)
+                                }else{
+                                    $('#btn-tambah-siswa').text('Tambah Kelas').attr('disabled', false)
+                                    infoSuccess(response.message)
+                                    getAddStudentComponent();
+                                    clearInput();
+                                    getStudentDatatableComponent();
+                                }
                             },
                         })
                     })
@@ -238,7 +243,7 @@
                             getStudentDatatableComponent()
                         }
                     })
-                    
+
                 }
                 });
         }
@@ -278,22 +283,22 @@
                         { data: 'action', name: 'action', 'render': function(data){
                             return data
                         }},
-                        
+
                     ],
                     language: {
                     searchPlaceholder: 'Search Siswa..',
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
                     destroy: true
-                    },   
+                    },
                     columnDefs:[
                         {
                             "targets" : [1,2,3,4],
                             "className": "text-center"
                         },
-                    ],            
-                    
-                    dom: 'Bfrtip',  
+                    ],
+
+                    dom: 'Bfrtip',
                     buttons: [
                         {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                         {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -302,7 +307,7 @@
                     ],
                     "bDestroy": true,
                     "processing": true,
-                    "serverSide": true, 
+                    "serverSide": true,
                 });
             });
         }

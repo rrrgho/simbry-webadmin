@@ -20,7 +20,7 @@
                 <div class="col-6 mt-3">
                     @if($category->count())
                     <label>Pilih Kategori : </label><br>
-                    <select required class="form-control" style="width: 100%" name="category_id">
+                    <select required class="form-control" style="width: 100%" name="category_id" id="category">
                         <option value="" hidden>Pilih Kategori</option>
                         @foreach($category as $item)
                             <option value="{{ $item['id'] }}">
@@ -42,7 +42,7 @@
                 <div class="col-6 mt-3">
                     @if($publisher->count())
                     <label for="">Pilih Penerbit : </label>
-                    <select required class="form-control" style="width: 100%;" name="publisher_id">
+                    <select required class="form-control" style="width: 100%;" name="publisher_id" id="publisher">
                         <option value="" hidden>Pilih Penerbit</option>
                         @foreach($publisher as $item)
                             <option value="{{ $item['id'] }}">

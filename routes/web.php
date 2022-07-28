@@ -38,7 +38,7 @@ use App\Http\Controllers\SettingsController;
 // Without Midleware Admin
 Route::get('welcome',[BooksStudentController::class, 'welcome'])->name('welcome');
 Route::get('login', [AuthController::class, 'Login'])->name('login');
-Route::post('login', [AuthController::class, 'Login'])->name('login');
+Route::post('login-auth', [AuthController::class, 'LoginAuth'])->name('login-auth');
 Route::get('logout', [AuthController::class, 'Logout'])->name('logout');
 
 Route::middleware('cors')->group(function(){
@@ -54,6 +54,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::prefix('class-management')->group(function(){
         // Class Data Student
         Route::get('/student', [ClassController::class, 'index'])->name('main-class-management');
+        Route::post('delete-class',[ClassController::class,'deleteClass'])->name('delete-class');
         Route::get('upgrade-siswa', [ClassController::class, 'upgradeSiswa'])->name('main-upgrade-siswa');
         Route::post('delete-siswa', [ClassController::class, 'deleteSiswa'])->name('main-delete-siswa');
         Route::post('upgrade-siswa', [ClassController::class, 'upgradeSiswa'])->name('main-upgrade-siswa');
@@ -179,6 +180,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::get('get-book-user',[OrderController::class, 'getBookByUserId'])->name('main-getBookByUserId-buku');
     Route::prefix('order')->group(function(){
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
+        Route::post('check-book', [OrderController::class, 'CheckBook'])->name('check-book');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
         Route::post('pemulangan', [OrderController::class, 'pemulangan'])->name('pemulangan');
     });

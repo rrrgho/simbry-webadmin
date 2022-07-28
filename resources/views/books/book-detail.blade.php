@@ -117,7 +117,7 @@
 
 
 {{-- Modal Add Buku --}}
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -135,7 +135,7 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Pilih Penerbit : </label>
-                                <select required class="form-control" style="width: 100%;" name="publisher_id">
+                                <select required class="form-control" style="width: 100%;" name="publisher_id" id="publisher">
                                     @foreach($publisher as $item)
                                         <option value="{{ $item['id'] }}" @if($data[0]['publisher_id'] == $item['id']) selected @endif>{{ $item['name'] }}</option>
                                     @endforeach
@@ -147,7 +147,7 @@
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Pilih Loker : </label>
-                                <select required class="form-control" style="width: 100%" name="locker_id">
+                                <select required class="form-control" style="width: 100%" name="locker_id" id="locker">
                                     <option value="" hidden>Pilih Loker</option>
                                     @foreach($locker as $item)
                                         <option @if($data[0]['locker_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
@@ -166,10 +166,6 @@
                             <div class="col-6 mt-3">
                                 <label for="">Nomor Panggil : </label>
                                 <input type="text" class="form-control" value="" name="no_panggil" required>
-                            </div>
-                            <div class="col-6 mt-4">
-                                <label for="pfgInp">Upload Pdf</label>
-                                <input type='file' name='link_pdf' />
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Tahun Penerbit : </label>
@@ -206,6 +202,8 @@
 @endsection
 @section('script')
     <script>
+        $('#publisher').select2()
+        $('#locker').select2()
         $('#buying_year, #publish_year').datepicker({
             changeMonth: true,
             changeYear: true
@@ -244,7 +242,7 @@
                 }
             ],
 
-            dom: 'Bfrtip',  
+            dom: 'Bfrtip',
             buttons: [
                 {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                 {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},

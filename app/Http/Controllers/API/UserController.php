@@ -95,7 +95,7 @@ class UserController extends Controller
     public function Login(Request $request)
     {
         // $user = User::where('user_number',$request->user_number)->first();
-        $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$request->user_number])->first();
+        $user = User::where('deleted_at',null)->whereRaw("REPLACE(user_number,'.','') = ?",[$request->user_number])->first();
         // dd($user);
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
