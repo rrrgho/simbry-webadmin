@@ -7,7 +7,7 @@
             <input type="text" name="user_number" required placeholder="Nomor Induk" class="form-control">
         </div>
         <div class="col-6 mt-3">
-            <select class="form-control" name="class_id" required data-style="btn btn-link" id="exampleFormControlSelect1">
+            <select class="form-control" name="class_id" required style="width: 100%" data-style="btn btn-link" id="exampleSelectClass">
                 <option value="" hidden>Pilih Kelas</option>
                 @foreach ($class as $item)
                     <option value="{{$item['id']}}">{{$item['name']}}</option>
@@ -22,3 +22,8 @@
         </div>
     </div>
 </form>
+<script>
+    $('#exampleSelectClass').select2({
+        dropdownParent: $('#addStudent')
+    })
+</script>

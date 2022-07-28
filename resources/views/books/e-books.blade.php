@@ -69,7 +69,7 @@
 
 
 {{-- Modal Add Buku --}}
-<div class="modal fade bd-example-modal-lg noPrint" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div id="MyModalAddEBooks" class="modal fade bd-example-modal-lg noPrint" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -175,7 +175,7 @@
     </div>
 </div>
 {{-- Modal Edit Buku --}}
-<div  class="modal fade bd-example-modal-lg noPrint" id="editEbooks" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-example-modal-lg noPrint" id="editEbooks" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
 aria-hidden="true">
     <div class="modal-dialog lg">
     <div class="modal-content" id="box_edit_ebooks">
@@ -186,8 +186,12 @@ aria-hidden="true">
 @endsection
 @section('script')
 <script>
-    $('#category').select2()
-    $('#publisher').select2()
+    $('#category').select2({
+        dropdownParent: $('#MyModalAddEBooks')
+    })
+    $('#publisher').select2({
+        dropdownParent: $('#MyModalAddEBooks')
+    })
     $( function() {
         $('#buying_year').datepicker();
     } );

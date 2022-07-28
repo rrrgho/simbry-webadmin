@@ -20,11 +20,11 @@
                 <div class="col-6 mt-3">
                     @if($category->count())
                     <label>Pilih Kategori : </label><br>
-                    <select required class="form-control" style="width: 100%" name="category_id" id="category">
+                    <select required class="form-control" style="width: 100%" name="category_id" id="category_ebooks_edit">
                         <option value="" hidden>Pilih Kategori</option>
                         @foreach($category as $item)
-                            <option value="{{ $item['id'] }}">
-                                {{ $item['name'] }}</option>
+                        <option @if ($data['category_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
+                            {{ $item['name'] }}</option>
                         @endforeach
                     </select>
                     @else
@@ -42,11 +42,11 @@
                 <div class="col-6 mt-3">
                     @if($publisher->count())
                     <label for="">Pilih Penerbit : </label>
-                    <select required class="form-control" style="width: 100%;" name="publisher_id" id="publisher">
+                    <select required class="form-control" style="width: 100%;" name="publisher_id" id="publisher_ebooks_edit">
                         <option value="" hidden>Pilih Penerbit</option>
                         @foreach($publisher as $item)
-                            <option value="{{ $item['id'] }}">
-                                {{ $item['name'] }}</option>
+                        <option @if ($data['publisher_id'] == $item['id']) selected @endif value="{{ $item['id'] }}">
+                            {{ $item['name'] }}</option>
                         @endforeach
                     </select>
                     @else
@@ -87,3 +87,11 @@
         <button type="submit" class="btn btn-primary">Simpan</button>
     </div>
 </form>
+<script>
+$('#category_ebooks_edit').select2({
+    dropdownParent: $('#editEbooks')
+})
+$('#publisher_ebooks_edit').select2({
+    dropdownParent: $('#editEbooks')
+})
+</script>

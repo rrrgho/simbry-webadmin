@@ -113,7 +113,7 @@
 
 
 {{-- Modal Add Buku --}}
-<div class="modal fade bd-example-modal-lg noPrint" role="dialog" aria-labelledby="myLargeModalLabel"
+<div id="MyModalAddBook" class="modal fade bd-example-modal-lg noPrint" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -291,9 +291,15 @@
                 $('#sub_value').val(data.id_sub);
             })
         })
-        $('#category').select2()
-        $('#publisher').select2()
-        $('#locker').select2()
+        $('#category').select2({
+            dropdownParent: $('#MyModalAddBook')
+        })
+        $('#publisher').select2({
+            dropdownParent: $('#MyModalAddBook')
+        })
+        $('#locker').select2({
+            dropdownParent: $('#MyModalAddBook')
+        })
     });
     let callEditComponent = false;
     let editBooksId;

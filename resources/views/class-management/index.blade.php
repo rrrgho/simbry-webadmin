@@ -80,7 +80,7 @@
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="alert alert-warning">
-                            <h5 class="text-white">Jika anda tidak menemukan kelas, silahkan tambah kelas dibawah ini</h5>
+                            <h5 class="text-black">Jika anda tidak menemukan kelas, silahkan tambah kelas dibawah ini</h5>
                             <form id="form-add-class">@csrf
                                 <div class="row">
                                     <div class="col-12 mt-3">
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-6 mt-3">
                                         @if($teacher->count())
-                                        <select required name="author_id" class="form-control select2-single">
+                                        <select required name="author_id" class="form-control select2-single" style="width: 100%" id="authorExample">
                                             <option value="" hidden>Penanggung jawab kelas</option>
                                             @foreach ($teacher as $item)
                                                 <option value="{{$item['id']}}">{{$item['name']}}</option>
@@ -128,6 +128,9 @@
 
 @section('script')
     <script>
+        $('#authorExample').select2({
+            dropdownParent: $('#addStudent')
+        })
         // Props
         let callEditComponent = false;
         let editStudentId;
