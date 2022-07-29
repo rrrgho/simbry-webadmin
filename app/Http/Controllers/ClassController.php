@@ -16,6 +16,7 @@ use App\Models\Popular;
 use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ClassController extends Controller
 {
@@ -217,7 +218,16 @@ class ClassController extends Controller
         return view('class-management.upgrade-siswa', compact('class','data'));
     }
     public function moveClass(Request $request){
-       $data = $request->user_id;
+        $validasi = Validator::make($request->all(),[
+            'user_id' => 'required'
+        ]);
+        if($validasi->fails()){
+            return redirect()->back()->with('failed', [
+                'status' => false,
+                'message' => 'Mohon pilih siswa yang ingin di pindahkan'
+            ]);
+        }
+        $data = $request->user_id;
         foreach($data as $item){
             // return $data;
             $query = User::find($item);
@@ -225,7 +235,18 @@ class ClassController extends Controller
             // dd($query);
             $query->save();
         }
-       return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
+        if($data){
+            return redirect()->back()->with('success', [
+                'status' => false,
+                'message' => 'Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa'
+            ]);
+        }else{
+            return redirect()->back()->with('failed', [
+                'status' => false,
+                'message' => 'Gagal mengupgrade siswa, silahkan liat data siswa di menu data siswa'
+            ]);
+        }
+    //    return redirect(route('main-upgrade-siswa'))->with('success','Berhasil mengupgrade siswa, silahkan liat data siswa di menu data siswa');
     }
     public function deleteSiswa(Request $request)
     {
