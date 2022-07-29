@@ -250,6 +250,15 @@ class ClassController extends Controller
     }
     public function deleteSiswa(Request $request)
     {
+        $validasi = Validator::make($request->all(),[
+            'user_id' => 'required'
+        ]);
+        if($validasi->fails()){
+            return redirect()->back()->with('failed', [
+                'status' => false,
+                'message' => 'Mohon pilih siswa yang ingin di pindahkan'
+            ]);
+        }
         $data = $request->user_id;
         foreach($data as $item){
             $query = User::find($item);
@@ -258,7 +267,18 @@ class ClassController extends Controller
             // $query->save();
             $query->delete();
         }
-        return redirect(route('main-upgrade-siswa'))->with('success','Berhasil menghapus siswa, silahkan liat data siswa di menu data siswa');
+        if($data){
+            return redirect()->back()->with('success', [
+                'status' => false,
+                'message' => 'Berhasil menghapus siswa, silahkan liat data siswa di menu data siswa'
+            ]);
+        }else{
+            return redirect()->back()->with('failed', [
+                'status' => false,
+                'message' => 'Gagal menghapus siswa, silahkan liat data siswa di menu data siswa'
+            ]);
+        }
+        // return redirect(route('main-upgrade-siswa'))->with('success','Berhasil menghapus siswa, silahkan liat data siswa di menu data siswa');
     }
 
 
