@@ -3,13 +3,13 @@
     [ 'page' => 'Manajemen Peraturan', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activePage' => 'pemulangan-buku', 
+  'activePage' => 'pemulangan-buku',
   'title' => __('Pemulangan Buku'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
 @section('title')
 <div class="row">
-    <div class="col-md-12">            
+    <div class="col-md-12">
         <div class="col border-bottom pl-0 pb-3">
             <h3>Pemulangan Buku</h3>
             <p>Anda dapat melihat Buku Peminjaman sudah harus di kembalikan!!</p>
@@ -44,11 +44,43 @@
           <div class="card-body">
           <div class="form-group">
             <label for="user-id">No Induk Siswa/ No Induk Guru</label>
-            <input type="text" name="user_number" id="user-id" class="form-control" required>
+            @if($data->count())
+                <label for="">Pilih Siswa/Guru : </label>
+                <select required class="form-control" style="width: 100%" name="user_number" id="user_number">
+                    <option value="" hidden>Pilih Siswa/Guru</option>
+                    @foreach($data as $item)
+                    <option value="{{ $item['user_number'] }}">
+                        {{ $item['name'] }} - {{ $item['user_number'] }}</option>
+                    @endforeach
+                </select>
+            @else
+                <select name="" id="" hidden required>
+                </select>
+                <div class="alert alert-warning">
+                    Data User/Guru buku tidak di temukan ! mohon masukkan data loker!!
+                </div>
+            @endif
+            {{-- <input type="text" name="user_number" id="user-id" class="form-control" required> --}}
           </div>
           <div class="form-group">
             <label for="book-id">No Induk Buku</label>
-            <input type="text" name="book_number" id="book-id" class="form-control" required>
+            @if($book->count())
+                <label for="">Pilih No Induk Buku : </label>
+                <select required class="form-control" style="width: 100%" name="book_number" id="book_number">
+                    <option value="" hidden>Pilih No Induk Buku</option>
+                    @foreach($book as $item)
+                    <option value="{{ $item['book_number'] }}">
+                        {{ $item['name'] }} - {{ $item['book_number'] }}</option>
+                    @endforeach
+                </select>
+            @else
+                <select name="" id="" hidden required>
+                </select>
+                <div class="alert alert-warning">
+                    Data User/Guru buku tidak di temukan ! mohon masukkan data loker!!
+                </div>
+            @endif
+            {{-- <input type="text" name="book_number" id="book-id" class="form-control" required> --}}
           </div>
           <div class="card-footer">
             <div class="form-group">
@@ -62,15 +94,14 @@
 @endsection
 @section('script')
     <script>
-      console.log('tes');
-      $('#select-peminjam').select2()
-      $('#select-buku-peminjam').select2();
+      $('#user_number').select2()
+      $('#book_number').select2();
       // $(document).ready(function() {
 
       // });
       $('#select-peminjam').change(function (e) {
         const userId = $(this).val()
-        
+
         $.ajax({
           url: '/get-book-user',
           data: {

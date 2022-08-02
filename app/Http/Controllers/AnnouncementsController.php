@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Announcement;
 use DataTables;
-use Dotenv\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 class AnnouncementsController extends Controller
 {
@@ -17,12 +17,23 @@ class AnnouncementsController extends Controller
     }
     public function announcement_add(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'required'
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->with('failed', [
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ]);
+        }
         if($request->hasFile('images'))
         {
             $file = $request->file('images');
             $fileName = $file->getClientOriginalName();
             $resize = Image::make($file);
-            $resize->resize(300,300);
+            $resize->resize(1200,630);
             if (!in_array($request->file('images')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
             $resize->save(public_path('announcement/'.$request->title.'BIMG-'.$file->getClientOriginalName()));;
             $pathAnnoun = asset('announcement/'.$request->title.'BIMG-'.$file->getClientOriginalName());
@@ -33,8 +44,8 @@ class AnnouncementsController extends Controller
             'images' => $pathAnnoun,
         ]);
         if($insert)
-            return redirect(route('announcements'))->with('success' , 'Berhasil menambahkan pengumuman infromasi' );
-        return redirect(route('announcements'))->with('failed', 'Gagal menambahkan pengumuman informasi');
+            return redirect()->back()->with('success', ['status' => false,'message' => 'Berhasil menambahkan pengumuman infromasi']);
+        return redirect()->back()->with('failed', ['status' => false,'message' => 'Gagal menambahkan pengumuman informasi']);
     }
     public function annountcementDatatable()
     {
@@ -66,9 +77,21 @@ class AnnouncementsController extends Controller
         $data = $request->validate([
             'name' => 'required|max:30|min:2,'
         ]);
+        if($request->hasFile('images'))
+        {
+            $file = $request->file('images');
+            $fileName = $file->getClientOriginalName();
+            $resize = Image::make($file);
+            $resize->resize(1200,630);
+            if (!in_array($request->file('images')->getClientOriginalExtension(), array('jpg', 'jpeg', 'png'))) return response()->json(['error' => true, 'message' => 'File type is not supported, support only JPG, JPEG and PNG !'], 200);
+            $resize->save(public_path('announcement/'.$request->title.'BIMG-'.$file->getClientOriginalName()));;
+            $pathAnnoun = asset('announcement/'.$request->title.'BIMG-'.$file->getClientOriginalName());
+        }
+        return $pathAnnoun;
         $data = Announcement::find($request->id);
         $data->name = $request->name;
         $data->description = $request->description;
+        $data->images = $pathAnnoun;
         if($data->save())
             return redirect(route('announcements'))->with('success', 'Berhasil mengubah data pengumuman' .$data['name']);
         return redirect(url('announcements'))->with('failed', 'Gagal menghapus' .$data['name']);

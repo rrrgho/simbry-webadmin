@@ -22,9 +22,38 @@
                     <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
             </div>
+            <div class="form-group">
+                <div class="col-12 mt-3">
+                    <label for="imgInp1">
+                    @if ($data['images'] == true)
+                    <input type='file' name="images" id="imgInp1" class="d-none"/>
+                    <img id="image-preview-edit" src="{{$data['images']}}" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
+                    @else
+                    <input type='file' name="images" id="imgInp1" class="d-none"/>
+                    <img id="image-preview" src="https://www.canadasoccer.com/wp-content/uploads/2019/11/no-image-default.png" style="width:100%; height:50%; cursor: pointer;" alt="your image" />
+                    @endif
+                    </label>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="submit" class="btn btn-success">Simpan</button>
     </div>
 </form>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+            $('#image-preview-edit').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+    $("#imgInp1").change(function() {
+        readURL(this);
+    });
+</script>

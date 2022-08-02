@@ -3,13 +3,13 @@
     [ 'page' => 'Manajemen Peraturan', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activePage' => 'announcement', 
+  'activePage' => 'announcement',
   'title' => __('Pengumuman'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
 @section('title')
 <div class="row">
-    <div class="col-md-12">            
+    <div class="col-md-12">
         <div class="col border-bottom pl-0 pb-3">
             <h3>Menambahkan Pengumuman Perpustakaan</h3>
             <p>Anda dapat menambahkan pengumuman!!</p>
@@ -19,13 +19,27 @@
 @endsection
 @section('content')
 <div class="container">
-  @if (session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+    @if(session('success'))
+    <div class="row pb-4">
+        <div class="col-7">
+            <div class="alert alert-success outline alert-dismissible fade show" role="alert"><i data-feather="thumbs-up"></i>
+                <p>{{session('success')['message']}}</p>
+                <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+        </div>
+    </div>
+    @endif
 
-@if (session('error'))
-  <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+    @if(session('failed'))
+    <div class="row pb-4">
+        <div class="col-7">
+            <div class="alert alert-danger outline alert-dismissible fade show" role="alert"><i data-feather="thumbs-up"></i>
+                <p>{{session('failed')['message']}}</p>
+                <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+        </div>
+    </div>
+    @endif
   <div class="row">
     <div class="col-lg-7">
       <div class="card">
@@ -96,15 +110,15 @@
           sSearch: '',
           lengthMenu: '_MENU_ items/page',
           destroy: true
-          },  
+          },
           columnDefs:[
               {
                   "targets" : [0,3,4],
                   "className": "text-center"
               },
-          ],              
-          
-          dom: 'Bfrtip',  
+          ],
+
+          dom: 'Bfrtip',
           buttons: [
               {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
               {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -113,7 +127,7 @@
           ],
           "bDestroy": true,
           "processing": true,
-          "serverSide": true, 
+          "serverSide": true,
       });
   });
   editAnnouncements = (link) => {

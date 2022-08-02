@@ -32,10 +32,12 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Nama</th>
+                            <th>Nomor Induk Siswa/Guru</th>
                             <th>Kelas</th>
                             <th>Nama Buku</th>
                             <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
+                            <th>Jumlah</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -45,6 +47,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->user->name }}</td>
+                            <td>{{ $item->user->user_number }}</td>
                             @if ($item->user->user_type_id == 2)
                                 <td>Guru</td>
                             @else
@@ -53,6 +56,7 @@
                             <td>{{ $item->book->name }}</td>
                             <td class="text-center">{{ $item->start_date }}</td>
                             <td class="text-center">{{ $item->end_date }}</td>
+                            <td class="text-center">1</td>
                             <td class="text-center"><button class="btn-danger">{{ $item->status }}</td>
                         </tr>
                         @endif

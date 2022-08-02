@@ -48,7 +48,8 @@ class OrderController extends Controller
     public function pemulangan(Request $request)
     {
         $data = User::has('order')->get();
-        return view('pemulangan.index',compact('data'));
+        $book = Books::has('order')->get();
+        return view('pemulangan.index',compact('data','book'));
     }
 
     public function savePemulangan(Request $request)
@@ -57,16 +58,17 @@ class OrderController extends Controller
             'user_number' => ['required'],
             'book_number' => ['required'],
         ]);
-        $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$data['user_number']])->first();
-        // $user = User::where('user_number', $data['user_number'])->first();
+        // return $data;
+        // $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$data['user_number']])->first();
+        $user = User::where('user_number', $data['user_number'])->first();
         if (!$user) {
             return redirect()->back()->with('success', [
                 'status' => false,
                 'message' => 'Data User tidak ada'
             ]);
         }
-        $book = Books::whereRaw("REPLACE(book_number,'-','') = ?",[$data['book_number']])->first();
-        // $book = Books::where('book_number', $data['book_number'])->first();
+        // $book = Books::whereRaw("REPLACE(book_number,'-','') = ?",[$data['book_number']])->first();
+        $book = Books::where('book_number', $data['book_number'])->first();
         if (!$book) {
             return redirect()->back()->with('success', [
                 'status' => false,

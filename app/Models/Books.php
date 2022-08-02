@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BooksOrder;
 class Books extends Model
 {
 
@@ -32,5 +33,11 @@ class Books extends Model
     }
     public function getPublisherAttribute(){
         return $this->publisher_relation->name ?? '-';
+    }
+    public function order_relation(){
+        return $this->belongsTo(BooksOrder::class, 'book_id', 'id');
+    }
+    public function order(){
+        return $this->hasMany(BooksOrder::class,'book_id','id')->where('status','APPROVED');
     }
 }

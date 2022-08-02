@@ -73,9 +73,7 @@
                 {{-- <input type="text" name="status" class="form-control" value="SUCCESS" readonly> --}}
                 <label>Pilih Status Peminjaman : </label><br>
                 <select required class="form-control" style="width: 100%" name="status">
-                    @foreach ($data as $item)
-                        <option value="{{ $item->jumlah }}">APPROVED</option>
-                    @endforeach
+                    <option>APPROVED</option>
                 </select>
             </div>
             <div class="modal-footer">
