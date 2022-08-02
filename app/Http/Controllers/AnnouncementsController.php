@@ -93,14 +93,15 @@ class AnnouncementsController extends Controller
         $data->description = $request->description;
         $data->images = $pathAnnoun;
         if($data->save())
-            return redirect(route('announcements'))->with('success', 'Berhasil mengubah data pengumuman' .$data['name']);
-        return redirect(url('announcements'))->with('failed', 'Gagal menghapus' .$data['name']);
+            return redirect()->back()->with('success', ['status' => false,'message' => 'Berhasil mengubah data pengumuman' .$data['name']]);
+        return redirect()->back()->with('failed', ['status' => false,'message' => 'Gagal menghapus' .$data['name']]);
+
     }
     public function announcementDelete($id)
     {
         $data = Announcement::find($id);
         if($data->delete());
-            return redirect(route('announcements'))->with('success', 'Berhasil menghapus' .$data['name']);
-        return redirect(url('announcements'))->with('failed', 'Gagal menghapus' .$data['name']);
+            return redirect()->back()->with('success', ['status' => false,'message' => 'Gagal menghapus' .$data['name']]);
+        return redirect()->back()->with('failed', ['status' => false,'message' => 'Gagal menghapus' .$data['name']]);
     }
 }
