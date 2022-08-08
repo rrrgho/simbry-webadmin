@@ -140,15 +140,14 @@
                             <div class="alert alert-success d-none text-white" id="user-found">
                             </div>
                         </div>
-                        <div class="col-8">
-                            <input type="hidden" id="route-check" value="{{ route('check-user') }}">
+                        <div class="col-7">
+                            <input type="hidden" id="route-check" value="{{ route('search-user') }}">
                             <input type="text" id="user_number_check" class="form-control"
-                                placeholder="Nomor Induk" aria-label="Recipient's username" required
+                                placeholder="Search nama siswa/guru" aria-label="Recipient's username" required
                                 aria-describedby="button-addon2">
                         </div>
-                        <div class="col-4">
-                            <button class="btn btn-outline-secondary" type="button" id="btn-check-user">Check
-                                Data</button>
+                        <div class="col-5">
+                            <button class="btn btn-outline-secondary" type="button" id="btn-check-user">Cari Siswa/Guru</button>
                         </div>
                     </div>
                     <div class="row">
@@ -156,33 +155,29 @@
                             <div class="alert alert-success d-none text-white" id="book-found">
                             </div>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <input type="hidden" id="route-check-book" value="{{ route('check-book') }}">
                             <input type="text" id="data_book_check" class="form-control"
-                                placeholder="Nama Buku" aria-label="Recipient's username" required
+                                placeholder="Search nama Buku" aria-label="Recipient's username" required
                                 aria-describedby="button-addon2">
                         </div>
-                        <div class="col-4">
+                        <div class="col-5">
                             <button class="btn btn-outline-secondary" type="button" id="btn-check-book">Cari Buku</button>
                         </div>
                     </div>
                     <form id="form-pinjam-buku">@csrf
-                        {{-- <div class="row mt-3">
-                            <input type="hidden" id="route-pinjam" value="{{ route('new-order') }}">
-                            <div class="col-12">
-                                <label for="">Nomor induk Buku</label>
-                                <input type="text" name="book_number" id="book_number" class="form-control">
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-success btn-block" id="btn-pinjam"
-                                    disabled>Proses</button>
-                            </div>
-                        </div> --}}
                         <div class="row mt-3">
                             <input type="hidden" id="route-pinjam" value="{{ route('new-order') }}">
+                            <div class="col-12">
+                                <label for="">Pilih Siswa/Guru</label>
+                                <select class="form-control" style="width: 100%" name="user_id" id="user_id">
+                                </select>
+                            </div>
                             <div class="col-12">
                                 <label for="">Pilih Buku</label>
                                 <select class="form-control" style="width: 100%" name="book_number" id="book_number">
                                 </select>
+                            </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success btn-block" id="btn-pinjam"
                                     disabled>Proses</button>
@@ -252,6 +247,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $('#book_number').select2()
+        $('#user_id').select2()
         setTimeout(() => {
             $('#flash-message').hide();
         }, 2000)

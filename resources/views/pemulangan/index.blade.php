@@ -42,6 +42,7 @@
             <h3 class="text-center">Menu Pemulangan Buku</h3>
           </div>
           <div class="card-body">
+            <h5 class="text-center">Mohon,Pilih buku yang sesuai dengan peminjamaan</h5>
           <div class="form-group">
             <label for="user-id">No Induk Siswa/ No Induk Guru</label>
             @if($data->count())

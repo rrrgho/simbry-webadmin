@@ -1,21 +1,46 @@
-let user_number;
+let user_id;
 let book_number = $('#book_number').val();
 let data_book;
+let data_user;
+// $('#btn-check-user').click(function(){
+//     $.ajax({
+//         url: $('#route-check').val(),
+//         type: "POST",
+//         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+//         data: {
+//             user_number : $('#user_number_check').val()
+//         },
+//         success:function(response){
+//             if(response.error == false){
+//                 user_number = response.data.id
+//                 $('#user-found').removeClass('d-none').removeClass('alert-danger').html(' <i class="fa text-white fa-check mr-2"> </i> Data ditemukan <b> " '+ response.data.name +' "</b>')
+//                 $('#btn-pinjam').attr('disabled',false);
+//             }else{
+//                 $('#user-found').removeClass('d-none').addClass('alert-danger').html('<i class="fa text-white fa-times mr-2"> </i> Data tidak ditemukan dengan Nomor pengguna' + $('#user_number_check').val())
+//                 $('#btn-pinjam').attr('disabled',true);
+//             }
+//         }
+//     })
+// })
 $('#btn-check-user').click(function(){
     $.ajax({
         url: $('#route-check').val(),
         type: "POST",
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
         data: {
-            user_number : $('#user_number_check').val()
+            data_user : $('#user_number_check').val()
         },
         success:function(response){
+            console.log(response)
             if(response.error == false){
-                user_number = response.data.id
-                $('#user-found').removeClass('d-none').removeClass('alert-danger').html(' <i class="fa text-white fa-check mr-2"> </i> Data ditemukan <b> " '+ response.data.name +' "</b>')
+                $.each(response.data,function(i,item){
+                    var newOption = new Option((response.data[i].name + " - "+ response.data[i].user_number), response.data[i].id, false, false);
+                    $('#user_id').append(newOption).trigger('change');
+                })
                 $('#btn-pinjam').attr('disabled',false);
             }else{
-                $('#user-found').removeClass('d-none').addClass('alert-danger').html('<i class="fa text-white fa-times mr-2"> </i> Data tidak ditemukan dengan Nomor pengguna' + $('#user_number_check').val())
+                var newOption = new Option("Buku Tidak ada !!",null, false, false);
+                    $('#user_id').append(newOption).trigger('change');
                 $('#btn-pinjam').attr('disabled',true);
             }
         }
@@ -42,13 +67,17 @@ $('#btn-check-book').click(function(){
         }
     })
 })
+$('#user_id').on('change',function(){
+    user_id = this.value
+    // alert(user_id)
+})
 $('#book_number').on('change',function(){
     book_number = this.value
 })
 $('#form-pinjam-buku').submit(function(event){
     event.preventDefault()
     var formData = new FormData(this)
-    formData.append('user_id', user_number)
+    formData.append('user_id', user_id)
     formData.append('book_number', book_number)
     $.ajax({
         url: $('#route-pinjam').val(),

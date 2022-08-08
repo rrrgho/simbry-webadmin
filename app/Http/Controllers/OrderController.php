@@ -22,6 +22,19 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
+    public function searchUser(Request $request){
+        $validasi = Validator::make($request->all(),[
+            'data_user' => 'required'
+        ]);
+        if($validasi->fails()){
+            return response()->json(['error' => true, 'message' => $validasi->errors()->first()], 200);
+        }
+        $user = User::where('name', 'like', '%' . $request->data_user . '%')->orderBy('created_at','DESC')->get();
+        if($user){
+            return response()->json(['error' => false, 'message' => 'Success', 'data' => $user], 200);
+        }
+        return response()->json(['error' => true, 'message' => 'tidak ada data'], 200);
+    }
     public function CheckUser(Request $request){
         $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$request->user_number])->first();
         // $user = User::where('user_number', $request->user_number)->first();
@@ -39,7 +52,7 @@ class OrderController extends Controller
         if($validasi->fails()){
             return response()->json(['error' => true, 'message' => $validasi->errors()->first()], 200);
         }
-        $book = Books::where('name', 'like', '%' . $request->data_book . '%')->orderBy('created_at','DESC')->get();
+        $book = Books::where('name', 'like', '%' . $request->data_book . '%')->where('ready',1)->orderBy('created_at','DESC')->get();
         if($book){
             return response()->json(['error' => false, 'message' => 'Success', 'data' => $book], 200);
         }

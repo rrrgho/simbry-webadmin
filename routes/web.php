@@ -179,6 +179,7 @@ Route::middleware([AdminMiddleware::class])->group(function(){
     Route::post('pemulangan',[OrderController::class, 'savePemulangan'])->name('main-pemulangan-buku');
     Route::get('get-book-user',[OrderController::class, 'getBookByUserId'])->name('main-getBookByUserId-buku');
     Route::prefix('order')->group(function(){
+        Route::post('search-user', [OrderController::class, 'searchUser'])->name('search-user');
         Route::post('check-user', [OrderController::class, 'CheckUser'])->name('check-user');
         Route::post('check-book', [OrderController::class, 'CheckBook'])->name('check-book');
         Route::post('new-order', [OrderController::class, 'NewOrder'])->name('new-order');
