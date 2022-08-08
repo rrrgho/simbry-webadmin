@@ -57,7 +57,7 @@
                 <select name="" id="" hidden required>
                 </select>
                 <div class="alert alert-warning">
-                    Data User/Guru buku tidak di temukan ! mohon masukkan data loker!!
+                    Peminjaman Siswa/Guru tidak ada!!
                 </div>
             @endif
             {{-- <input type="text" name="user_number" id="user-id" class="form-control" required> --}}
@@ -77,7 +77,7 @@
                 <select name="" id="" hidden required>
                 </select>
                 <div class="alert alert-warning">
-                    Data User/Guru buku tidak di temukan ! mohon masukkan data loker!!
+                    Peminjaman Buku dari Siswa/Guru tidak ada!!
                 </div>
             @endif
             {{-- <input type="text" name="book_number" id="book-id" class="form-control" required> --}}

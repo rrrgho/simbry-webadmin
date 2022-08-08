@@ -54,7 +54,7 @@ class User extends Authenticatable
         return $this->belongsTo(BooksOrder::class, 'user_id', 'id');
     }
     public function order(){
-        return $this->hasMany(BooksOrder::class);
+        return $this->hasMany(BooksOrder::class)->where('status','APPROVED');
     }
     public function kritik(){
         return $this->hasMany(KritikSaran::class);
