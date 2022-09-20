@@ -1,5 +1,5 @@
 let user_id;
-let book_number = $('#book_number').val();
+let book_number = $('#book_number_order').val();
 let data_book;
 let data_user;
 // $('#btn-check-user').click(function(){
@@ -32,15 +32,17 @@ $('#btn-check-user').click(function(){
         },
         success:function(response){
             console.log(response)
+            let html = '';
             if(response.error == false){
+                html += `<option value="">Pilih Siswa/Guru</option>`;
                 $.each(response.data,function(i,item){
-                    var newOption = new Option((response.data[i].name + " - "+ response.data[i].user_number), response.data[i].id, false, false);
-                    $('#user_id').append(newOption).trigger('change');
+                    html += `<option value="${response.data[i].id}">${response.data[i].name}</option>`
                 })
+                $('#user_id').html(html)
                 $('#btn-pinjam').attr('disabled',false);
             }else{
-                var newOption = new Option("Buku Tidak ada !!",null, false, false);
-                    $('#user_id').append(newOption).trigger('change');
+                html += `<option value="">Siswa Tidak ada !!</option>`;
+                $('#user_id').html(html)
                 $('#btn-pinjam').attr('disabled',true);
             }
         }
@@ -55,14 +57,16 @@ $('#btn-check-book').click(function(){
             data_book : $('#data_book_check').val()
         },
         success:function(response){
+            let html = '';
             if(response.error == false){
+                html += `<option value="">Pilih Buku</option>`;
                 $.each(response.data,function(i,item){
-                    var newOption = new Option((response.data[i].name + " - "+ response.data[i].book_number), response.data[i].book_number, false, false);
-                    $('#book_number').append(newOption).trigger('change');
+                    html += `<option value="${response.data[i].id}">${response.data[i].name} - ${response.data[i].book_number}</option>`
                 })
+                $('#book_number_order').html(html)
             }else{
-                var newOption = new Option("Buku Tidak ada !!",null, false, false);
-                    $('#book_number').append(newOption).trigger('change');
+                html += `<option value="">Buku Tidak ada !!</option>`;
+                $('#book_number_order').html(html)
             }
         }
     })

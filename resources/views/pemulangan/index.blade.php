@@ -50,7 +50,7 @@
                 <select required class="form-control" style="width: 100%" name="user_number" id="user_number">
                     <option value="" hidden>Pilih Siswa/Guru</option>
                     @foreach($data as $item)
-                    <option value="{{ $item['user_number'] }}">
+                    <option value="{{ $item['id'] }}">
                         {{ $item['name'] }} - {{ $item['user_number'] }}</option>
                     @endforeach
                 </select>
@@ -61,27 +61,12 @@
                     Peminjaman Siswa/Guru tidak ada!!
                 </div>
             @endif
-            {{-- <input type="text" name="user_number" id="user-id" class="form-control" required> --}}
           </div>
           <div class="form-group">
             <label for="book-id">No Induk Buku</label>
-            @if($book->count())
-                <label for="">Pilih No Induk Buku : </label>
-                <select required class="form-control" style="width: 100%" name="book_number" id="book_number">
-                    <option value="" hidden>Pilih No Induk Buku</option>
-                    @foreach($book as $item)
-                    <option value="{{ $item['book_number'] }}">
-                        {{ $item['name'] }} - {{ $item['book_number'] }}</option>
-                    @endforeach
-                </select>
-            @else
-                <select name="" id="" hidden required>
-                </select>
-                <div class="alert alert-warning">
-                    Peminjaman Buku dari Siswa/Guru tidak ada!!
-                </div>
-            @endif
-            {{-- <input type="text" name="book_number" id="book-id" class="form-control" required> --}}
+            <select class="form-control" style="width: 100%" name="book_number" id="book_number">
+                <option value="" hidden>Pilih No Induk Buku</option>
+            </select>
           </div>
           <div class="card-footer">
             <div class="form-group">
@@ -95,35 +80,25 @@
 @endsection
 @section('script')
     <script>
-      $('#user_number').select2()
-      $('#book_number').select2();
-      // $(document).ready(function() {
+        $('#user_number').select2()
+        // $('#book_number').select2();
+        $('#user_number').change(function(e){
+            const id_user = $(this).val()
+            $.ajax({
+                url: '/api/books-order',
+                data: {
+                    user_id: id_user
+                },
+                success: function (res) {
+                    let html = ''
 
-      // });
-      $('#select-peminjam').change(function (e) {
-        const userId = $(this).val()
-
-        $.ajax({
-          url: '/get-book-user',
-          data: {
-            user_id: userId
-          },
-          success: function (res) {
-            let html = ''
-
-            res.forEach(el => {
-              // console.log(el.book.id);
-              // console.log(el.book.name);
-              html += `<option value="${el.book.id}">${el.book.name}</option>`
-            });
-
-            $('#select-buku-peminjam').html(html)
-            // console.log(res);
-          },
-          error: function (err) {
-            alert('Gagal mengambil data buku')
-          }
+                    res.forEach(el => {
+                        html += `<option value="${el.book_relation.id}">${el.book_relation.name} - ${el.book_relation.book_number}</option>`
+                    });
+                    $('#book_number').html(html)
+                }
+            })
         })
-      })
+
     </script>
 @endsection

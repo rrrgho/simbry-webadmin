@@ -171,13 +171,18 @@
                             <div class="col-12">
                                 <label for="">Pilih Siswa/Guru</label>
                                 <select class="form-control" style="width: 100%" name="user_id" id="user_id">
+
                                 </select>
                             </div>
                             <div class="col-12">
                                 <label for="">Pilih Buku</label>
-                                <select class="form-control" style="width: 100%" name="book_number" id="book_number">
+                                <select class="form-control" style="width: 100%" name="book_number_order" id="book_number_order">
                                 </select>
                             </div>
+                            {{-- <div class="col-12">
+                                <label for="">Pilih Batas Pemulangan</label>
+                                <input class="form-control" style="width: 100%" type="datetime-local" id="end_date" name="end_date">
+                            </div> --}}
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success btn-block" id="btn-pinjam"
                                     disabled>Proses</button>
@@ -246,7 +251,7 @@
     <script src="{{ asset('js/peminjaman.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $('#book_number').select2()
+        $('#book_number_order').select2()
         $('#user_id').select2()
         setTimeout(() => {
             $('#flash-message').hide();

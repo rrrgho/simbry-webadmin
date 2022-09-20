@@ -71,9 +71,8 @@ class OrderController extends Controller
             'user_number' => ['required'],
             'book_number' => ['required'],
         ]);
-        // return $data;
         // $user = User::whereRaw("REPLACE(user_number,'.','') = ?",[$data['user_number']])->first();
-        $user = User::where('user_number', $data['user_number'])->first();
+        $user = User::where('id', $data['user_number'])->first();
         if (!$user) {
             return redirect()->back()->with('success', [
                 'status' => false,
@@ -81,7 +80,7 @@ class OrderController extends Controller
             ]);
         }
         // $book = Books::whereRaw("REPLACE(book_number,'-','') = ?",[$data['book_number']])->first();
-        $book = Books::where('book_number', $data['book_number'])->first();
+        $book = Books::where('id', $data['book_number'])->first();
         if (!$book) {
             return redirect()->back()->with('success', [
                 'status' => false,
@@ -144,15 +143,17 @@ class OrderController extends Controller
     public function NewOrder(Request $request){
         // Validasi
         $validated = $request->validate([
-            'book_number' => ['required'],
-            'user_id' => ['required']
+            'book_number_order' => ['required'],
+            'user_id' => ['required'],
+            // 'end_date' => ['required']
         ]);
+
         $late = Late::where('user_id', $validated['user_id'])->where('date','>', now()->toDateTimeString())->exists();
         if($late){
             return response()->json(['error' => true, 'message' => 'Belum boleh pinjem, Mohon Tunggu'],200);
         }
         // $book_id = Books::select('id')->whereRaw("REPLACE(book_number,'-','') = ?",[$validated['book_number']])->first();
-        $book_id = Books::select('id')->where('book_number',$validated['book_number'])->first();
+        $book_id = Books::select('id')->where('id',$validated['book_number_order'])->first();
         if (!$book_id) {
             return response()->json(['error' => true, 'message' => 'Book not found!'], 200);
         }
@@ -183,6 +184,7 @@ class OrderController extends Controller
                     'status' => 'PENDING',
                     'start_date' => Carbon::now('Asia/Jakarta')->toDateTimeString(),
                     'end_date' => $endDate
+                    // 'end_date' => $validated['end_date']
                 ]);
                 $data[0]->save();
             });
@@ -272,5 +274,10 @@ class OrderController extends Controller
                 return redirect(url('management-peminjaman/extends'))->with('success','Berhasil Menerima perpanjang Buku Siswa ');
             return redirect(url('management-peminjaman/'.$request->id.'/extends'))->with('failed','Gagal Menerima perpanjangan Buku Siswa');
         }
+    }
+
+    public function booksOrder(Request $request){
+        $data = BooksOrder::where('user_id',$request->user_id)->where('status','APPROVED')->get();
+        return $data;
     }
 }
