@@ -190,7 +190,7 @@
     </div>
 </div>
 {{-- Modal Edit --}}
-<div class="modal fade bd-edit-modal-lg" id="editExamplaBooks" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-edit-modal-lg" id="editExamplaBooks" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
