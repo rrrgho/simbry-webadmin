@@ -25,7 +25,7 @@ class ManagementPeminjaman extends Controller
     }
 
     public function expired(Request $request){
-        $data = $data = BooksOrder::where([
+        $data = BooksOrder::where([
             ['deleted_at',null],
             ['status','APPROVED'],
             ['end_date','<',Carbon::now('Asia/Jakarta')]
@@ -34,7 +34,7 @@ class ManagementPeminjaman extends Controller
     }
     public function expiredDatatable()
     {
-        $data = $data = BooksOrder::where([
+        $data = BooksOrder::where([
             ['deleted_at',null],
             ['status','APPROVED'],
             ['end_date','<',Carbon::now('Asia/Jakarta')]
@@ -52,6 +52,16 @@ class ManagementPeminjaman extends Controller
         })
         ->addColumn('end_date', function($data){
             return Carbon::parse($data['end_date'])->format('F d, y');
+        })
+        ->addColumn('nomor_induk',function($data){
+            return $data->user_relation['user_number'] ?? '-';
+        })
+        ->addColumn('class_relation',function($data){
+            if($data->user_relation['user_type_id'] == 2){
+                return 'Guru';
+            }else{
+                return $data->user->class_relation['name'] ?? '-';
+            }
         })
         ->addColumn('action', function($data){
             $dataEnd = Carbon::parse($data['end_date']);

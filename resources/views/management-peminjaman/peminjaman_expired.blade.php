@@ -3,8 +3,8 @@
     [ 'page' => 'Manajemen Peminjaman', 'link' => 'http://dashboard.com'],
 ],
   'class' => 'off-canvas-sidebar',
-  'activeMainPage' => 'management-peminjaman', 
-  'activePage' => 'peminjaman-expired', 
+  'activeMainPage' => 'management-peminjaman',
+  'activePage' => 'peminjaman-expired',
   'title' => __('Peminjaman expired'),
   'subTitle' => __('Halaman dashboard, menampilkan laporan secara judul besar !')
 ])
@@ -14,9 +14,9 @@
         <div class="col-md-12 border-bottom mb-3">
             <div class="col border-bottom pl 0 pb-3">
                 <h3>Peminjaman Expired!!</h3>
-                <p>Anda dapat menambah, mengedit atau menghapus data Peminjaman disini !</p>       
+                <p>Anda dapat menambah, mengedit atau menghapus data Peminjaman disini !</p>
             </div>
-        </div>    
+        </div>
     </div>
 @endsection
 @section('content')
@@ -35,6 +35,8 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Nama</th>
+                            <th>Nomor Induk Siswa/Guru</th>
+                            <th>Kelas</th>
                             <th>Nama Buku</th>
                             <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
@@ -44,7 +46,7 @@
                 </table>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 {{-- Filter --}}
 <div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -110,6 +112,8 @@
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'user_id', name: 'user_id'},
+                    { data: 'nomor_induk', name: 'nomor_induk'},
+                    { data: 'class_relation', name: 'class_relation'},
                     { data: 'book_id', name: 'book_id'},
                     { data: 'start_date', name: 'start_date'},
                     { data: 'end_date', name: 'end_date'},
@@ -120,15 +124,15 @@
                 sSearch: '',
                 lengthMenu: '_MENU_ items/page',
                 destroy: true
-                },  
+                },
                 columnDefs:[
                     {
                         "targets" : [0,1,2,3,5],
                         "className": "text-center"
                     },
-                ],              
-                
-                dom: 'Bfrtip',  
+                ],
+
+                dom: 'Bfrtip',
                 buttons: [
                     {extend:'copy', className: 'bg-info text-white rounded-pill ml-2 border border-white'},
                     {extend:'excel', className: 'bg-success text-white rounded-pill border border-white'},
@@ -137,7 +141,7 @@
                 ],
                 "bDestroy": true,
                 "processing": true,
-                "serverSide": true, 
+                "serverSide": true,
             });
         });
     </script>

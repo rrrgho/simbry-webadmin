@@ -32,7 +32,8 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Nama</th>
-                            {{-- <th>Kelas</th> --}}
+                            <th>Nomor Induk Siswa/Guru</th>
+                            <th>Kelas</th>
                             <th>Nama Buku</th>
                             <th>Tanggal Peminjaman</th>
                             <th>Tanggal Expired</th>
@@ -45,7 +46,12 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->user->name }}</td>
-                            {{-- <td>{{ $item->user->class_relation->name }}</td> --}}
+                            <td>{{ $item->user->user_number }}</td>
+                            @if ($item->user->user_type_id == 2)
+                                <td>Guru</td>
+                            @else
+                                <td>{{ $item->user->class_relation->name ?? '-' }}</td>
+                            @endif
                             <td>{{ $item->book->name }}</td>
                             <td class="text-center">{{ $item->start_date }}</td>
                             <td class="text-center">{{ $item->end_date }}</td>
